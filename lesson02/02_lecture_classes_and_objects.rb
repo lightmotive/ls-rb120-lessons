@@ -22,12 +22,16 @@ class Person
     name == other.name
   end
 
+  def to_s
+    name
+  end
+
   private
 
   def parse_full_name(name)
     name_parts = name.split
     self.first_name = name_parts.empty? ? '' : name_parts.first
-    self.last_name = name_parts.size > 1 ? name_parts[1..-1] : ''
+    self.last_name = name_parts.size > 1 ? name_parts[1..-1].join(' ') : ''
   end
 end
 
@@ -51,4 +55,7 @@ p bob.last_name == ''
 bob = Person.new('Robert Smith')
 rob = Person.new('Robert Smith')
 # How can we compare the two objects?
-p bob == rob  # => true
+p bob == rob # => true
+
+bob = Person.new('Robert Smith')
+p("The person's name is: #{bob}" == "The person's name is: Robert Smith")
