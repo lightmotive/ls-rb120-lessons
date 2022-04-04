@@ -4,7 +4,7 @@ class Person
   attr_accessor :first_name, :last_name
 
   def initialize(name)
-    self.name = name
+    parse_full_name(name)
   end
 
   def name
@@ -12,6 +12,12 @@ class Person
   end
 
   def name=(name)
+    parse_full_name(name)
+  end
+
+  private
+
+  def parse_full_name(name)
     name_parts = name.split
     self.first_name = name_parts.empty? ? '' : name_parts.first
     self.last_name = name_parts.size > 1 ? name_parts[1..-1] : ''
