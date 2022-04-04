@@ -40,3 +40,7 @@ bob.last_name             # => 'Adams'
 bob.name = ''
 p bob.first_name == ''
 p bob.last_name == ''
+
+bob = Person.new('Robert Smith')
+rob = Person.new('Robert Smith')
+# How can we compare the two objects?
