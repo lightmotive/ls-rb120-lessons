@@ -15,6 +15,13 @@ class Person
     parse_full_name(name)
   end
 
+  def ==(other)
+    # - This would require a design discussion, but if the decision was to
+    # compare based on name alone, this would work thanks to the logic wrapped
+    # up in **String#==**:
+    name == other.name
+  end
+
   private
 
   def parse_full_name(name)
@@ -44,3 +51,4 @@ p bob.last_name == ''
 bob = Person.new('Robert Smith')
 rob = Person.new('Robert Smith')
 # How can we compare the two objects?
+p bob == rob  # => true
