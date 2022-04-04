@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Given the below usage of the Person class, code the class definition.
-
 class Person
   attr_accessor :name
 
@@ -10,7 +8,11 @@ class Person
   end
 end
 
-bob = Person.new('bob')
-p bob.name == 'bob' # => 'bob'
-bob.name = 'Robert'
-p bob.name == 'Robert'                  # => 'Robert'
+# Modify the class definition from above to facilitate the following methods.
+
+bob = Person.new('Robert')
+bob.name                  # => 'Robert'
+bob.first_name            # => 'Robert'
+bob.last_name             # => ''
+bob.last_name = 'Smith'
+bob.name                  # => 'Robert Smith'
