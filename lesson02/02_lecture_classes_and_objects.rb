@@ -3,15 +3,14 @@
 class Person
   attr_accessor :first_name, :last_name
 
-  def initialize(first_name)
-    self.first_name = first_name
-    self.last_name = ''
+  def initialize(name)
+    name_parts = name.split
+    self.first_name = name_parts.first
+    self.last_name = name_parts.size > 1 ? name_parts[1..-1] : ''
   end
 
   def name
-    return first_name if last_name.empty?
-
-    "#{first_name} #{last_name}"
+    "#{first_name} #{last_name}".strip
   end
 end
 
