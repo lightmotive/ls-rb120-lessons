@@ -1,0 +1,18 @@
+@startuml
+  Animal : run()
+  Animal : jump()
+
+  Animal <|-- Dog
+
+  Dog : speak()
+  Dog : swim()
+  Dog : fetch()
+
+  Dog <|-- Bulldog
+
+  Bulldog : swim()
+
+  Animal <|-- Cat
+
+  Cat : speak()
+@enduml
