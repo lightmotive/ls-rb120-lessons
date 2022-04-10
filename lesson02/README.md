@@ -2,7 +2,7 @@
 
 ## pets_diagram
 
-![pets_diagram](https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuL9GSCpBp4tCKR1IA2hDqz145iWgpIq0YY24R6fqTHLSyjE18a0ImdKgpSb90GiXAt9EBE5oICrB0Le10000 "pets_diagram")
+![pets_diagram](https://www.plantuml.com/plantuml/svg/SoWkIImgAStDuL9GSCpBp4tCKR1IA2hDqz145iWgpIq0YY24R6fqTHLSyjD1Ga0AgAIu83Kn6wmBoY_Fp4NYfgMM96T0Z009WFKxbURaf43CW38H-j2iSaui0Ga1AIIh75BpKe0k1m00 "pets_diagram")
 
 ## Local PlantUML - personal project:
 
