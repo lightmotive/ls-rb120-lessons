@@ -4,16 +4,24 @@ module RPS
   class Player
     MOVES = %w[rock paper scissors].freeze
 
-    attr_reader :move
+    attr_reader :move, :name
 
-    def initialize(type)
+    def initialize(type, name = nil)
       @type = type
       @move = nil
+      @name = name || request_name
+    end
+
+    def request_name
+      return 'Computer' unless human?
+
+      print "What's your name? "
+      gets.strip
     end
 
     def choose
       if human?
-        print "Your move (#{MOVES.join(', ')})? "
+        print "Your move, #{name} (#{MOVES.join(', ')})? "
         self.move = loop do
           move = gets.chomp.downcase
           break move if MOVES.include?(move)
@@ -27,6 +35,14 @@ module RPS
 
     def human?
       @type == PlayerTypes::Human
+    end
+
+    def print_choice
+      Player.print_choices(self)
+    end
+
+    def self.print_choices(*players)
+      players.each { |player| puts "#{player.name} chose #{player.move}." }
     end
 
     private

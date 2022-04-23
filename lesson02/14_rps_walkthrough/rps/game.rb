@@ -5,6 +5,8 @@ module RPS
     attr_accessor :human, :computer
 
     def initialize
+      display_welcome_message
+
       @human = Player.new(PlayerTypes::Human)
       @computer = Player.new(PlayerTypes::Computer)
     end
@@ -18,8 +20,7 @@ module RPS
     end
 
     def display_winner
-      puts "You chose #{human.move}."
-      puts "The computer chose #{computer.move}."
+      Player.print_choices(human, computer)
 
       # There's a much better way to implement this, but I'll implement it
       # after the walkthrough:
@@ -56,8 +57,6 @@ module RPS
     end
 
     def play
-      display_welcome_message
-
       loop do
         human.choose
         computer.choose
