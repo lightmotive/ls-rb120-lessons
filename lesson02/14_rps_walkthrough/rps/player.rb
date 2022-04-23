@@ -1,33 +1,16 @@
 module RPS
-  require_relative 'player_types'
-
   class Player
     MOVES = %w[rock paper scissors].freeze
 
     attr_reader :move, :name
 
-    def initialize(type)
-      @type = type
+    def initialize
       @move = nil
       set_name
     end
 
     def choose_move
-      if human?
-        print "Your move, #{name} (#{MOVES.join(', ')})? "
-        self.move = loop do
-          move = gets.chomp.downcase
-          break move if MOVES.include?(move)
-
-          print 'Please enter a valid choice: '
-        end
-      else
-        self.move = MOVES.sample
-      end
-    end
-
-    def human?
-      @type == PlayerTypes::Human
+      raise NotImplementedError
     end
 
     def print_choice
@@ -43,15 +26,7 @@ module RPS
     attr_writer :move, :name
 
     def set_name
-      return self.name = ['The Matrix', 'Skynet,', 'HAL'].sample unless human?
-
-      print "What's your name? "
-      self.name = loop do
-        name = gets.strip
-        break name unless name.empty?
-
-        print 'What should I call you? '
-      end
+      raise NotImplementedError
     end
   end
 end

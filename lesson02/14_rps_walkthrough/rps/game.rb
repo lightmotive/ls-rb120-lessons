@@ -1,13 +1,14 @@
 module RPS
-  require_relative 'player'
+  require_relative 'player_human'
+  require_relative 'player_computer'
 
   class Game
     attr_accessor :human, :computer
 
     def initialize
       display_welcome_message
-      @human = Player.new(PlayerTypes::Human)
-      @computer = Player.new(PlayerTypes::Computer)
+      @human = PlayerHuman.new
+      @computer = PlayerComputer.new
     end
 
     def display_welcome_message
