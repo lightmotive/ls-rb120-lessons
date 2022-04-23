@@ -27,8 +27,6 @@ module RPS
       puts_winner = ->(player) { puts "#{player.name} won!" }
       game_tied = -> { puts "#{human.name} and #{computer.name} tied!" }
 
-      winning_player = nil
-
       case human.move
       when 'rock'
         if computer.move == 'scissors'
