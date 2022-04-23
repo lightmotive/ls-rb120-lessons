@@ -24,28 +24,29 @@ module RPS
       # There's a much better way to implement this, but I'll implement it
       # after the walkthrough:
 
-      human_won = -> { puts 'You won!' }
-      human_lost = -> { puts 'You lost.' }
-      game_tied = -> { puts 'Tie!' }
+      puts_winner = ->(player) { puts "#{player.name} won!" }
+      game_tied = -> { puts "#{human.name} and #{computer.name} tied!" }
+
+      winning_player = nil
 
       case human.move
       when 'rock'
         if computer.move == 'scissors'
-          human_won.call
+          puts_winner.call(human)
         else
-          (computer.move == 'rock' ? game_tied.call : human_lost.call)
+          (computer.move == 'rock' ? game_tied.call : puts_winner.call(computer))
         end
       when 'paper'
         if computer.move == 'rock'
-          human_won.call
+          puts_winner.call(human)
         else
-          (computer.move == 'paper' ? game_tied.call : human_lost.call)
+          (computer.move == 'paper' ? game_tied.call : puts_winner.call(computer))
         end
       when 'scissors'
         if computer.move == 'paper'
-          human_won.call
+          puts_winner.call(human)
         else
-          (computer.move == 'scissors' ? game_tied.call : human_lost.call)
+          (computer.move == 'scissors' ? game_tied.call : puts_winner.call(computer))
         end
       end
     end

@@ -43,10 +43,15 @@ module RPS
     attr_writer :move, :name
 
     def set_name
-      return self.name = 'Computer' unless human?
+      return self.name = ['The Matrix', 'Skynet,', 'HAL'].sample unless human?
 
       print "What's your name? "
-      self.name = gets.strip
+      self.name = loop do
+        name = gets.strip
+        break name unless name.empty?
+
+        print 'What should I call you? '
+      end
     end
   end
 end
