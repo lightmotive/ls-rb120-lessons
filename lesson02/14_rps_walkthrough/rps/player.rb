@@ -5,7 +5,6 @@ module RPS
     attr_reader :move, :name
 
     def initialize
-      @move = nil
       set_name
     end
 
