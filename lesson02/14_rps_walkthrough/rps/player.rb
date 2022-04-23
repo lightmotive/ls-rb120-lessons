@@ -9,7 +9,7 @@ module RPS
     def initialize(type)
       @type = type
       @move = nil
-      @name = name || request_name
+      set_name
     end
 
     def choose_move
@@ -40,13 +40,13 @@ module RPS
 
     private
 
-    attr_writer :move
+    attr_writer :move, :name
 
-    def request_name
-      return 'Computer' unless human?
+    def set_name
+      return self.name = 'Computer' unless human?
 
       print "What's your name? "
-      gets.strip
+      self.name = gets.strip
     end
   end
 end
