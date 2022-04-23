@@ -5,8 +5,8 @@ module RPS
     attr_accessor :human, :computer
 
     def initialize
-      @human = Player.new
-      @computer = Player.new
+      @human = Player.new(PlayerTypes::Human)
+      @computer = Player.new(PlayerTypes::Computer)
     end
 
     def display_welcome_message
@@ -16,6 +16,8 @@ module RPS
     def display_goodbye_message
       puts 'Thanks for playing Rock, Paper, Scissors! Bye.'
     end
+
+    def display_winner; end
 
     def play
       display_welcome_message
