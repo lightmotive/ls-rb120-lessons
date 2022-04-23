@@ -6,7 +6,6 @@ module RPS
 
     def initialize
       display_welcome_message
-
       @human = Player.new(PlayerTypes::Human)
       @computer = Player.new(PlayerTypes::Computer)
     end
@@ -58,8 +57,8 @@ module RPS
 
     def play
       loop do
-        human.choose
-        computer.choose
+        human.choose_move
+        computer.choose_move
         display_winner
         break unless play_again?
       end

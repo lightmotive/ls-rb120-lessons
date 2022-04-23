@@ -6,20 +6,13 @@ module RPS
 
     attr_reader :move, :name
 
-    def initialize(type, name = nil)
+    def initialize(type)
       @type = type
       @move = nil
       @name = name || request_name
     end
 
-    def request_name
-      return 'Computer' unless human?
-
-      print "What's your name? "
-      gets.strip
-    end
-
-    def choose
+    def choose_move
       if human?
         print "Your move, #{name} (#{MOVES.join(', ')})? "
         self.move = loop do
@@ -48,5 +41,12 @@ module RPS
     private
 
     attr_writer :move
+
+    def request_name
+      return 'Computer' unless human?
+
+      print "What's your name? "
+      gets.strip
+    end
   end
 end
