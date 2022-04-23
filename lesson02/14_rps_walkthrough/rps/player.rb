@@ -15,7 +15,7 @@ module RPS
       if human?
         print "Your move (#{MOVES.join(', ')})? "
         self.move = loop do
-          move = gets.chomp
+          move = gets.chomp.downcase
           break move if MOVES.include?(move)
 
           print 'Please enter a valid choice: '

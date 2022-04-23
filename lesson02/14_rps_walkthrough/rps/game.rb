@@ -17,8 +17,6 @@ module RPS
       puts 'Thanks for playing Rock, Paper, Scissors! Bye.'
     end
 
-    def 
-
     def display_winner
       puts "You chose #{human.move}."
       puts "The computer chose #{computer.move}."
@@ -52,11 +50,21 @@ module RPS
       end
     end
 
+    def play_again?
+      print 'Would you like to play again? (y/n) '
+      gets.chomp.downcase.start_with?('y')
+    end
+
     def play
       display_welcome_message
-      human.choose
-      computer.choose
-      display_winner
+
+      loop do
+        human.choose
+        computer.choose
+        display_winner
+        break unless play_again?
+      end
+
       display_goodbye_message
     end
   end
