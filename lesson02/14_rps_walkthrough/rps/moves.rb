@@ -43,7 +43,10 @@ module RPS
 
     def self.string_to_class(string)
       string = string.downcase
-      const_get(constants.select { |c| const_get(c).to_s.downcase == string }.first)
+      matched_constants = constants.select { |c| const_get(c).to_s.downcase == string }
+      return nil if matched_constants.empty?
+
+      const_get(matched_constants.first)
     end
 
     def self.list_strings
