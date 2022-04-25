@@ -1,13 +1,16 @@
 module RPS
   require_relative 'player'
+  require_relative 'moves'
 
   class PlayerHuman < Player
     def choose_move
-      print "Your move, #{name} (#{MOVES.join(', ')})? "
+      moves_list_strings = Moves.list_strings.map(&:downcase)
+
+      print "Your move, #{name} (#{moves_list_strings.join(', ')})? "
 
       self.move = loop do
         move = gets.chomp.downcase
-        break move if MOVES.include?(move)
+        break Moves.string_to_class(move) if moves_list_strings.include?(move)
 
         print 'Please enter a valid choice: '
       end

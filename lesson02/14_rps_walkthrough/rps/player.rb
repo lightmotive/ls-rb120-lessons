@@ -1,7 +1,5 @@
 module RPS
   class Player
-    MOVES = %w[rock paper scissors].freeze
-
     attr_reader :move, :name
 
     def initialize
@@ -12,11 +10,11 @@ module RPS
       raise NotImplementedError
     end
 
-    def print_choice
-      Player.print_choices(self)
+    def print_move
+      Player.print_moves(self)
     end
 
-    def self.print_choices(*players)
+    def self.print_moves(*players)
       players.each { |player| puts "#{player.name} chose #{player.move}." }
     end
 
