@@ -9,7 +9,7 @@ module RPS
       print "Your move, #{name} (#{moves_list_strings.join(', ')})? "
 
       self.move = loop do
-        move = Moves.string_to_class(gets.chomp.downcase)
+        move = Moves.new_from_string(gets.chomp.downcase)
         break move unless move.nil?
 
         print 'Please enter a valid choice: '
