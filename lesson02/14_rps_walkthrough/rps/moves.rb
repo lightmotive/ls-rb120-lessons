@@ -1,10 +1,11 @@
 module RPS
   # List possible game moves.
-  # Each move class should be a singleton and:
+  # Each move class should:
   # - Inherit `Move`.
-  # - Override `to_s` if the class name is not user-friendly.
-  # - Implement `beats` to return Array of Moves classes that the move beats.
+  # - Override `self.to_s` if the class name is not user-friendly.
+  # - Implement `self.beats_list` to return Array of Moves classes that the move beats.
   module Moves
+    require 'pry'
     # Base class for each possible game move.
     class Move
       extend Comparable
@@ -14,29 +15,34 @@ module RPS
       end
 
       def self.<=>(other)
+        return nil unless other.ancestors.include?(Move)
         return 0 if self == other
-        return 1 if beats.include?(other)
+        return 1 if beats_list.include?(other)
 
         -1
+      end
+
+      def self.beats_list
+        raise NotImplementedError
       end
     end
 
     private_constant :Move
 
     class Rock < Move
-      def self.beats
+      def self.beats_list
         [Scissors]
       end
     end
 
     class Paper < Move
-      def self.beats
+      def self.beats_list
         [Rock]
       end
     end
 
     class Scissors < Move
-      def self.beats
+      def self.beats_list
         [Paper]
       end
     end
