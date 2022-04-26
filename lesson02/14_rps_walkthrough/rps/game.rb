@@ -38,7 +38,10 @@ module RPS
 
     def display_winner
       Player.print_moves(human, computer)
-      puts human.move == computer.move ? tie_message : winner_message([human, computer].max_by(&:move))
+      puts case human.move <=> computer.move
+           when 0 then tie_message
+           else winner_message([human, computer].max_by(&:move))
+           end
     end
 
     def play_again?
