@@ -25,22 +25,23 @@ module RPS
     private
 
     def display_welcome_message
-      puts 'Welcome to Rock, Paper, Scissors!'
+      puts 'Welcome to Rock, Paper, Scissors, Lizard, Spock!'
     end
 
     def tie_message
       "#{human.name} and #{computer.name} tied!"
     end
 
-    def winner_message(winning_player)
-      "#{winning_player.name} won!"
+    def win_message(*players)
+      loser, winner = players.sort_by(&:move)
+      "#{winner.move.win_explanation_vs(loser.move)} #{winner.name} won!"
     end
 
     def display_winner
       Player.print_moves(human, computer)
       puts case human.move <=> computer.move
            when 0 then tie_message
-           else winner_message([human, computer].max_by(&:move))
+           else win_message(human, computer)
            end
     end
 

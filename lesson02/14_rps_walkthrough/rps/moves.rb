@@ -3,7 +3,7 @@ module RPS
   # Each move class should:
   # - Inherit `Move`.
   # - Override `self.to_s` if the class name is not user-friendly.
-  # - Implement `self.beats_list` to return Array of classes that it beats.
+  # - Implement `initialize`: set `beats_moves` to Hash with data.
   module Moves
     # Base class for each possible game move.
     class Move
@@ -13,40 +13,75 @@ module RPS
         name.split('::').last
       end
 
-      def self.beats_list
-        raise NotImplementedError
+      def <=>(other)
+        return nil unless other.class.ancestors.include?(Move)
+        return 0 if instance_of?(other.class)
+        return 1 if beats_moves.key?(other.class)
+
+        -1
+      end
+
+      def win_explanation_vs(losing_move)
+        winning_move = self
+        losing_move, winning_move = [self, other_move].sort unless beats_moves.key?(losing_move.class)
+
+        "#{winning_move} #{winning_move.beats_moves[losing_move.class][:verb]} #{losing_move}."
       end
 
       def to_s
         self.class.to_s
       end
 
-      def <=>(other)
-        return nil unless other.class.ancestors.include?(Move)
-        return 0 if instance_of?(other.class)
-        return 1 if self.class.beats_list.include?(other.class)
+      alias eql? ==
 
-        -1
+      def hash
+        to_s
       end
+
+      protected
+
+      attr_reader :beats_moves
     end
 
     private_constant :Move
 
     class Rock < Move
-      def self.beats_list
-        [Scissors]
+      def initialize
+        super
+        @beats_moves = { Scissors => { verb: 'crushes' },
+                         Lizard => { verb: 'crushes' } }
       end
     end
 
     class Paper < Move
-      def self.beats_list
-        [Rock]
+      def initialize
+        super
+        @beats_moves = { Rock => { verb: 'covers' },
+                         Spock => { verb: 'disproves' } }
       end
     end
 
     class Scissors < Move
-      def self.beats_list
-        [Paper]
+      def initialize
+        super
+        @beats_moves = { Paper => { verb: 'cut' },
+                         Lizard => { verb: 'decapitate' } }
+      end
+    end
+
+    class Lizard < Move
+      def initialize
+        super
+        @beats_moves = { Paper => { verb: 'eats' },
+                         Spock => { verb: 'poisons' } }
+      end
+    end
+
+    class Spock < Move
+      def initialize
+        super
+        @beats_moves = { Scissors => { verb: 'smashes' },
+                         Rock => { verb: 'vaporizes' } }
       end
     end
 
