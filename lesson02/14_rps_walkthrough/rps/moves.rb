@@ -5,7 +5,6 @@ module RPS
   # - Override `self.to_s` if the class name is not user-friendly.
   # - Implement `self.beats_list` to return Array of Moves classes that the move beats.
   module Moves
-    require 'pry'
     # Base class for each possible game move.
     class Move
       extend Comparable
