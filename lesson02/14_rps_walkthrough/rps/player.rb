@@ -15,7 +15,19 @@ module RPS
     end
 
     def self.print_moves(*players)
+      puts '---'
       players.each { |player| puts "#{player.name} chose #{player.move}." }
+      puts '---'
+    end
+
+    alias eql? ==
+
+    def hash
+      name.hash
+    end
+
+    def to_s
+      name
     end
 
     private
