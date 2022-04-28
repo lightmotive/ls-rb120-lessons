@@ -3,7 +3,8 @@ module RPS
     attr_reader :winning_score
 
     # `players` should be an array of objects that can be Hash keys and define
-    #   `to_s` to return the player name.
+    #   `name` attribute should return the player name. Otherwise, `Score` will
+    #   reference `player.to_s`.
     def initialize(winning_score, players)
       @winning_score = winning_score
       @players = players
@@ -42,7 +43,7 @@ module RPS
       puts RPS.empty_line
       puts '** Scoreboard **'
       scores.sort_by { |_, score| -score }.each do |(player, score)|
-        puts "#{player}: #{score}"
+        puts "#{player_name(player)}: #{score}"
       end
     end
 
@@ -51,9 +52,13 @@ module RPS
     attr_accessor :scores
     attr_reader :players
 
+    def player_name(player)
+      player.name || player.to_s
+    end
+
     def output_winner(winning_player)
       puts RPS.empty_line
-      puts "* #{winning_player} won the game with a score of #{scores[winning_player]}! *"
+      puts "* #{player_name(winning_player)} won the game with a score of #{scores[winning_player]}! *"
     end
   end
 end
