@@ -94,7 +94,7 @@ module RPS
     end
 
     def self.list_strings
-      constants.map { |c| const_get(c).to_s }
+      constants.sort_by { |c| const_source_location(c).last }.map { |c| const_get(c).to_s }
     end
 
     def self.sample
