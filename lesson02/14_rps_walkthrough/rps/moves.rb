@@ -91,8 +91,8 @@ module RPS
     # Specify `:name` in Hash object passed to `Move` to override symbol-based
     # name.
     MOVES = [MoveBase.new(:Rock, { name: 'Crystal',
-                                   beats: { Scissors: { verb: 'crushes' },
-                                            Lizard: { verb: 'crushes' } } }),
+                                   beats: { Scissors: { verb: 'relocates' },
+                                            Lizard: { verb: 'relocates' } } }),
              MoveBase.new(:Paper, { name: 'Parchment',
                                     beats: { Rock: { verb: 'covers' },
                                              Spock: { verb: 'disproves' } } }),
@@ -100,11 +100,11 @@ module RPS
                                        beats: { Paper: { verb: 'cut' },
                                                 Lizard: { verb: 'decapitate' } } }),
              MoveBase.new(:Spock, { name: 'Mage',
-                                    beats: { Scissors: { verb: 'smashes' },
-                                             Rock: { verb: 'vaporizes' } } }),
+                                    beats: { Scissors: { verb: 'disassembles' },
+                                             Rock: { verb: 'crushes' } } }),
              MoveBase.new(:Lizard, { name: 'Dragon',
-                                     beats: { Paper: { verb: 'eats' },
-                                              Spock: { verb: 'poisons' } } })].freeze
+                                     beats: { Paper: { verb: 'burns' },
+                                              Spock: { verb: 'eats' } } })].freeze
 
     # Standard moves:
     # [MoveBase.new(:Rock, { beats: { Scissors: { verb: 'crushes' },
