@@ -1,106 +1,156 @@
 module RPS
-  # List possible game moves.
-  # Each move class should:
-  # - Inherit `Move`.
-  # - Override `self.to_s` if the class name is not user-friendly.
-  # - Implement `initialize`: set `beats_moves` to Hash with data.
+  # RPS game moves.
   module Moves
-    # Base class for each possible game move.
-    class Move
+    # Data for how one move beats another.
+    class BeatsMove
+      attr_reader :verb
+
+      def initialize(key, beats_key, data)
+        @key = key
+        @beats_key = beats_key
+        @verb = data[:verb].dup
+      end
+    end
+
+    # Base for game move.
+    class MoveBase
       include Comparable
 
-      def initialize(beats_moves)
-        @beats_moves = beats_moves
+      attr_reader :key, :name, :beats_moves
+
+      def initialize(key, data)
+        @key = key
+        @data = data
+        set_name
+        initialize_beats_moves
       end
 
-      def self.to_s
-        name.split('::').last
+      def to_s
+        name
+      end
+
+      def string_match?(string)
+        string.downcase == name.downcase
+      end
+
+      def beats?(other)
+        !beats_move(other).nil?
       end
 
       def <=>(other)
-        return nil unless other.class.ancestors.include?(Move)
-        return 0 if instance_of?(other.class)
-        return 1 if beats_moves.key?(other.class)
+        return nil unless other.class.ancestors.include?(MoveBase)
+        return 0 if key == other.key
+        return 1 if beats?(other)
 
         -1
       end
 
-      def win_explanation_vs(losing_move)
-        winning_move = self
-        losing_move, winning_move = [self, other_move].sort unless beats_moves.key?(losing_move.class)
-
-        "#{winning_move} #{winning_move.beats_moves[losing_move.class][:verb]} #{losing_move}."
+      def sort_with(other)
+        [self, other].sort
       end
 
-      def to_s
-        self.class.to_s
+      def win_explanation_vs(other)
+        return '' if self == other
+
+        losing_move, winning_move = sort_with(other)
+
+        "#{winning_move} #{winning_move.beats_move(losing_move).verb} #{losing_move}."
       end
 
       alias eql? ==
 
       def hash
-        to_s
+        key.hash
       end
 
       protected
 
-      attr_reader :beats_moves
-    end
+      def beats_move(other)
+        beats_moves[other.key]
+      end
 
-    private_constant :Move
+      def data
+        @data.dup
+        # Current structure would warrant deep copy above, which is beyond the
+        # scope of this exercise.
+      end
 
-    class Rock < Move
-      def initialize
-        super({ Scissors => { verb: 'crushes' },
-                Lizard => { verb: 'crushes' } })
+      private
+
+      def set_name
+        @name = data.key?(:name) ? data[:name] : key.to_s
+      end
+
+      def initialize_beats_moves
+        @beats_moves = data[:beats].map do |beats_key, data|
+          [beats_key, BeatsMove.new(key, beats_key, data)]
+        end.to_h
       end
     end
 
-    class Paper < Move
-      def initialize
-        super({ Rock => { verb: 'covers' },
-                Spock => { verb: 'disproves' } })
+    # Specify `:name` in Hash object passed to `Move` to override symbol-based
+    # name.
+    MOVES = [MoveBase.new(:Rock, { beats: { Scissors: { verb: 'crushes' },
+                                            Lizard: { verb: 'crushes' } } }),
+             MoveBase.new(:Paper, { beats: { Rock: { verb: 'covers' },
+                                             Spock: { verb: 'disproves' } } }),
+             MoveBase.new(:Scissors, { beats: { Paper: { verb: 'cut' },
+                                                Lizard: { verb: 'decapitate' } } }),
+             MoveBase.new(:Spock, { beats: { Scissors: { verb: 'smashes' },
+                                             Rock: { verb: 'vaporizes' } } }),
+             MoveBase.new(:Lizard, { beats: { Paper: { verb: 'eats' },
+                                              Spock: { verb: 'poisons' } } })].freeze
+
+    # Move for gameplay.
+    class Move < MoveBase
+      def initialize(move)
+        super(move.key, move.data)
       end
+
+      protected :key
+      private :data
     end
 
-    class Scissors < Move
-      def initialize
-        super({ Paper => { verb: 'cut' },
-                Lizard => { verb: 'decapitate' } })
-      end
+    private_constant :BeatsMove, :MoveBase, :Move, :MOVES
+
+    def self.create(move_base)
+      Move.new(move_base)
+      # If the game ever needed per-move customization ("power moves!"),
+      # one could extend the `Move` class above with additional states and
+      # behaviors.
+      # Such flexibility demonstrates the importance of using a factory method
+      # like this. It allows modifying object creation without requiring
+      # extensive changes to existing code (as long as the interface is not
+      # changed--SOLID, O: open to extension, closed to modification).
     end
 
-    class Lizard < Move
-      def initialize
-        super({ Paper => { verb: 'eats' },
-                Spock => { verb: 'poisons' } })
+    def self.create_from_string(string)
+      matches = MOVES.select do |move|
+        move.string_match?(string)
       end
-    end
+      return nil if matches.empty?
 
-    class Spock < Move
-      def initialize
-        super({ Scissors => { verb: 'smashes' },
-                Rock => { verb: 'vaporizes' } })
-      end
-    end
-
-    def self.new_from_string(string)
-      string = string.downcase
-      matched_constants = constants.select { |c| const_get(c).to_s.downcase == string }
-      return nil if matched_constants.empty?
-
-      const_get(matched_constants.first).new
+      create(matches.first)
     end
 
     def self.list_strings
-      constants.sort_by { |c| const_source_location(c).last }.map { |c| const_get(c).to_s }
+      MOVES.map(&:name)
     end
 
     def self.sample
-      const_get(constants.sample).new
+      create(MOVES.sample)
     end
   end
 end
+
+p RPS::Moves.create_from_string('rock')
+p RPS::Moves.list_strings
+move1 = RPS::Moves.sample
+move2 = RPS::Moves.sample
+puts move1
+puts move2
+p move1 == move2
+puts "#{move1} vs #{move2}: #{move1 <=> move2} -- #{move1.win_explanation_vs(move2)}"
 
 # Tradeoff note:
 # one could eliminate the redundancy of defining a class for each move by
@@ -110,7 +160,7 @@ end
 # It might make sense if one wanted to generate classes that represent a larger
 # data set, but then it would probably be better to redesign the solution to use
 # data and a single class. In fact, that's probably best for the simple solution
-# above! I'll do that next.
+# above! Done with this commit.
 #
 # Conclusion:
 # Dynamically generating classes might be essential when developing solutions for
