@@ -89,22 +89,17 @@ module RPS
     end
 
     # Specify `:name` in Hash object passed to `Move` to override symbol-based
-    # name.
-    MOVES = [MoveBase.new(:Rock, { name: 'Crystal',
-                                   beats: { Scissors: { verb: 'relocates' },
-                                            Lizard: { verb: 'relocates' } } }),
-             MoveBase.new(:Paper, { name: 'Parchment',
-                                    beats: { Rock: { verb: 'covers' },
-                                             Spock: { verb: 'disproves' } } }),
-             MoveBase.new(:Scissors, { name: 'Swords',
-                                       beats: { Paper: { verb: 'cut' },
-                                                Lizard: { verb: 'decapitate' } } }),
-             MoveBase.new(:Spock, { name: 'Mage',
-                                    beats: { Scissors: { verb: 'disassembles' },
-                                             Rock: { verb: 'crushes' } } }),
-             MoveBase.new(:Lizard, { name: 'Dragon',
-                                     beats: { Paper: { verb: 'burns' },
-                                              Spock: { verb: 'eats' } } })].freeze
+    # name; `:name` is necessary only if symbol.to_s is not suitable for UX.
+    MOVES = [MoveBase.new(:Crystal, { beats: { Swords: { verb: 'relocates' },
+                                               Dragon: { verb: 'relocates' } } }),
+             MoveBase.new(:Parchment, { beats: { Crystal: { verb: 'covers' },
+                                                 Mage: { verb: 'disproves' } } }),
+             MoveBase.new(:Swords, { beats: { Parchment: { verb: 'cut' },
+                                              Dragon: { verb: 'decapitate' } } }),
+             MoveBase.new(:Mage, { beats: { Swords: { verb: 'melts' },
+                                            Crystal: { verb: 'crushes' } } }),
+             MoveBase.new(:Dragon, { beats: { Parchment: { verb: 'burns' },
+                                              Mage: { verb: 'eats' } } })].freeze
 
     # Standard moves:
     # [MoveBase.new(:Rock, { beats: { Scissors: { verb: 'crushes' },
