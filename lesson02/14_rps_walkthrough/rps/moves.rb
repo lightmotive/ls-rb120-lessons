@@ -9,6 +9,10 @@ module RPS
     class Move
       include Comparable
 
+      def initialize(beats_moves)
+        @beats_moves = beats_moves
+      end
+
       def self.to_s
         name.split('::').last
       end
@@ -47,41 +51,36 @@ module RPS
 
     class Rock < Move
       def initialize
-        super
-        @beats_moves = { Scissors => { verb: 'crushes' },
-                         Lizard => { verb: 'crushes' } }
+        super({ Scissors => { verb: 'crushes' },
+                Lizard => { verb: 'crushes' } })
       end
     end
 
     class Paper < Move
       def initialize
-        super
-        @beats_moves = { Rock => { verb: 'covers' },
-                         Spock => { verb: 'disproves' } }
+        super({ Rock => { verb: 'covers' },
+                Spock => { verb: 'disproves' } })
       end
     end
 
     class Scissors < Move
       def initialize
-        super
-        @beats_moves = { Paper => { verb: 'cut' },
-                         Lizard => { verb: 'decapitate' } }
+        super({ Paper => { verb: 'cut' },
+                Lizard => { verb: 'decapitate' } })
       end
     end
 
     class Lizard < Move
       def initialize
-        super
-        @beats_moves = { Paper => { verb: 'eats' },
-                         Spock => { verb: 'poisons' } }
+        super({ Paper => { verb: 'eats' },
+                Spock => { verb: 'poisons' } })
       end
     end
 
     class Spock < Move
       def initialize
-        super
-        @beats_moves = { Scissors => { verb: 'smashes' },
-                         Rock => { verb: 'vaporizes' } }
+        super({ Scissors => { verb: 'smashes' },
+                Rock => { verb: 'vaporizes' } })
       end
     end
 
