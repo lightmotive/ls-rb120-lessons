@@ -90,16 +90,33 @@ module RPS
 
     # Specify `:name` in Hash object passed to `Move` to override symbol-based
     # name.
-    MOVES = [MoveBase.new(:Rock, { beats: { Scissors: { verb: 'crushes' },
+    MOVES = [MoveBase.new(:Rock, { name: 'Crystal',
+                                   beats: { Scissors: { verb: 'crushes' },
                                             Lizard: { verb: 'crushes' } } }),
-             MoveBase.new(:Paper, { beats: { Rock: { verb: 'covers' },
+             MoveBase.new(:Paper, { name: 'Parchment',
+                                    beats: { Rock: { verb: 'covers' },
                                              Spock: { verb: 'disproves' } } }),
-             MoveBase.new(:Scissors, { beats: { Paper: { verb: 'cut' },
+             MoveBase.new(:Scissors, { name: 'Swords',
+                                       beats: { Paper: { verb: 'cut' },
                                                 Lizard: { verb: 'decapitate' } } }),
-             MoveBase.new(:Spock, { beats: { Scissors: { verb: 'smashes' },
+             MoveBase.new(:Spock, { name: 'Mage',
+                                    beats: { Scissors: { verb: 'smashes' },
                                              Rock: { verb: 'vaporizes' } } }),
-             MoveBase.new(:Lizard, { beats: { Paper: { verb: 'eats' },
+             MoveBase.new(:Lizard, { name: 'Dragon',
+                                     beats: { Paper: { verb: 'eats' },
                                               Spock: { verb: 'poisons' } } })].freeze
+
+    # Standard moves:
+    # [MoveBase.new(:Rock, { beats: { Scissors: { verb: 'crushes' },
+    #                                             Lizard: { verb: 'crushes' } } }),
+    #              MoveBase.new(:Paper, { beats: { Rock: { verb: 'covers' },
+    #                                              Spock: { verb: 'disproves' } } }),
+    #              MoveBase.new(:Scissors, { beats: { Paper: { verb: 'cut' },
+    #                                                 Lizard: { verb: 'decapitate' } } }),
+    #              MoveBase.new(:Spock, { beats: { Scissors: { verb: 'smashes' },
+    #                                              Rock: { verb: 'vaporizes' } } }),
+    #              MoveBase.new(:Lizard, { beats: { Paper: { verb: 'eats' },
+    #                                               Spock: { verb: 'poisons' } } })].freeze
 
     # Move for gameplay.
     class Move < MoveBase
@@ -142,15 +159,6 @@ module RPS
     end
   end
 end
-
-p RPS::Moves.create_from_string('rock')
-p RPS::Moves.list_strings
-move1 = RPS::Moves.sample
-move2 = RPS::Moves.sample
-puts move1
-puts move2
-p move1 == move2
-puts "#{move1} vs #{move2}: #{move1 <=> move2} -- #{move1.win_explanation_vs(move2)}"
 
 # Tradeoff note:
 # one could eliminate the redundancy of defining a class for each move by

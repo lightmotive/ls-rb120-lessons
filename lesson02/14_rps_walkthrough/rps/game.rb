@@ -28,7 +28,7 @@ module RPS
     private
 
     def display_welcome_message
-      puts 'Welcome to Rock, Paper, Scissors, Lizard, Spock!'
+      puts "Welcome to #{Moves.list_strings.join(', ')}!"
     end
 
     def tie_message
