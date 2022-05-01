@@ -1,6 +1,6 @@
 module RPS
   require_relative 'player_human'
-  require_relative 'player_computer'
+  require_relative 'computer_players/computer_players'
   require_relative 'score'
   require_relative 'move_history'
 
@@ -11,7 +11,7 @@ module RPS
     def initialize(winning_score: 1)
       display_welcome_message
       @human = PlayerHuman.new
-      @computer = PlayerComputer.new
+      @computer = ComputerPlayers.sample
       @score = Score.new(winning_score, [@human, @computer])
       @move_history = MoveHistory.new(@human, @computer)
     end

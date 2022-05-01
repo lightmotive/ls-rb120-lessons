@@ -1,6 +1,5 @@
 module RPS
   require_relative 'player'
-  require_relative 'moves'
 
   class PlayerHuman < Player
     def choose_move

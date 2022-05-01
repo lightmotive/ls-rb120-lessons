@@ -1,4 +1,6 @@
 module RPS
+  require_relative 'moves/moves'
+
   class Player
     attr_reader :move, :name
 
