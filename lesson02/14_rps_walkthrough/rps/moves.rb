@@ -54,7 +54,7 @@ module RPS
 
         losing_move, winning_move = sort_with(other)
 
-        "#{winning_move} #{winning_move.beats_move(losing_move).verb} #{losing_move}."
+        "#{winning_move} #{winning_move.beats_move(losing_move).verb} #{losing_move}!"
       end
 
       alias eql? ==
@@ -154,18 +154,3 @@ module RPS
     end
   end
 end
-
-# Tradeoff note:
-# one could eliminate the redundancy of defining a class for each move by
-# dynamically adding `Move` classes, but that would require code that's harder
-# to read and manage, e.g., https://stackoverflow.com/a/60426815/2033465.
-#
-# It might make sense if one wanted to generate classes that represent a larger
-# data set, but then it would probably be better to redesign the solution to use
-# data and a single class. In fact, that's probably best for the simple solution
-# above! Done with this commit.
-#
-# Conclusion:
-# Dynamically generating classes might be essential when developing solutions for
-# complicated legacy code and certain types of libraries. Otherwise, one would
-# probably choose a different design.
