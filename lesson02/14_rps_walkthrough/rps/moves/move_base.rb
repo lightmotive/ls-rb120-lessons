@@ -47,12 +47,6 @@ module RPS
         "#{winning_move} #{winning_move.beats_move(losing_move).verb} #{losing_move}!"
       end
 
-      alias eql? ==
-
-      def hash
-        key.hash
-      end
-
       protected
 
       def beats_move(other)
