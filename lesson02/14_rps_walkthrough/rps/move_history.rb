@@ -35,7 +35,7 @@ module RPS
 
       case first[:move] <=> second[:move]
       when -1 then 'Lost'
-      when 0 then  'Tie'
+      when 0 then  'Tied'
       when 1 then  'Won'
       end
     end
