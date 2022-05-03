@@ -35,8 +35,12 @@ module RPS
 
     private
 
+    def name
+      Moves.list_strings.join(', ').to_s
+    end
+
     def display_welcome_message
-      puts "Welcome to #{Moves.list_strings.join(', ')}!"
+      puts "Welcome to #{name}!"
     end
 
     def tie_message
@@ -79,7 +83,7 @@ module RPS
 
     def display_goodbye_message
       puts RPS.empty_line
-      puts 'Thanks for playing Rock, Paper, Scissors! Bye.'
+      puts "Thanks for playing #{name}! Bye."
     end
   end
 end
