@@ -1,6 +1,6 @@
 module RPS
   module Players
-    require_relative '../moves/moves'
+    require_relative '../moves/main'
 
     class Base
       attr_reader :move, :name

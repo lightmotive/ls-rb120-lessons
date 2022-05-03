@@ -4,7 +4,7 @@ module RPS
     require_relative 'move'
     require_relative 'data'
 
-    private_constant :BeatsMove, :MoveBase, :Move, :DATA
+    private_constant :BeatsMove, :Base, :Move, :DATA
 
     def self.create(move_base)
       Move.new(move_base)

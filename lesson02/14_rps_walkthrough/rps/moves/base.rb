@@ -3,7 +3,7 @@ module RPS
     require_relative 'beats_move'
 
     # Base for game move.
-    class MoveBase
+    class Base
       include Comparable
 
       attr_reader :key, :name, :beats_moves
@@ -28,7 +28,7 @@ module RPS
       end
 
       def <=>(other)
-        return nil unless other.class.ancestors.include?(MoveBase)
+        return nil unless other.class.ancestors.include?(Base)
         return 0 if key == other.key
         return 1 if beats?(other)
 

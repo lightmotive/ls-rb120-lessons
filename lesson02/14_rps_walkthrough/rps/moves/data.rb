@@ -3,32 +3,32 @@ module RPS
     # TODO: enable players to select a skin.
 
     # Medieval skin:
-    DATA = [MoveBase.new(:Rock, { name: 'Crystal',
-                                  beats: { Scissors: { verb: 'relocates' },
-                                           Lizard: { verb: 'relocates' } } }),
-            MoveBase.new(:Paper, { name: 'Parchment',
-                                   beats: { Rock: { verb: 'covers' },
-                                            Spock: { verb: 'disproves' } } }),
-            MoveBase.new(:Scissors, { name: 'Swords',
-                                      beats: { Paper: { verb: 'cut' },
-                                               Lizard: { verb: 'decapitate' } } }),
-            MoveBase.new(:Spock, { name: 'Mage',
-                                   beats: { Scissors: { verb: 'melts' },
-                                            Rock: { verb: 'crushes' } } }),
-            MoveBase.new(:Lizard, { name: 'Dragon',
-                                    beats: { Paper: { verb: 'burns' },
-                                             Spock: { verb: 'eats' } } })].freeze
+    DATA = [Base.new(:Rock, { name: 'Crystal',
+                              beats: { Scissors: { verb: 'relocates' },
+                                       Lizard: { verb: 'relocates' } } }),
+            Base.new(:Paper, { name: 'Parchment',
+                               beats: { Rock: { verb: 'covers' },
+                                        Spock: { verb: 'disproves' } } }),
+            Base.new(:Scissors, { name: 'Swords',
+                                  beats: { Paper: { verb: 'cut' },
+                                           Lizard: { verb: 'decapitate' } } }),
+            Base.new(:Spock, { name: 'Mage',
+                               beats: { Scissors: { verb: 'melts' },
+                                        Rock: { verb: 'crushes' } } }),
+            Base.new(:Lizard, { name: 'Dragon',
+                                beats: { Paper: { verb: 'burns' },
+                                         Spock: { verb: 'eats' } } })].freeze
 
     # Standard skin:
-    # DATA = [MoveBase.new(:Rock, { beats: { Scissors: { verb: 'crushes' },
+    # DATA = [Base.new(:Rock, { beats: { Scissors: { verb: 'crushes' },
     #                                             Lizard: { verb: 'crushes' } } }),
-    #              MoveBase.new(:Paper, { beats: { Rock: { verb: 'covers' },
+    #              Base.new(:Paper, { beats: { Rock: { verb: 'covers' },
     #                                              Spock: { verb: 'disproves' } } }),
-    #              MoveBase.new(:Scissors, { beats: { Paper: { verb: 'cut' },
+    #              Base.new(:Scissors, { beats: { Paper: { verb: 'cut' },
     #                                                 Lizard: { verb: 'decapitate' } } }),
-    #              MoveBase.new(:Spock, { beats: { Scissors: { verb: 'smashes' },
+    #              Base.new(:Spock, { beats: { Scissors: { verb: 'smashes' },
     #                                              Rock: { verb: 'vaporizes' } } }),
-    #              MoveBase.new(:Lizard, { beats: { Paper: { verb: 'eats' },
+    #              Base.new(:Lizard, { beats: { Paper: { verb: 'eats' },
     #                                               Spock: { verb: 'poisons' } } })].freeze
   end
 end
