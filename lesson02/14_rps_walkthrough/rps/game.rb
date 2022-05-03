@@ -1,6 +1,6 @@
 module RPS
-  require_relative 'player_human'
-  require_relative 'computer_players/computer_players'
+  require_relative 'players/human'
+  require_relative 'players/computer/main'
   require_relative 'score'
   require_relative 'moves/history'
 
@@ -10,8 +10,8 @@ module RPS
 
     def initialize(winning_score: 1)
       display_welcome_message
-      @human = PlayerHuman.new
-      @computer = ComputerPlayers.sample
+      @human = Players::Human.new
+      @computer = Players::Computer.sample
       @score = Score.new(winning_score, [@human, @computer])
       @move_history = Moves::History.new(@human, @computer)
     end
@@ -48,7 +48,7 @@ module RPS
     end
 
     def print_round_result
-      Player.print_moves(human, computer)
+      Players::Base.print_moves(human, computer)
 
       puts case human.move <=> computer.move
            when 0 then tie_message
