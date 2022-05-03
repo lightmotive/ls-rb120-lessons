@@ -2,7 +2,7 @@ module RPS
   require_relative 'player_human'
   require_relative 'computer_players/computer_players'
   require_relative 'score'
-  require_relative 'move_history'
+  require_relative 'moves/history'
 
   class Game
     attr_accessor :human, :computer
@@ -13,7 +13,7 @@ module RPS
       @human = PlayerHuman.new
       @computer = ComputerPlayers.sample
       @score = Score.new(winning_score, [@human, @computer])
-      @move_history = MoveHistory.new(@human, @computer)
+      @move_history = Moves::History.new(@human, @computer)
     end
 
     def display_move_history
