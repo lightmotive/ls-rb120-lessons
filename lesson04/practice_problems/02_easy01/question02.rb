@@ -10,6 +10,9 @@ module Speed
     # that included the module. When an instance invokes an instance method,
     # `self` refers to the instance, and `self.class` returns the instance's
     # class.
+
+    # Using interpolation automatically calls `to_s` on `self.class`, which
+    # returns the class name.
   end
 end
 
