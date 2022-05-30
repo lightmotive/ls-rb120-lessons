@@ -17,5 +17,8 @@ class Pizza
   end
 end
 
-p Pizza.new('Neapolitan')
+pizza = Pizza.new('Neapolitan')
+p pizza
 # Notice there is an `@name` instance variable in the output.
+# To see an array of a class' instance variables:
+p pizza.instance_variables
