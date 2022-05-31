@@ -8,7 +8,13 @@ class Hello < Greeting
   def hi
     greet('Hello')
   end
+
+  def self.hi
+    new.hi
+  end
 end
+
+Hello.hi
 
 class Goodbye < Greeting
   def bye
