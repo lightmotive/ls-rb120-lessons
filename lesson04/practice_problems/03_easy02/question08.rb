@@ -8,6 +8,10 @@ class Bingo < Game
   def rules_of_play
     # rules of play
   end
+
+  def play
+    # override `play` method in `Game`
+  end
 end
 
 bingo = Bingo.new
