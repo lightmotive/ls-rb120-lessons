@@ -46,17 +46,34 @@ class Motorcycle < WheeledVehicle
   end
 end
 
-class Catamaran
+class Boat
   include Moveable
-  include LiquidFuel
 
   attr_reader :propeller_count, :hull_count
 
-  def initialize(num_propellers, num_hulls, km_traveled_per_liter, liters_of_fuel_capacity)
+  def initialize(num_propellers, num_hulls)
     @propeller_count = num_propellers
     @hull_count = num_hulls
+  end
+end
+
+class Catamaran < Boat
+  include LiquidFuel
+
+  def initialize(num_propellers, num_hulls, km_traveled_per_liter, liters_of_fuel_capacity)
+    super(num_propellers, num_hulls)
 
     initialize_fuel(km_traveled_per_liter, liters_of_fuel_capacity)
+  end
+end
+
+class Motorboat < Boat
+  include LiquidFuel
+
+  def initialize
+    super(1, 1)
+
+    initialize_fuel(55, 13.0)
   end
 end
 
@@ -68,3 +85,7 @@ puts motorcycle.range
 
 catamaran = Catamaran.new(2, 1, 40, 21.0)
 puts catamaran.range
+
+motorboat = Motorboat.new
+puts motorboat.range
+puts motorboat.propeller_count
