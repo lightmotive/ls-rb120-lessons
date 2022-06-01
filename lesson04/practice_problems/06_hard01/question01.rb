@@ -2,7 +2,7 @@ module Moveable
   attr_accessor :speed, :heading
 end
 
-module Fuel
+module LiquidFuel
   def initialize_fuel(km_traveled_per_liter, liters_of_fuel_capacity)
     @fuel_efficiency = km_traveled_per_liter
     @fuel_capacity = liters_of_fuel_capacity
@@ -14,8 +14,8 @@ module Fuel
 end
 
 class WheeledVehicle
-  include Fuel
   include Moveable
+  include LiquidFuel
 
   def initialize(tire_array, km_traveled_per_liter, liters_of_fuel_capacity)
     @tires = tire_array
@@ -48,7 +48,7 @@ end
 
 class Catamaran
   include Moveable
-  include Fuel
+  include LiquidFuel
 
   attr_reader :propeller_count, :hull_count
 
