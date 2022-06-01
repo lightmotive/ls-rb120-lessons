@@ -5,8 +5,8 @@
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "has a player (mark)",
-      "provides a mark (string)"
+      "has a value (input number or player/mark)",
+      "provides a mark (string) for grid display"
     ],
     "collaborators": [
       "Player"
@@ -30,11 +30,36 @@
   {
     "name": "Player",
     "superclasses": "",
-    "subclasses": "",
+    "subclasses": "PlayerHuman, PlayerComputer",
     "type": 1,
     "responsibilities": [
       "has a name",
-      "has a unique mark"
+      "has a unique mark",
+      "mark board (input square number)"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "PlayerHuman",
+    "superclasses": "Player",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "mark board"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "PlayerComputer",
+    "superclasses": "Player",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "mark board"
     ],
     "collaborators": [
       ""
@@ -47,7 +72,9 @@
     "type": 1,
     "responsibilities": [
       "has a board",
-      "has players"
+      "has players",
+      "identify players",
+      "play (loop through players who mark board)"
     ],
     "collaborators": [
       "Board",
