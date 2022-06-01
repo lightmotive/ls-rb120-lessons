@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Square",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "has a player (mark)",
+      "provides a mark (string)"
+    ],
+    "collaborators": [
+      "Player"
+    ]
+  },
+  {
+    "name": "Board",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "draw grid of squares",
+      "mark square (set player)",
+      "determine winning player (line)",
+      ""
+    ],
+    "collaborators": [
+      "Square"
+    ]
+  },
+  {
+    "name": "Player",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "has a name",
+      "has a unique mark"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "Game",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "has a board",
+      "has players"
+    ],
+    "collaborators": [
+      "Board",
+      "Player"
+    ]
+  }
+]
