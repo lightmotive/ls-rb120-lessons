@@ -13,7 +13,7 @@ module LiquidFuel
   end
 end
 
-class WheeledVehicle
+class WheeledVehicleLF
   include Moveable
   include LiquidFuel
 
@@ -32,48 +32,40 @@ class WheeledVehicle
   end
 end
 
-class Auto < WheeledVehicle
+class Auto < WheeledVehicleLF
   def initialize
     # 4 tires are various tire pressures
     super([30, 30, 32, 32], 50, 25.0)
   end
 end
 
-class Motorcycle < WheeledVehicle
+class Motorcycle < WheeledVehicleLF
   def initialize
     # 2 tires are various tire pressures
     super([20, 20], 80, 8.0)
   end
 end
 
-class Boat
+class BoatLF
   include Moveable
+  include LiquidFuel
 
   attr_reader :propeller_count, :hull_count
 
-  def initialize(num_propellers, num_hulls)
+  def initialize(num_propellers, num_hulls, km_traveled_per_liter, liters_of_fuel_capacity)
     @propeller_count = num_propellers
     @hull_count = num_hulls
-  end
-end
-
-class Catamaran < Boat
-  include LiquidFuel
-
-  def initialize(num_propellers, num_hulls, km_traveled_per_liter, liters_of_fuel_capacity)
-    super(num_propellers, num_hulls)
 
     initialize_fuel(km_traveled_per_liter, liters_of_fuel_capacity)
   end
 end
 
-class Motorboat < Boat
-  include LiquidFuel
+class Catamaran < BoatLF
+end
 
+class Motorboat < BoatLF
   def initialize
-    super(1, 1)
-
-    initialize_fuel(55, 13.0)
+    super(1, 1, 55, 13.0)
   end
 end
 
