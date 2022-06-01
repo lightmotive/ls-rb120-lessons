@@ -58,6 +58,10 @@ class BoatLF
 
     initialize_fuel(km_traveled_per_liter, liters_of_fuel_capacity)
   end
+
+  def range
+    super + 10
+  end
 end
 
 class Catamaran < BoatLF
