@@ -8,6 +8,8 @@ class Square
 
   def mark(player)
     @player = player
+
+    self
   end
 
   def display
