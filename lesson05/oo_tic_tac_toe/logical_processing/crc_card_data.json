@@ -31,11 +31,11 @@
     "name": "Player",
     "superclasses": "",
     "subclasses": "PlayerHuman, PlayerComputer",
-    "type": 1,
+    "type": 2,
     "responsibilities": [
       "has a name",
       "has a unique mark",
-      "mark board (input square number)"
+      "mark board (input square number/selection strategy)"
     ],
     "collaborators": [
       ""
