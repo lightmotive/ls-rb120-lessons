@@ -1,6 +1,7 @@
 module RPS
   module Players
     require_relative '../moves/main'
+    require_relative '../abstract_not_implemented_error'
 
     class Base
       attr_reader :move, :name
@@ -9,8 +10,9 @@ module RPS
         set_name
       end
 
+      # Abstract
       def choose_move
-        raise NotImplementedError
+        raise AbstractNotImplementedError
       end
 
       def print_move
@@ -37,8 +39,9 @@ module RPS
 
       attr_writer :move, :name
 
+      # Abstract
       def set_name
-        raise NotImplementedError
+        raise AbstractNotImplementedError
       end
     end
   end
