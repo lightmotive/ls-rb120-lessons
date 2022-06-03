@@ -74,8 +74,7 @@
       "has players",
       "identify players",
       "play (initialize game)",
-      "play round (loop through players who mark board)",
-      "mark board (player selects square)"
+      "play round (loop through players who mark board)"
     ],
     "collaborators": [
       "Board",
