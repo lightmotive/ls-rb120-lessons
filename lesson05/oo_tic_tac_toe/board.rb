@@ -1,5 +1,5 @@
 class Board
-  def initialize(size = 3)
+  def initialize(size)
     @size = size
   end
 
