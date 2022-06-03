@@ -19,7 +19,6 @@
     "type": 1,
     "responsibilities": [
       "draw grid of squares",
-      "mark square (set player)",
       "determine winning player (line)",
       ""
     ],
@@ -35,7 +34,7 @@
     "responsibilities": [
       "has a name",
       "has a unique mark",
-      "mark board (input square number/selection strategy)"
+      "mark board (abstract: input square number/selection strategy)"
     ],
     "collaborators": [
       ""
@@ -47,7 +46,7 @@
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "mark board"
+      "mark board (override superclass)"
     ],
     "collaborators": [
       ""
@@ -59,7 +58,7 @@
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "mark board"
+      "mark board (override superclass)"
     ],
     "collaborators": [
       ""
@@ -75,7 +74,8 @@
       "has players",
       "identify players",
       "play (initialize game)",
-      "play_round (loop through players who mark board)"
+      "play round (loop through players who mark board)",
+      "mark board (player selects square)"
     ],
     "collaborators": [
       "Board",
