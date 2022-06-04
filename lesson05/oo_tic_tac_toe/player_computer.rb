@@ -6,6 +6,6 @@ class PlayerComputer < Player
   end
 
   def mark_board(board)
-    # Apply computer logic to mark board and apply mark
+    board.mark(self, board.available_square_selectors.sample)
   end
 end
