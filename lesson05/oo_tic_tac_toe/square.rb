@@ -1,8 +1,8 @@
 class Square
-  attr_reader :selection_value, :player
+  attr_reader :selector, :player
 
-  def initialize(selection_value)
-    @selection_value = selection_value
+  def initialize(selector)
+    @selector = selector
     mark(nil)
   end
 
@@ -13,7 +13,7 @@ class Square
   end
 
   def display
-    return selection_value if player.nil?
+    return selector if player.nil?
 
     player.mark
   end
