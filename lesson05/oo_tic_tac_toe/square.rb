@@ -12,6 +12,10 @@ class Square
     self
   end
 
+  def marked?
+    !player.nil?
+  end
+
   def display
     return selector if player.nil?
 
