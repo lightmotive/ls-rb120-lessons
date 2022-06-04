@@ -7,7 +7,7 @@ class PlayerHuman < Player
     square_number =
       loop do
         input = gets.strip
-        break input.to_i if move_input_valid?(board, input)
+        break input.to_i if board.move_valid?(input)
 
         print 'Please enter a valid square number: '
       end
@@ -22,11 +22,5 @@ class PlayerHuman < Player
       name = gets.strip
       break name unless name.nil? || name.empty?
     end
-  end
-
-  private
-
-  def move_input_valid?(board, input)
-    board.available_square_selectors.include?(input)
   end
 end
