@@ -1,9 +1,10 @@
 require_relative 'player'
+require_relative 'common'
 
 class PlayerHuman < Player
   def mark_board(board)
-    # Request input to mark board, validate, and apply mark
-    print "What's your move? (enter square number) "
+    board.draw(display_selectors: true)
+    print "#{Common.empty_line}What's your move, #{name} (#{mark})? (enter square number) "
     square_number =
       loop do
         input = gets.strip

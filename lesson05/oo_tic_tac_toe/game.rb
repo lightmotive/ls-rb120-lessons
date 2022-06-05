@@ -73,11 +73,11 @@ class Game
   def players_play_continue?
     players.each do |player|
       player.mark_board(board)
-      board.draw
-
       self.winning_player = player if board.winner?
       return false if !winning_player.nil? || board.full?
     end
+
+    board.draw
 
     true
   end

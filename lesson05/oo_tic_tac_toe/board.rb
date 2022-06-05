@@ -7,9 +7,8 @@ class Board
     @hash_grid = HashGrid.new(size, ->(key) { Square.new(key) })
   end
 
-  def draw
-    # HashGridVisual.new(hash_grid).draw
-    pp hash_grid
+  def draw(display_selectors: false)
+    HashGridVisual.new(hash_grid).draw(include_cell_numbers: display_selectors)
   end
 
   def empty_squares
@@ -49,11 +48,3 @@ class Board
     []
   end
 end
-
-# grid = HashGrid.new(3, ->(key) { Square.new(key) })
-# pp grid.empty_cells
-# p grid.full?
-# pp grid.rows
-# pp grid.columns
-# pp grid.diagonals
-# pp grid.center_cells
