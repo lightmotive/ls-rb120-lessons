@@ -28,8 +28,7 @@ class Board
   end
 
   def mark(player, key)
-    square = hash_grid.cell(key)
-
+    square = hash_grid[key]
     square.mark(player)
   end
 

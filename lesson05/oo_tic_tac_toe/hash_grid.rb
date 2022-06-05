@@ -18,7 +18,7 @@ class HashGrid
     empty_cells.empty?
   end
 
-  def cell(key)
+  def [](key)
     hash[key]
   end
 
