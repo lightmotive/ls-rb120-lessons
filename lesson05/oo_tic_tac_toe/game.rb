@@ -6,23 +6,6 @@ require_relative 'common'
 class Game
   MARKS = %w[X O].freeze
 
-  def initialize
-    initialize_board
-  end
-
-  def initialize_board
-    print 'What size board? (enter 3-9) '
-
-    board_size = loop do
-      size = gets.strip.to_i
-      break size if size.between?(3, 9)
-
-      print 'Please enter a board size value between 3 and 9: '
-    end
-
-    self.board = Board.new(board_size)
-  end
-
   def play
     display_welcome
     identify_players
@@ -33,7 +16,7 @@ class Game
 
   private
 
-  attr_accessor :board, :players, :winning_player
+  attr_accessor :board_size, :board, :players, :winning_player
 
   def display_welcome
     puts "Welcome to Tic Tac Toe!#{Common.empty_line}"
@@ -45,6 +28,21 @@ class Game
     players.push(PlayerComputer.new)
 
     assign_marks
+  end
+
+  def initialize_board
+    print 'What size board? (enter 3-9) '
+
+    self.board_size = loop do
+      size = gets.strip.to_i
+      break size if size.between?(3, 9)
+
+      print 'Please enter a board size value between 3 and 9: '
+    end
+  end
+
+  def create_board
+    self.board = Board.new(board_size)
   end
 
   def assign_marks
@@ -68,16 +66,17 @@ class Game
   end
 
   def play_round
+    create_board
     puts 'xoxoxox' while players_play_continue?
   end
 
   def players_play_continue?
     players.each do |player|
       player.mark_board(board)
-
       board.draw
-      winning_player = board.winning_player
-      break false if winning_player || board.full?
+
+      self.winning_player = player if board.winner?
+      return false if !winning_player.nil? || board.full?
     end
 
     true

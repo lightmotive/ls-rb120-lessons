@@ -1,24 +1,26 @@
-class Square
-  attr_reader :selector, :player
+require_relative 'hash_grid_cell'
 
-  def initialize(selector)
-    @selector = selector
+class Square < HashGridCell
+  attr_reader :player
+
+  def initialize(key)
+    super
     mark(nil)
+  end
+
+  def display
+    return key.to_s if player.nil?
+
+    player.mark
+  end
+
+  def empty?
+    player.nil?
   end
 
   def mark(player)
     @player = player
 
     self
-  end
-
-  def marked?
-    !player.nil?
-  end
-
-  def display
-    return selector if player.nil?
-
-    player.mark
   end
 end

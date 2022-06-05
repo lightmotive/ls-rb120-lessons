@@ -1,42 +1,40 @@
-require_relative 'grid'
+require_relative 'hash_grid'
+require_relative 'hash_grid_visual'
 require_relative 'square'
 
 class Board
-  include Grid
-
-  attr_reader :size
-
   def initialize(size)
-    @size = size
-    create_grid(Square)
+    @hash_grid = HashGrid.new(size, ->(key) { Square.new(key) })
   end
 
   def draw
-    # Output square grid of @size to console...
+    # HashGridVisual.new(hash_grid).draw
+    pp hash_grid
   end
 
-  def available_squares
-    grid.each_with_object([]) do |row, available|
-      available.push(*row.reject(&:marked?))
-    end
+  def empty_squares
+    hash_grid.empty_cells
   end
 
   def available_selectors
-    available_squares.map(&:selector)
+    empty_squares.map(&:key)
+  end
+
+  def full?
+    hash_grid.full?
   end
 
   def move_valid?(input)
-    available_selectors.include?(input)
+    available_selectors.include?(input.to_i)
   end
 
-  def mark(player, selector)
-    square = select_square(selector)
+  def mark(player, key)
+    square = hash_grid.cell(key)
 
     square.mark(player)
   end
 
   def winner?
-    winning_line = self.winning_line()
     return false if winning_line.empty?
 
     true
@@ -44,13 +42,18 @@ class Board
 
   private
 
-  def select_square(selector)
-    # Find square in grid using selector
-  end
+  attr_reader :hash_grid
 
   def winning_line
-    # ...select winning line
+    # Refactor ls-rb101-lessons/lesson6_slightly_larger_programs/04_tic_tac_toe/gameplay_win.rb to class that uses `hash_grid`...
+    []
   end
 end
 
-p Board.new(3).available_selectors
+# grid = HashGrid.new(3, ->(key) { Square.new(key) })
+# pp grid.empty_cells
+# p grid.full?
+# pp grid.rows
+# pp grid.columns
+# pp grid.diagonals
+# pp grid.center_cells
