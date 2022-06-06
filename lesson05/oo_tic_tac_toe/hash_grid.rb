@@ -3,9 +3,9 @@ require_relative 'validation_error'
 class HashGrid
   attr_reader :size
 
-  def initialize(size, value_factory)
+  def initialize(size, hash_grid_cell_type)
     @size = size
-    @value_factory = value_factory
+    @hash_grid_cell_type = hash_grid_cell_type
 
     initialize_hash
   end
@@ -58,13 +58,13 @@ class HashGrid
 
   private
 
-  attr_reader :value_factory, :hash
+  attr_reader :hash_grid_cell_type, :hash
 
   def initialize_hash
     @hash = {}
 
     (1..size.abs2).each do |key|
-      hash[key] = value_factory.call(key)
+      hash[key] = hash_grid_cell_type.new(key)
     end
   end
 

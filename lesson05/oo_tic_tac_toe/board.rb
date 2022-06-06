@@ -4,7 +4,7 @@ require_relative 'square'
 
 class Board
   def initialize(size)
-    @hash_grid = HashGrid.new(size, ->(key) { Square.new(key) })
+    @hash_grid = HashGrid.new(size, Square)
   end
 
   def draw(display_selectors: false)
