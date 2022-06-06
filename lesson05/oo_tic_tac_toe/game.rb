@@ -8,8 +8,8 @@ class Game
 
   def play
     display_welcome
-    identify_players
     initialize_board
+    identify_players
     play_loop
     display_goodbye
   end
@@ -22,14 +22,6 @@ class Game
     puts "Welcome to Tic Tac Toe!#{Common.empty_line}"
   end
 
-  def identify_players
-    self.players = []
-    players.push(PlayerHuman.new(PlayerHuman.request_name))
-    players.push(PlayerComputer.new)
-
-    assign_marks
-  end
-
   def initialize_board
     print 'What size board? (enter 3-9) '
 
@@ -39,6 +31,14 @@ class Game
 
       print 'Please enter a board size value between 3 and 9: '
     end
+  end
+
+  def identify_players
+    self.players = []
+    players.push(PlayerHuman.new(PlayerHuman.request_name, board))
+    players.push(PlayerComputer.new(board))
+
+    assign_marks
   end
 
   def create_board
@@ -79,7 +79,7 @@ class Game
   def players_play_continue?
     players.each do |player|
       draw_board(display_selectors: true)
-      player.mark_board(board)
+      player.mark_board
       self.winning_player = player if board.winner?
       return false if !winning_player.nil? || board.full?
     end

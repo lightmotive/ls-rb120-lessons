@@ -1,18 +1,19 @@
 require_relative 'abstract_not_implemented_error'
 
 class Player
-  attr_reader :name, :mark
+  attr_reader :name, :board, :mark
 
-  def initialize(name)
+  def initialize(name, board)
     @name = name
+    @board = board
   end
 
   def initialize_mark(mark)
     @mark = mark
   end
 
-  # Abstract: concrete should accept `board` instance and call `board.mark(...)`.
-  def mark_board(_board)
+  # Abstract: concrete should invoke `board.mark(...)`.
+  def mark_board
     raise AbstractNotImplementedError
   end
 end
