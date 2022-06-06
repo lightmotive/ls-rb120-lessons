@@ -12,4 +12,8 @@ module Common
       print "Please enter 'y' or 'n': "
     end
   end
+
+  def self.clear_console
+    system('clear')
+  end
 end

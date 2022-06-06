@@ -46,8 +46,8 @@ class Game
   end
 
   def assign_marks
-    MARKS.shuffle.each_with_index do |mark, idx|
-      players[idx].initialize_mark(mark)
+    players.shuffle.each_with_index do |player, idx|
+      player.initialize_mark(MARKS[idx])
     end
   end
 
@@ -68,16 +68,21 @@ class Game
   def play_round
     create_board
     puts 'xoxoxox' while players_play_continue?
+    draw_board
+  end
+
+  def draw_board(clear_console: true, display_selectors: false)
+    Common.clear_console if clear_console
+    board.draw(display_selectors: display_selectors)
   end
 
   def players_play_continue?
     players.each do |player|
+      draw_board(display_selectors: true)
       player.mark_board(board)
       self.winning_player = player if board.winner?
       return false if !winning_player.nil? || board.full?
     end
-
-    board.draw
 
     true
   end
