@@ -3,23 +3,26 @@ require_relative 'common'
 
 class PlayerHuman < Player
   def mark_board
-    print "#{Common::Messages.empty_line}What's your move, #{name} (#{mark})? (enter square number) "
-    key = loop do
-      input = gets.strip
-      break input.to_i if board.move_valid?(input)
-
-      print 'Please enter a valid square number: '
-    end
+    key = Common::Prompt.until_valid(
+      "#{Common::Messages.empty_line}What's your move, #{name} (#{mark})? (enter square number)",
+      convert_input: ->(input) { input.to_i },
+      validate: lambda do |converted_input|
+                  raise ValidationError, 'Please enter a valid square number.' unless board.move_valid?(converted_input)
+                end
+    )
 
     board.mark(self, key)
   end
 
   def self.request_name
-    print "What's your name? "
-
-    loop do
-      name = gets.strip
-      break name unless name.nil? || name.empty?
-    end
+    Common::Prompt.until_valid(
+      "What's your name",
+      validate: lambda do |converted_input|
+                  if converted_input.nil? || converted_input.empty?
+                    raise ValidationError,
+                          'Please enter something.'
+                  end
+                end
+    )
   end
 end
