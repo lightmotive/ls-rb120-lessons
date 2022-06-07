@@ -39,12 +39,11 @@ class Game
     self.players = []
     players.push(PlayerHuman.new(PlayerHuman.request_name, board))
     players.push(PlayerComputer.new(board))
-
-    assign_marks
   end
 
   def assign_marks
-    players.shuffle.each_with_index do |player, idx|
+    players.shuffle!
+    players.each_with_index do |player, idx|
       player.initialize_mark(MARKS[idx])
     end
   end
@@ -60,12 +59,13 @@ class Game
            end)
 
       break unless play_again?
-
-      board.reset
     end
   end
 
   def play_round
+    board.reset
+    assign_marks
+
     puts 'xoxoxox' while players_play_continue?
     draw_board
   end
@@ -79,6 +79,7 @@ class Game
     players.each do |player|
       draw_board(display_selectors: true)
       player.mark_board
+      draw_board(display_selectors: true)
       self.winning_player = player if board.winner?
       return false if !winning_player.nil? || board.full?
     end
