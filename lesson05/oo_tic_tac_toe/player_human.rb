@@ -4,13 +4,12 @@ require_relative 'common'
 class PlayerHuman < Player
   def mark_board
     print "#{Common::Messages.empty_line}What's your move, #{name} (#{mark})? (enter square number) "
-    key =
-      loop do
-        input = gets.strip
-        break input.to_i if board.move_valid?(input)
+    key = loop do
+      input = gets.strip
+      break input.to_i if board.move_valid?(input)
 
-        print 'Please enter a valid square number: '
-      end
+      print 'Please enter a valid square number: '
+    end
 
     board.mark(self, key)
   end
