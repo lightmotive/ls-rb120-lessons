@@ -4,7 +4,7 @@ require_relative 'common/common'
 class PlayerHuman < Player
   def mark_board
     key = Common::Prompt.until_valid(
-      "#{Common::Messages.empty_line}What's your move, #{name} (#{mark})? (enter square number)",
+      "What's your move, #{name} (#{mark})? (enter board number)",
       convert_input: ->(input) { input.to_i },
       validate: validate_move_lambda
     )
