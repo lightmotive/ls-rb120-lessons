@@ -1,4 +1,4 @@
-require_relative 'validation_error'
+require_relative 'common/validation_error'
 
 class HashGrid
   attr_reader :size

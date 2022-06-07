@@ -1,7 +1,7 @@
+require_relative 'common/common'
 require_relative 'board'
 require_relative 'player_human'
 require_relative 'player_computer'
-require_relative 'common'
 
 class Game
   MARKS = %w[X O].freeze
@@ -28,7 +28,7 @@ class Game
       convert_input: ->(input) { input.to_i },
       validate: lambda do |converted_input|
                   unless converted_input.between?(3, 9)
-                    raise ValidationError, 'Please enter a board size value between 3 and 9.'
+                    raise Common::ValidationError, 'Please enter a board size value between 3 and 9.'
                   end
                 end
     )
