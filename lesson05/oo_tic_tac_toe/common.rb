@@ -23,7 +23,6 @@ module Common
 
     def self.yes_or_no(message)
       UntilValid.new(
-        get_input: -> { gets.strip },
         convert_input: ->(input) { input.downcase },
         validate: lambda do |input|
           raise ValidationError, 'Please enter either Y for yes or N for no.' unless %w[y n].include?(input)
