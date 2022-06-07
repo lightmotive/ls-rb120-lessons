@@ -7,8 +7,8 @@ class Game
   MARKS = %w[X O].freeze
 
   def play
+    Common.clear_console
     display_welcome
-    initialize_board
     identify_players
     play_loop
     display_goodbye
@@ -22,20 +22,8 @@ class Game
     puts "Welcome to Tic Tac Toe!#{Common::Messages.empty_line}"
   end
 
-  def initialize_board
-    size = Common::Prompt.until_valid(
-      'What size board? (enter 3-9)',
-      convert_input: ->(input) { input.to_i },
-      validate: lambda do |converted_input|
-                  unless converted_input.between?(3, 9)
-                    raise Common::ValidationError, 'Please enter a board size value between 3 and 9.'
-                  end
-                end
-    )
-    self.board = Board.new(size)
-  end
-
   def identify_players
+    self.board = Board.new
     self.players = []
     players.push(PlayerHuman.new(PlayerHuman.request_name, board))
     players.push(PlayerComputer.new(board))
