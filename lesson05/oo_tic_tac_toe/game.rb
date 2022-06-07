@@ -16,21 +16,23 @@ class Game
 
   private
 
-  attr_accessor :board_size, :board, :players, :winning_player
+  attr_accessor :board, :players, :winning_player
 
   def display_welcome
     puts "Welcome to Tic Tac Toe!#{Common::Messages.empty_line}"
   end
 
   def initialize_board
-    print 'What size board? (enter 3-9) '
-
-    self.board_size = loop do
-      size = gets.strip.to_i
-      break size if size.between?(3, 9)
-
-      print 'Please enter a board size value between 3 and 9: '
-    end
+    size = Common::Prompt.until_valid(
+      'What size board? (enter 3-9)',
+      convert_input: ->(input) { input.to_i },
+      validate: lambda do |converted_input|
+                  unless converted_input.between?(3, 9)
+                    raise ValidationError, 'Please enter a board size value between 3 and 9.'
+                  end
+                end
+    )
+    self.board = Board.new(size)
   end
 
   def identify_players
@@ -39,10 +41,6 @@ class Game
     players.push(PlayerComputer.new(board))
 
     assign_marks
-  end
-
-  def create_board
-    self.board = Board.new(board_size)
   end
 
   def assign_marks
@@ -62,11 +60,12 @@ class Game
            end)
 
       break unless play_again?
+
+      board.reset
     end
   end
 
   def play_round
-    create_board
     puts 'xoxoxox' while players_play_continue?
     draw_board
   end
