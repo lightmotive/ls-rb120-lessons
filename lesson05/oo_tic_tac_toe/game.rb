@@ -1,5 +1,6 @@
 require_relative 'common/common'
 require_relative 'board'
+require_relative 'game_round_status'
 require_relative 'player_human'
 require_relative 'player_computer'
 
@@ -10,13 +11,13 @@ class Game
     Common.clear_console
     display_welcome
     identify_players
-    play_loop
+    play_set
     display_goodbye
   end
 
   private
 
-  attr_accessor :board, :players, :winning_player
+  attr_accessor :board, :players, :round_status
 
   def display_welcome
     puts "Welcome to Tic Tac Toe!#{Common::Messages.empty_line}"
@@ -36,16 +37,14 @@ class Game
     end
   end
 
-  def play_loop
+  def play_again?
+    puts Common::Messages.empty_line
+    Common::Prompt.yes_or_no_is_yes?('Would you like to play again?')
+  end
+
+  def play_set
     loop do
       play_round
-
-      puts(if winning_player.nil?
-             'Draw'
-           else
-             winning_player.name
-           end)
-
       break unless play_again?
     end
   end
@@ -53,9 +52,9 @@ class Game
   def play_round
     board.reset
     assign_marks
-
-    puts 'xoxoxox' while players_play_continue?
-    draw_board
+    self.round_status = GameRoundStatus.new(board)
+    players_move until round_status.end?
+    round_completed
   end
 
   def draw_board(clear_console: true, display_selectors: false)
@@ -63,20 +62,27 @@ class Game
     board.draw(display_selectors: display_selectors)
   end
 
-  def players_play_continue?
+  def round_completed
+    Common.clear_console
+
+    if round_status.win
+      # display_win(players, game_state)
+    elsif round_status.draw
+      Common::Messages.bordered_display('Round draw!', '-')
+    end
+
+    draw_board(clear_console: false)
+  end
+
+  def players_move
     players.each do |player|
       draw_board(display_selectors: true)
       player.mark_board
-      draw_board(display_selectors: true)
-      self.winning_player = player if board.winner?
-      return false if !winning_player.nil? || board.full?
+      round_status.check_move(player)
+      break if round_status.end?
     end
 
     true
-  end
-
-  def play_again?
-    Common::Prompt.yes_or_no_is_yes?('Would you like to play again?')
   end
 
   def display_goodbye
