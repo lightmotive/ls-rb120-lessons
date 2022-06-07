@@ -19,7 +19,7 @@ class Game
   attr_accessor :board_size, :board, :players, :winning_player
 
   def display_welcome
-    puts "Welcome to Tic Tac Toe!#{Common.empty_line}"
+    puts "Welcome to Tic Tac Toe!#{Common::Messages.empty_line}"
   end
 
   def initialize_board
@@ -88,11 +88,10 @@ class Game
   end
 
   def play_again?
-    print 'Would you like to play again? (y/n) '
-    Common.input_yes_or_no_is_yes?
+    Common::Prompt.yes_or_no_is_yes?('Would you like to play again?')
   end
 
   def display_goodbye
-    puts "#{Common.empty_line}Thank you for playing Tic Tac Toe! Goodbye :-)"
+    puts "#{Common::Messages.empty_line}Thank you for playing Tic Tac Toe! Goodbye :-)"
   end
 end

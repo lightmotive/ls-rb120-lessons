@@ -3,7 +3,7 @@ require_relative 'common'
 
 class PlayerHuman < Player
   def mark_board
-    print "#{Common.empty_line}What's your move, #{name} (#{mark})? (enter square number) "
+    print "#{Common::Messages.empty_line}What's your move, #{name} (#{mark})? (enter square number) "
     key =
       loop do
         input = gets.strip
