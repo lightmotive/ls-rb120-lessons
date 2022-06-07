@@ -4,7 +4,7 @@ module Common
       "\n"
     end
 
-    def messages_bordered_display(messages, border_char, header: '')
+    def bordered_display(messages, border_char, header: '')
       messages = [messages] unless messages.is_a?(Array)
 
       max_length = messages.max_by(&:length).length
