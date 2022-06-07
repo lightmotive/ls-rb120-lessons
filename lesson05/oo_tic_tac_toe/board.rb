@@ -3,7 +3,14 @@ require_relative 'hash_grid_visual'
 require_relative 'square'
 
 class Board
+  attr_reader :size
+
   def initialize(size)
+    @size = size
+    reset
+  end
+
+  def reset
     @hash_grid = HashGrid.new(size, Square)
   end
 
