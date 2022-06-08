@@ -10,38 +10,29 @@ class PlayerComputer < Player
   end
 
   def mark_board
-    board.mark(self, board.available_selectors.sample)
+    board.mark(self, select_key)
   end
 
-  # private
+  private
 
-  # def space_number_to_win(with_mark, board_state)
-  #   space_numbers_to_win(with_mark, board_state).first
-  # end
+  def key_to_play
+    center_spaces = board.center_spaces
+    empty_center_spaces = board.center_spaces(empty_only: true)
+    return nil if center_spaces.size > 1 || empty_center_spaces.empty?
 
-  # def space_numbers_to_defend(against_mark, board_state)
-  #   space_numbers_to_win(against_mark, board_state)
-  # end
+    empty_center_spaces.sample.key
+  end
 
-  # def space_number_to_play(board_state)
-  #   center_spaces = board_center_spaces(board_state)
-  #   empty_center_spaces = board_center_spaces(board_state, empty_only: true)
-  #   return nil if center_spaces.size > 1 || empty_center_spaces.empty?
+  def select_key
+    key_to_win = board.keys_to_win(self).first
+    return key_to_win unless key_to_win.nil?
 
-  #   empty_center_spaces.sample[:number]
-  # end
+    key_to_defend = board.keys_to_defend(self).sample
+    return key_to_defend unless key_to_defend.nil?
 
-  # def computer_space_number_select(mark, opponent_mark, board_state)
-  #   space_number_to_win = space_number_to_win(mark, board_state)
-  #   return space_number_to_win unless space_number_to_win.nil?
+    key_to_play = self.key_to_play
+    return key_to_play unless key_to_play.nil?
 
-  #   space_number_to_defend =
-  #     space_numbers_to_defend(opponent_mark, board_state).sample
-  #   return space_number_to_defend unless space_number_to_defend.nil?
-
-  #   space_number_to_play = space_number_to_play(board_state)
-  #   return space_number_to_play unless space_number_to_play.nil?
-
-  #   available_spaces(board_state).sample
-  # end
+    board.available_keys.sample
+  end
 end

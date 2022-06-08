@@ -23,7 +23,7 @@ class Board
     hash_grid.empty_cells
   end
 
-  def available_selectors
+  def available_keys
     empty_spaces.map(&:key)
   end
 
@@ -32,7 +32,7 @@ class Board
   end
 
   def move_valid?(input)
-    available_selectors.include?(input.to_i)
+    available_keys.include?(input.to_i)
   end
 
   def mark(player, key)
@@ -51,6 +51,18 @@ class Board
     return winning_line.first.player unless winning_line.nil?
 
     nil
+  end
+
+  def keys_to_win(player)
+    keys_to_win_in_lines(player, all_lines)
+  end
+
+  def keys_to_defend(player)
+    keys_to_defend_in_lines(player, all_lines)
+  end
+
+  def center_spaces(empty_only: false)
+    hash_grid.center_cells(empty_only: empty_only)
   end
 
   private
@@ -81,9 +93,9 @@ class Board
 
   # Get space keys that would complete a line for a specific mark
   # (immediate threat/win).
-  def keys_to_win_in_lines(for_player, lines)
+  def keys_to_win_in_lines(player, lines)
     completion_sets = lines.select do |line|
-      line.count { |space| space.player == for_player } == size - 1
+      line.count { |space| space.player == player } == size - 1
     end
 
     empty_completion_spaces = completion_sets.flatten.select(&:empty?)
@@ -91,8 +103,14 @@ class Board
     empty_completion_spaces.map(&:key)
   end
 
-  def keys_to_win(for_player)
-    keys_to_win_in_lines(for_player, all_lines)
+  def keys_to_defend_in_lines(player, lines)
+    completion_sets = lines.select do |line|
+      line.count { |space| !space.empty? && space.player != player } == size - 1
+    end
+
+    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
+
+    empty_completion_spaces.map(&:key)
   end
 
   def all_lines
