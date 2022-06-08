@@ -57,9 +57,9 @@ class Game
     round_completed
   end
 
-  def draw_board(clear_console: true, display_selectors: false)
+  def draw_board(clear_console: true, with_keys: false)
     Common.clear_console if clear_console
-    board.draw(display_selectors: display_selectors)
+    board.draw(with_keys: with_keys)
   end
 
   def round_completed
@@ -76,7 +76,7 @@ class Game
 
   def players_move
     players.each do |player|
-      draw_board(display_selectors: true)
+      draw_board(with_keys: true)
       player.mark_board
       round_status.check_move(player)
       break if round_status.end?

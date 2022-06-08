@@ -15,8 +15,8 @@ class Board
     @hash_grid = HashGrid.new(self.size, Space)
   end
 
-  def draw(display_selectors: false)
-    HashGridVisual.new(hash_grid).draw(include_cell_numbers: display_selectors)
+  def draw(with_keys: false)
+    HashGridVisual.new(hash_grid).draw(with_cell_keys: with_keys)
   end
 
   def empty_spaces

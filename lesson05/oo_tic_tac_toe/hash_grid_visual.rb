@@ -9,11 +9,11 @@ class HashGridVisual
     @hash_grid = hash_grid
   end
 
-  def draw(include_cell_numbers: false)
+  def draw(with_cell_keys: false)
     row_strings = hash_grid.rows.map do |cells|
       "#{row_string(
         cells,
-        include_cell_numbers: include_cell_numbers
+        with_cell_keys: with_cell_keys
       )}\n"
     end
 
@@ -32,25 +32,25 @@ class HashGridVisual
     cell.key.to_s.rjust(CELL_WIDTH, ' ').italic.gray
   end
 
-  def cell_display_with_padding(cell, include_cell_numbers)
+  def cell_display_with_padding(cell, with_cell_keys)
     padding = ' ' * CELL_WIDTH_PAD
 
     display_string = cell.display
     display_string = display_string.bold unless cell.empty?
 
-    if cell.empty? && include_cell_numbers
+    if cell.empty? && with_cell_keys
       display_string = cell_key_display(cell)
       padding.replace('')
     end
 
-    display_string = ' ' if cell.empty? && !include_cell_numbers
+    display_string = ' ' if cell.empty? && !with_cell_keys
 
     "#{padding}#{display_string}#{padding}"
   end
 
-  def row_marks(cells, include_cell_numbers: false)
+  def row_marks(cells, with_cell_keys: false)
     cells.map do |cell|
-      cell_display_with_padding(cell, include_cell_numbers)
+      cell_display_with_padding(cell, with_cell_keys)
     end.join('|')
   end
 
@@ -58,8 +58,8 @@ class HashGridVisual
     Array.new(CELL_VERTICAL_PAD, row_padding).join("\n")
   end
 
-  def row_string(cells, include_cell_numbers: false)
-    result = row_marks(cells, include_cell_numbers: include_cell_numbers)
+  def row_string(cells, with_cell_keys: false)
+    result = row_marks(cells, with_cell_keys: with_cell_keys)
     return result unless CELL_VERTICAL_PAD.positive?
 
     vpad = vertical_padding
