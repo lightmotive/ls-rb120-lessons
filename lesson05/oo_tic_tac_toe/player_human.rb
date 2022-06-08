@@ -29,7 +29,7 @@ class PlayerHuman < Player
     lambda do |converted_input|
       unless board.move_valid?(converted_input)
         raise Common::ValidationError,
-              'Please enter a valid square number.'
+              'Please enter a valid space number.'
       end
     end
   end

@@ -1,7 +1,7 @@
 require_relative 'common/common'
 require_relative 'hash_grid'
 require_relative 'hash_grid_visual'
-require_relative 'square'
+require_relative 'space'
 
 class Board
   attr_reader :size
@@ -12,19 +12,19 @@ class Board
 
   def reset(size = nil)
     @size = size.nil? ? prompt_size : size
-    @hash_grid = HashGrid.new(self.size, Square)
+    @hash_grid = HashGrid.new(self.size, Space)
   end
 
   def draw(display_selectors: false)
     HashGridVisual.new(hash_grid).draw(include_cell_numbers: display_selectors)
   end
 
-  def empty_squares
+  def empty_spaces
     hash_grid.empty_cells
   end
 
   def available_selectors
-    empty_squares.map(&:key)
+    empty_spaces.map(&:key)
   end
 
   def full?
@@ -36,8 +36,8 @@ class Board
   end
 
   def mark(player, key)
-    square = hash_grid[key]
-    square.mark(player)
+    space = hash_grid[key]
+    space.mark(player)
   end
 
   def winner?
@@ -71,24 +71,24 @@ class Board
 
   def winning_line(lines)
     lines.each do |line|
-      first_square = line.first
-      next if first_square.empty?
-      return line if line.all? { |square| square.player == first_square.player }
+      first_space = line.first
+      next if first_space.empty?
+      return line if line.all? { |space| space.player == first_space.player }
     end
 
     nil
   end
 
-  # Get square keys that would complete a line for a specific mark
+  # Get space keys that would complete a line for a specific mark
   # (immediate threat/win).
   def keys_to_win_in_lines(for_player, lines)
     completion_sets = lines.select do |line|
-      line.count { |square| square.player == for_player } == size - 1
+      line.count { |space| space.player == for_player } == size - 1
     end
 
-    empty_completion_squares = completion_sets.flatten.select(&:empty?)
+    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
 
-    empty_completion_squares.map(&:key)
+    empty_completion_spaces.map(&:key)
   end
 
   def keys_to_win(for_player)

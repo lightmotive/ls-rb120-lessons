@@ -1,6 +1,6 @@
 require_relative 'hash_grid_cell'
 
-class Square < HashGridCell
+class Space < HashGridCell
   attr_reader :player
 
   def initialize(key)
