@@ -1,3 +1,5 @@
+require_relative 'common/common'
+
 class GameRoundStatus
   attr_reader :win, :draw, :winner
 
@@ -18,6 +20,10 @@ class GameRoundStatus
 
   def end?
     win || draw
+  end
+
+  def display_win
+    Common::Messages.bordered_display("#{winner} won the round!", '-')
   end
 
   private

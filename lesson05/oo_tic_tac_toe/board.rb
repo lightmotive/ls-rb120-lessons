@@ -41,9 +41,16 @@ class Board
   end
 
   def winner?
-    return false if winning_line.empty?
+    return false if winning_player.nil?
 
     true
+  end
+
+  def winning_player
+    winning_line = winning_line(all_lines)
+    return winning_line.first.player unless winning_line.nil?
+
+    nil
   end
 
   private
@@ -62,8 +69,33 @@ class Board
     )
   end
 
-  def winning_line
-    # Refactor ls-rb101-lessons/lesson6_slightly_larger_programs/04_tic_tac_toe/gameplay_win.rb to class that uses `hash_grid`...
-    []
+  def winning_line(lines)
+    lines.each do |line|
+      first_square = line.first
+      next if first_square.empty?
+      return line if line.all? { |square| square.player == first_square.player }
+    end
+
+    nil
+  end
+
+  # Get square keys that would complete a line for a specific mark
+  # (immediate threat/win).
+  def keys_to_win_in_lines(for_player, lines)
+    completion_sets = lines.select do |line|
+      line.count { |square| square.player == for_player } == size - 1
+    end
+
+    empty_completion_squares = completion_sets.flatten.select(&:empty?)
+
+    empty_completion_squares.map(&:key)
+  end
+
+  def keys_to_win(for_player)
+    keys_to_win_in_lines(for_player, all_lines)
+  end
+
+  def all_lines
+    hash_grid.rows.concat(hash_grid.columns, hash_grid.diagonals)
   end
 end

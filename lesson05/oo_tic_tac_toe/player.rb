@@ -12,6 +12,10 @@ class Player
     @mark = mark
   end
 
+  def to_s
+    "#{name} (#{mark})"
+  end
+
   # Abstract: concrete should invoke `board.mark(...)`.
   def mark_board
     raise AbstractNotImplementedError

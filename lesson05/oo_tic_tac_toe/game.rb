@@ -66,7 +66,7 @@ class Game
     Common.clear_console
 
     if round_status.win
-      # display_win(players, game_state)
+      round_status.display_win
     elsif round_status.draw
       Common::Messages.bordered_display('Round draw!', '-')
     end
