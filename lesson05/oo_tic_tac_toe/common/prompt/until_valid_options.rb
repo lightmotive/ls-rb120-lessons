@@ -12,7 +12,7 @@ module Common
       attr_reader :input_invalid_default_message
 
       def initialize(options = OPTIONS_DEFAULT)
-        apply_options(OPTIONS_DEFAULT.merge(options))
+        apply_options(options)
       end
 
       def prompt_with_format(msg)
@@ -72,7 +72,7 @@ module Common
 
       def apply_options(options)
         # need to call each instance method
-        options.each_key { |key| send("#{key}=".to_sym, options) }
+        OPTIONS_DEFAULT.merge(options).each_key { |key| send("#{key}=".to_sym, options) }
       end
 
       def option_or_default(option, default)
