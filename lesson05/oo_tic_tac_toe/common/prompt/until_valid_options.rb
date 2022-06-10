@@ -53,9 +53,7 @@ module Common
       end
 
       def get_input=(options)
-        @get_input = option_or_default(
-          options[:get_input], -> { gets.strip }
-        )
+        @get_input = option_or_default(options[:get_input], -> { gets.strip })
       end
 
       def convert_input=(options)
@@ -72,7 +70,9 @@ module Common
 
       def apply_options(options)
         # need to call each instance method
-        OPTIONS_DEFAULT.merge(options).each_key { |key| send("#{key}=".to_sym, options) }
+        OPTIONS_DEFAULT.merge(options).each_key do |key|
+          send("#{key}=".to_sym, options)
+        end
       end
 
       def option_or_default(option, default)
