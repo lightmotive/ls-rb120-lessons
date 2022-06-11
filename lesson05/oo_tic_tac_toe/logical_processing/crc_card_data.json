@@ -1,12 +1,61 @@
 [
   {
-    "name": "Square",
+    "name": "HashGridCell",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 2,
+    "responsibilities": [
+      "has key",
+      "has value",
+      "define interface for `display` method",
+      "define interface for `empty?` method"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "HashGrid",
     "superclasses": "",
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "has a value (input number or player/mark)",
-      "provides a mark (string) for grid display"
+      "has size",
+      "private: has HashGridCell type to instantiate for each cell",
+      "private: has hash (internal data structure)",
+      "determine empty cells",
+      "determine full?",
+      "determine cell value ([])",
+      "determine rows, columns, diagonals, and center cells"
+    ],
+    "collaborators": [
+      "HashGridCell"
+    ]
+  },
+  {
+    "name": "HashGridVisual",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "has constants for cell width padding, vertical padding, and width",
+      "draw HashGrid contents w/ optional cell keys"
+    ],
+    "collaborators": [
+      "HashGrid"
+    ]
+  },
+  {
+    "name": "Space",
+    "superclasses": "HashGridCell",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "alias player to HashGridCell#value",
+      "alias player= to HashGridCell#value=",
+      "implement `display` abstract method",
+      "implement `empty?` abstract method",
+      "mark (set `value`/`player` to `Player` object)"
     ],
     "collaborators": [
       "Player"
@@ -18,12 +67,19 @@
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "draw grid of squares",
-      "determine winning player (line)",
-      ""
+      "has size (from HashGrid instance)",
+      "reset (re-instantiate hash grid with size option)",
+      "draw grid of spaces using HashGridVisual",
+      "get empty spaces and available keys",
+      "determine if board is full",
+      "determine if move is valid",
+      "mark board (`[]=` method)",
+      "determine winning player (line) and winner?",
+      "get center spaces, all lines, and empty keys in provided space sets",
+      "private: prompt for board size"
     ],
     "collaborators": [
-      "Square"
+      "HashGrid with cell type of Space"
     ]
   },
   {
@@ -34,10 +90,13 @@
     "responsibilities": [
       "has a name",
       "has a unique mark",
-      "mark board (abstract: input square number/selection strategy)"
+      "initialize mark (set `mark` independent of instantiation)",
+      "mark board (abstract: input square number/selection strategy)",
+      "display as string (implement `to_s`)",
+      "protected: determine winning lines and keys"
     ],
     "collaborators": [
-      ""
+      "Board"
     ]
   },
   {
@@ -46,7 +105,8 @@
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "mark board (override superclass)"
+      "mark board (implement abstract; get input and validate move)",
+      "singleton: request name"
     ],
     "collaborators": [
       ""
@@ -58,10 +118,29 @@
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "mark board (override superclass)"
+      "mark board (implement abstract; intelligently select key)"
     ],
     "collaborators": [
       ""
+    ]
+  },
+  {
+    "name": "GameRoundStatus",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "has win status (true/false)",
+      "has win status (true/false)",
+      "has winner (Player)",
+      "private: has board",
+      "check move (determine if board has a winner or is full)",
+      "end? (`true` if `win` or `draw`)",
+      "display winner",
+      "display draw"
+    ],
+    "collaborators": [
+      "Board"
     ]
   },
   {
@@ -72,13 +151,16 @@
     "responsibilities": [
       "has a board",
       "has players",
+      "has round status",
       "identify players",
-      "play (initialize game)",
-      "play round (loop through players who mark board)"
+      "randomly assign marks to players",
+      "play (initialize game, loop through players, play again?)",
+      "display welcome and goodbye messages"
     ],
     "collaborators": [
       "Board",
-      "Player"
+      "Player",
+      "GameRoundStatus"
     ]
   }
 ]
