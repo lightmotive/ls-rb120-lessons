@@ -4,15 +4,17 @@ require_relative 'hash_grid_visual'
 require_relative 'space'
 
 class Board
-  attr_reader :size
-
   def initialize(size = nil)
     reset(size)
   end
 
   def reset(size = nil)
-    @size = size.nil? ? prompt_size : size
-    @hash_grid = HashGrid.new(self.size, Space)
+    size = size.nil? ? prompt_size : size
+    @hash_grid = HashGrid.new(size, Space)
+  end
+
+  def size
+    hash_grid.size
   end
 
   def draw(with_keys: false)
