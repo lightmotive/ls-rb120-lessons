@@ -50,7 +50,7 @@ class Game
   end
 
   def play_round
-    board.reset
+    board.reset(board.size)
     assign_marks
     self.round_status = GameRoundStatus.new(board)
     players_move until round_status.end?

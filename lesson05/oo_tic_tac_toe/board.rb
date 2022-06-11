@@ -6,7 +6,7 @@ require_relative 'space'
 class Board
   attr_reader :size
 
-  def initialize(size = 3)
+  def initialize(size = nil)
     reset(size)
   end
 
