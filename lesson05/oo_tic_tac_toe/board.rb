@@ -53,16 +53,17 @@ class Board
     nil
   end
 
-  def keys_to_win(player)
-    keys_to_win_in_lines(player, all_lines)
-  end
-
-  def keys_to_defend(player)
-    keys_to_defend_in_lines(player, all_lines)
-  end
-
   def center_spaces(empty_only: false)
     hash_grid.center_cells(empty_only: empty_only)
+  end
+
+  def all_lines
+    hash_grid.rows.concat(hash_grid.columns, hash_grid.diagonals)
+  end
+
+  def empty_keys_in_sets(completion_sets)
+    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
+    empty_completion_spaces.map(&:key)
   end
 
   private
@@ -89,32 +90,5 @@ class Board
     end
 
     nil
-  end
-
-  # Get space keys that would complete a line for the specified player.
-  def keys_to_win_in_lines(player, lines)
-    completion_sets_for_player = lines.select do |line|
-      line.count { |space| space.player == player } == size - 1
-    end
-
-    empty_keys_in_sets(completion_sets_for_player)
-  end
-
-  # Get space keys that would complete a line for the other player.
-  def keys_to_defend_in_lines(player, lines)
-    completion_sets_against_player = lines.select do |line|
-      line.count { |space| !space.empty? && space.player != player } == size - 1
-    end
-
-    empty_keys_in_sets(completion_sets_against_player)
-  end
-
-  def empty_keys_in_sets(completion_sets)
-    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
-    empty_completion_spaces.map(&:key)
-  end
-
-  def all_lines
-    hash_grid.rows.concat(hash_grid.columns, hash_grid.diagonals)
   end
 end

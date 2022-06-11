@@ -24,10 +24,10 @@ class PlayerComputer < Player
   end
 
   def select_key
-    key_to_win = board.keys_to_win(self).first
+    key_to_win = keys_to_win.first
     return key_to_win unless key_to_win.nil?
 
-    key_to_defend = board.keys_to_defend(self).sample
+    key_to_defend = keys_to_defend.sample
     return key_to_defend unless key_to_defend.nil?
 
     key_to_play = self.key_to_play
