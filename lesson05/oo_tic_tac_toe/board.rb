@@ -97,7 +97,7 @@ class Board
       line.count { |space| space.player == player } == size - 1
     end
 
-    empty_completion_keys(completion_sets_for_player)
+    empty_keys_in_sets(completion_sets_for_player)
   end
 
   # Get space keys that would complete a line for the other player.
@@ -106,10 +106,10 @@ class Board
       line.count { |space| !space.empty? && space.player != player } == size - 1
     end
 
-    empty_completion_keys(completion_sets_against_player)
+    empty_keys_in_sets(completion_sets_against_player)
   end
 
-  def empty_completion_keys(completion_sets)
+  def empty_keys_in_sets(completion_sets)
     empty_completion_spaces = completion_sets.flatten.select(&:empty?)
     empty_completion_spaces.map(&:key)
   end
