@@ -91,8 +91,7 @@ class Board
     nil
   end
 
-  # Get space keys that would complete a line for a specific mark
-  # (immediate threat/win).
+  # Get space keys that would complete a line for the specified player.
   def keys_to_win_in_lines(player, lines)
     completion_sets_for_player = lines.select do |line|
       line.count { |space| space.player == player } == size - 1
@@ -101,6 +100,7 @@ class Board
     empty_completion_keys(completion_sets_for_player)
   end
 
+  # Get space keys that would complete a line for the other player.
   def keys_to_defend_in_lines(player, lines)
     completion_sets_against_player = lines.select do |line|
       line.count { |space| !space.empty? && space.player != player } == size - 1
