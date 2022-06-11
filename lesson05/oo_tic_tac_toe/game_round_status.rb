@@ -22,7 +22,7 @@ class GameRoundStatus
     win || draw
   end
 
-  def display_win
+  def display_winner
     Common::Messages.bordered_display("#{winner} won the round!", '-')
   end
 

@@ -66,7 +66,7 @@ class Game
     Common.clear_console
 
     if round_status.win
-      round_status.display_win
+      round_status.display_winner
     elsif round_status.draw
       round_status.display_draw
     end
