@@ -35,7 +35,7 @@ class Board
     available_keys.include?(input.to_i)
   end
 
-  def mark(player, key)
+  def []=(key, player)
     space = hash_grid[key]
     space.mark(player)
   end

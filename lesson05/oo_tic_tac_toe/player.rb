@@ -16,7 +16,7 @@ class Player
     "#{name} (#{mark})"
   end
 
-  # Abstract: concrete should invoke `board.mark(...)`.
+  # Abstract: concrete should invoke `board[key] = self` (assign player to space).
   def mark_board
     raise AbstractNotImplementedError
   end

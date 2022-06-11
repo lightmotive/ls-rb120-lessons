@@ -9,7 +9,7 @@ class PlayerHuman < Player
       validate: validate_move_lambda
     )
 
-    board.mark(self, key)
+    board[key] = self
   end
 
   def self.request_name

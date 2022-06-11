@@ -10,7 +10,7 @@ class PlayerComputer < Player
   end
 
   def mark_board
-    board.mark(self, select_key)
+    board[select_key] = self
   end
 
   private
