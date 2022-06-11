@@ -1,12 +1,7 @@
 require_relative 'hash_grid_cell'
 
 class Space < HashGridCell
-  attr_reader :player
-
-  def initialize(key)
-    super
-    mark(nil)
-  end
+  alias player value
 
   def display
     return key.to_s if player.nil?
@@ -19,7 +14,7 @@ class Space < HashGridCell
   end
 
   def mark(player)
-    @player = player
+    self.value = player
 
     self
   end

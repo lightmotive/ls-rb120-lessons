@@ -4,9 +4,11 @@ require_relative 'abstract_not_implemented_error'
 # method's signature.
 class HashGridCell
   attr_reader :key
+  attr_accessor :value
 
-  def initialize(key)
+  def initialize(key, value = nil)
     @key = key
+    self.value = value
   end
 
   def display
