@@ -53,6 +53,7 @@
     "responsibilities": [
       "alias player to HashGridCell#value",
       "alias player= to HashGridCell#value=",
+      "alias unmarked? to empty?",
       "implement `display` abstract method",
       "implement `empty?` abstract method",
       "mark (set `value`/`player` to `Player` object)"

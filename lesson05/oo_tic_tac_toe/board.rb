@@ -64,7 +64,7 @@ class Board
   end
 
   def empty_keys_in_sets(completion_sets)
-    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
+    empty_completion_spaces = completion_sets.flatten.select(&:unmarked?)
     empty_completion_spaces.map(&:key)
   end
 
@@ -87,7 +87,7 @@ class Board
   def winning_line(lines)
     lines.each do |line|
       first_space = line.first
-      next if first_space.empty?
+      next if first_space.unmarked?
       return line if line.all? { |space| space.player == first_space.player }
     end
 
