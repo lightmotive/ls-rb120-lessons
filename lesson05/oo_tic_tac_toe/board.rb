@@ -94,22 +94,23 @@ class Board
   # Get space keys that would complete a line for a specific mark
   # (immediate threat/win).
   def keys_to_win_in_lines(player, lines)
-    completion_sets = lines.select do |line|
+    completion_sets_for_player = lines.select do |line|
       line.count { |space| space.player == player } == size - 1
     end
 
-    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
-
-    empty_completion_spaces.map(&:key)
+    empty_completion_keys(completion_sets_for_player)
   end
 
   def keys_to_defend_in_lines(player, lines)
-    completion_sets = lines.select do |line|
+    completion_sets_against_player = lines.select do |line|
       line.count { |space| !space.empty? && space.player != player } == size - 1
     end
 
-    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
+    empty_completion_keys(completion_sets_against_player)
+  end
 
+  def empty_completion_keys(completion_sets)
+    empty_completion_spaces = completion_sets.flatten.select(&:empty?)
     empty_completion_spaces.map(&:key)
   end
 
