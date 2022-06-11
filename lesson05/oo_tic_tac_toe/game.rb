@@ -68,7 +68,7 @@ class Game
     if round_status.win
       round_status.display_win
     elsif round_status.draw
-      Common::Messages.bordered_display('Round draw!', '-')
+      round_status.display_draw
     end
 
     draw_board(clear_console: false)

@@ -26,6 +26,10 @@ class GameRoundStatus
     Common::Messages.bordered_display("#{winner} won the round!", '-')
   end
 
+  def display_draw
+    Common::Messages.bordered_display('Round draw!', '-')
+  end
+
   private
 
   attr_reader :board
