@@ -76,7 +76,7 @@ class Game
 
   def players_move
     players.each do |player|
-      draw_board(with_keys: true)
+      draw_board(with_keys: true) if player.class.ancestors.include?(PlayerHuman)
       player.mark_board
       round_status.check_move(player)
       break if round_status.end?
