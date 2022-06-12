@@ -7,10 +7,10 @@ class PlayerComputer < Player
   # - Strategy: https://en.wikipedia.org/wiki/Tic-tac-toe#:~:text=cat's%20game%22%5B15%5D)-,strategy
   # - Minimax algorithm: https://www.youtube.com/watch?v=trKjYdBASyQ
 
-  COMPUTER_NAME = 'Computer'
+  NAME = 'Computer'
 
   def initialize(board)
-    super(COMPUTER_NAME, board)
+    super(NAME, board)
   end
 
   def mark_board
