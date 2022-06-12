@@ -55,7 +55,7 @@ class Game
 
   def play_round
     board.reset(board.size)
-    players.assign_marks(shuffle: true)
+    players.shuffle!
     self.round_status = GameRoundStatus.new(board)
     players_move until round_status.end?
     round_completed

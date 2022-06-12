@@ -21,10 +21,15 @@ class PlayerHuman < Player
       message,
       validate: lambda do |converted_input|
                   if converted_input.nil? || converted_input.empty?
-                    raise Common::ValidationError, 'Please enter something as a player name--feel free to use an alias.'
+                    raise Common::ValidationError,
+                          'Please enter something as a player name--feel free to use an alias.'
                   end
                 end
     )
+  end
+
+  def initialize_custom_mark(disallowed_marks: [])
+    initialize_mark(prompt_custom_mark(disallowed_marks))
   end
 
   private
@@ -36,5 +41,18 @@ class PlayerHuman < Player
               'Please enter a valid space number.'
       end
     end
+  end
+
+  def prompt_custom_mark(disallowed_marks = [])
+    disallowed_message = disallowed_marks.empty? ? '' : ", excluding: #{disallowed_marks.join}"
+    Common::Prompt.until_valid(
+      "#{name}'s mark?",
+      validate: lambda do |converted_input|
+                  if converted_input.nil? || converted_input.empty? || converted_input.length > 1 ||
+                     disallowed_marks.map(&:upcase).include?(converted_input.upcase)
+                    raise Common::ValidationError, "Please enter a single-character mark#{disallowed_message}."
+                  end
+                end
+    )
   end
 end

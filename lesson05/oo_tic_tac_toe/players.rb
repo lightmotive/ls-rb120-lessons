@@ -8,11 +8,13 @@ class Players
 
   MARKS = %w[X O].freeze
 
-  attr_reader :is_multiplayer
+  attr_reader :is_multiplayer, :custom_marks_enabled
 
   def initialize(board)
     @is_multiplayer = prompt_multiplayer
     initialize_array_from_names(prompt_player_names, board)
+    @custom_marks_enabled = prompt_custom_marks_enable
+    custom_marks_enabled ? initialize_custom_marks : assign_default_marks
   end
 
   def each(&block)
@@ -25,11 +27,11 @@ class Players
 
   def shuffle!
     array.shuffle!
+
+    assign_default_marks unless custom_marks_enabled
   end
 
-  def assign_marks(shuffle: false)
-    shuffle! if shuffle
-
+  def assign_default_marks
     array.each_with_index do |player, idx|
       player.initialize_mark(MARKS[idx])
     end
@@ -58,6 +60,16 @@ class Players
   def initialize_array_from_names(names, board)
     @array = names.map { |name| PlayerHuman.new(name, board) }
     array.push(PlayerComputer.new(board)) unless is_multiplayer
-    array.shuffle!
+  end
+
+  def prompt_custom_marks_enable
+    Common::Prompt.yes_or_no_is_yes?('Would you like to use custom marks?')
+  end
+
+  def initialize_custom_marks
+    array.select(&:human?).each do |player|
+      player.initialize_custom_mark(disallowed_marks: MARKS)
+    end
+    array.select(&:computer?).each { |player| player.initialize_mark(MARKS[1]) }
   end
 end
