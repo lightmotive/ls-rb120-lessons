@@ -28,16 +28,25 @@ require_relative 'abstract_not_implemented_error'
 # - `Player` returns `PlayerStrategy` subclass type or instance.
 # - `MoveOrchestrator` class that centralizes board awareness and marking.
 class Player
-  attr_reader :name, :board, :mark
+  attr_reader :name, :is_computer, :board, :mark
 
-  def initialize(name, board)
+  def initialize(name, is_computer, board)
     @name = name
+    @is_computer = is_computer
     @board = board
   end
 
   # Abstract: concrete should invoke `board[key] = self` (assign player to space).
   def mark_board
     raise AbstractNotImplementedError
+  end
+
+  def human?
+    !is_computer
+  end
+
+  def computer?
+    is_computer
   end
 
   def initialize_mark(mark)

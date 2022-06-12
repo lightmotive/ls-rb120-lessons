@@ -10,7 +10,7 @@ class PlayerComputer < Player
   NAME = 'Computer'
 
   def initialize(board)
-    super(NAME, board)
+    super(NAME, true, board)
   end
 
   def mark_board

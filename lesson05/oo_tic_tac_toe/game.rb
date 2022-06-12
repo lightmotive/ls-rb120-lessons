@@ -1,18 +1,17 @@
 require_relative 'common/common'
 require_relative 'board'
+require_relative 'players'
 require_relative 'game_round_status'
 require_relative 'game_set_status'
 require_relative 'player_human'
 require_relative 'player_computer'
 
 class Game
-  MARKS = %w[X O].freeze
-
   def play
     Common.clear_console
     display_welcome
-    self.board = Board.new
-    identify_players
+    initialize_board
+    initialize_players
     play_sets
     display_goodbye
   end
@@ -25,17 +24,12 @@ class Game
     puts "Welcome to Tic Tac Toe!#{Common::Messages.empty_line}"
   end
 
-  def identify_players
-    self.players = []
-    players.push(PlayerHuman.new(PlayerHuman.request_name, board))
-    players.push(PlayerComputer.new(board))
+  def initialize_board
+    self.board = Board.new
   end
 
-  def assign_marks
-    players.shuffle!
-    players.each_with_index do |player, idx|
-      player.initialize_mark(MARKS[idx])
-    end
+  def initialize_players
+    self.players = Players.new(board)
   end
 
   def play_sets
@@ -66,7 +60,7 @@ class Game
 
   def play_round
     board.reset(board.size)
-    assign_marks
+    players.assign_marks(shuffle: true)
     self.round_status = GameRoundStatus.new(board)
     players_move until round_status.end?
     round_completed
@@ -91,7 +85,7 @@ class Game
 
   def players_move
     players.each do |player|
-      draw_board(with_keys: true) if player.class.ancestors.include?(PlayerHuman)
+      draw_board(with_keys: true) if player.human?
       player.mark_board
       round_status.check_move(player)
       break if round_status.end?

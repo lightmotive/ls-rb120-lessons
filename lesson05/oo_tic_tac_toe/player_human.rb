@@ -2,6 +2,10 @@ require_relative 'player'
 require_relative 'common/common'
 
 class PlayerHuman < Player
+  def initialize(name, board)
+    super(name, false, board)
+  end
+
   def mark_board
     key = Common::Prompt.until_valid(
       "What's your move, #{name} (#{mark})? (enter board number)",
@@ -12,12 +16,12 @@ class PlayerHuman < Player
     board[key] = self
   end
 
-  def self.request_name
+  def self.prompt_name(message = "What's your name")
     Common::Prompt.until_valid(
-      "What's your name",
+      message,
       validate: lambda do |converted_input|
                   if converted_input.nil? || converted_input.empty?
-                    raise Common::ValidationError, 'Please enter something.'
+                    raise Common::ValidationError, 'Please enter something as a player name--feel free to use an alias.'
                   end
                 end
     )
