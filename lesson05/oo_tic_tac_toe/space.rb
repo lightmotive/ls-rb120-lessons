@@ -3,7 +3,6 @@ require_relative 'hash_grid_cell'
 class Space < HashGridCell
   alias player value
   alias player= value=
-  alias unmarked? empty?
 
   def display
     return key.to_s if player.nil?
@@ -14,6 +13,8 @@ class Space < HashGridCell
   def empty?
     player.nil?
   end
+
+  alias unmarked? empty?
 
   def mark(player)
     self.player = player
