@@ -1,8 +1,8 @@
-# Object-oriented Tic Tac Toe Game
+# Object-oriented Noughts and Crosses Game
 
 ## Description
 
-Tic Tac Toe is a 2-player board game played on a 3x3 grid. Players take turns marking a space. The first player to mark 3 spaces in a row wins.
+Noughts and Crosses, commonly known as Tic Tac Toe, is a 2-player board game played on a 3x3 grid. Players take turns marking a space. The first player to mark 3 spaces in a row wins.
 
 ### Nouns and verbs
 

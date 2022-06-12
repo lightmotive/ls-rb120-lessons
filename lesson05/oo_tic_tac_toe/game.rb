@@ -21,7 +21,8 @@ class Game
   attr_accessor :board, :players, :round_status, :set_status
 
   def display_welcome
-    puts "Welcome to Tic Tac Toe!#{Common::Messages.empty_line}"
+    Common::Messages.bordered_display('Welcome to Noughts and Crosses!', 'xo')
+    puts Common::Messages.empty_line
   end
 
   def initialize_board
@@ -94,6 +95,6 @@ class Game
   end
 
   def display_goodbye
-    puts "#{Common::Messages.empty_line}Thank you for playing Tic Tac Toe! Goodbye :-)"
+    puts "#{Common::Messages.empty_line}Thank you for playing! Cheerio :-)"
   end
 end
