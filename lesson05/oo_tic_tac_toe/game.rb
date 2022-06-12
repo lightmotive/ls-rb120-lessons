@@ -47,14 +47,8 @@ class Game
     loop do
       play_round
       set_status.round_winner(round_status.winner)
-      if set_status.end?
-        set_status.display_score_final
-        # Feature suggestion: track and then draw all round boards and outcomes in set.
-        break
-      else
-        set_status.display_score
-        set_status.display_enter_to_continue
-      end
+      break if set_status.end?(display_results: true)
+      # Feature suggestion: track and then draw all round boards with outcomes in set.
     end
   end
 

@@ -13,10 +13,15 @@ class GameSetStatus
     @scores = Hash.new(0)
   end
 
-  def end?
+  def end?(display_results: false)
     self.winner = determine_winner
 
-    !winner.nil?
+    result = !winner.nil?
+    return result unless display_results
+
+    result ? display_score_final : display_score_with_pause
+
+    result
   end
 
   def round_winner(player)
@@ -78,4 +83,9 @@ class GameSetStatus
     )
   end
   # rubocop:enable Metrics/MethodLength
+
+  def display_score_with_pause
+    display_score
+    display_enter_to_continue
+  end
 end
