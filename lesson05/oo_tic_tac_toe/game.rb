@@ -1,6 +1,7 @@
 require_relative 'common/common'
 require_relative 'board'
 require_relative 'game_round_status'
+require_relative 'game_set_status'
 require_relative 'player_human'
 require_relative 'player_computer'
 
@@ -10,21 +11,21 @@ class Game
   def play
     Common.clear_console
     display_welcome
+    self.board = Board.new
     identify_players
-    play_set
+    play_sets
     display_goodbye
   end
 
   private
 
-  attr_accessor :board, :players, :round_status
+  attr_accessor :board, :players, :round_status, :set_status
 
   def display_welcome
     puts "Welcome to Tic Tac Toe!#{Common::Messages.empty_line}"
   end
 
   def identify_players
-    self.board = Board.new
     self.players = []
     players.push(PlayerHuman.new(PlayerHuman.request_name, board))
     players.push(PlayerComputer.new(board))
@@ -37,15 +38,29 @@ class Game
     end
   end
 
-  def play_again?
-    puts Common::Messages.empty_line
-    Common::Prompt.yes_or_no_is_yes?('Would you like to play again?')
+  def play_sets
+    self.set_status = GameSetStatus.new(players, 5)
+
+    loop do
+      play_set
+      break unless play_again?
+    end
   end
 
   def play_set
+    set_status.reset
+
     loop do
       play_round
-      break unless play_again?
+      set_status.round_winner(round_status.winner)
+      if set_status.end?
+        set_status.display_score_final
+        # Feature suggestion: track and then draw all round boards and outcomes in set.
+        break
+      else
+        set_status.display_score
+        set_status.display_enter_to_continue
+      end
     end
   end
 
@@ -83,6 +98,11 @@ class Game
     end
 
     true
+  end
+
+  def play_again?
+    puts Common::Messages.empty_line
+    Common::Prompt.yes_or_no_is_yes?('Would you like to play again?')
   end
 
   def display_goodbye
