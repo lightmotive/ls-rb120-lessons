@@ -57,7 +57,8 @@ class GameSetStatus
 
   def display_score_final
     puts Common::Messages.empty_line
-    Common::Messages.bordered_display("#{winner} won the game!", '*')
+    opponent_score = score(scores.reject { |player| player.equal?(winner) }.first)
+    Common::Messages.bordered_display("#{winner} won the game #{score(winner)} to #{opponent_score}!", '*')
   end
 
   private
