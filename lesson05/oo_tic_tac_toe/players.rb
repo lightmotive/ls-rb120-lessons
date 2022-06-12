@@ -37,6 +37,10 @@ class Players
     end
   end
 
+  def to_ary
+    array
+  end
+
   private
 
   attr_reader :array
