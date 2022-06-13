@@ -1,16 +1,19 @@
 # frozen_string_literal: true
 
 require_relative 'player'
+require_relative 'board_marker'
 
 class PlayerComputer < Player
+  include BoardMarker
+
   # TODO: Improve computer logic to play best strategy, regardless of board size:
   # - Strategy: https://en.wikipedia.org/wiki/Tic-tac-toe#:~:text=cat's%20game%22%5B15%5D)-,strategy
   # - Minimax algorithm: https://www.youtube.com/watch?v=trKjYdBASyQ
 
   NAME = 'Computer'
 
-  def initialize(board)
-    super(NAME, true, board)
+  def initialize
+    super(NAME, true)
   end
 
   def mark_board

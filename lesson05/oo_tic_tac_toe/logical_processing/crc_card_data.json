@@ -1,17 +1,20 @@
 [
   {
-    "name": "HashGridCell",
+    "name": "BoardMarker (module)",
     "superclasses": "",
-    "subclasses": "",
+    "subclasses": "PlayerHuman, PlayerComputer",
     "type": 2,
     "responsibilities": [
-      "has key",
-      "has value",
-      "define interface for `display` method",
-      "define interface for `empty?` method"
+      "has a mark",
+      "has a board",
+      "assign board",
+      "assign mark (set `mark` independent of instantiation)",
+      "mark board (abstract: input square number/selection strategy)",
+      "display (super + \" (`mark`)\")",
+      "protected: determine winning lines and keys on board"
     ],
     "collaborators": [
-      ""
+      "Board"
     ]
   },
   {
@@ -33,6 +36,21 @@
     ]
   },
   {
+    "name": "HashGridCell",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 2,
+    "responsibilities": [
+      "has key",
+      "has value",
+      "define interface for `display` method",
+      "define interface for `empty?` method"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
     "name": "HashGridVisual",
     "superclasses": "",
     "subclasses": "",
@@ -51,15 +69,15 @@
     "subclasses": "",
     "type": 1,
     "responsibilities": [
-      "alias player to HashGridCell#value",
-      "alias player= to HashGridCell#value=",
+      "alias marker to HashGridCell#value",
+      "alias marker= to HashGridCell#value=",
       "alias unmarked? to empty?",
       "implement `display` abstract method",
       "implement `empty?` abstract method",
-      "mark (set `value`/`player` to `Player` object)"
+      "mark (set `value`/`marker` to object that includes `BoardMarker`)"
     ],
     "collaborators": [
-      "Player"
+      "BoardMarker (module)"
     ]
   },
   {
@@ -75,7 +93,7 @@
       "determine if board is full",
       "determine if move is valid",
       "mark board (`[]=` method)",
-      "determine winning player (line) and winner?",
+      "determine winning line (winning marker) and winner?",
       "get center spaces, all lines, and empty keys in provided space sets",
       "private: prompt for board size"
     ],
@@ -87,27 +105,26 @@
     "name": "Player",
     "superclasses": "",
     "subclasses": "PlayerHuman, PlayerComputer",
-    "type": 2,
+    "type": 1,
     "responsibilities": [
       "has a name",
-      "has a unique mark",
-      "initialize mark (set `mark` independent of instantiation)",
-      "mark board (abstract: input square number/selection strategy)",
-      "display as string (implement `to_s`)",
-      "protected: determine winning lines and keys"
+      "has is_computer",
+      "determines human? or computer?",
+      "display as string (implement `to_s`)"
     ],
     "collaborators": [
-      "Board"
+      ""
     ]
   },
   {
     "name": "PlayerHuman",
-    "superclasses": "Player",
+    "superclasses": "Player, BoardMarker (module)",
     "subclasses": "",
     "type": 1,
     "responsibilities": [
       "mark board (implement abstract; get input and validate move)",
-      "singleton: request name"
+      "prompt and assign custom mark",
+      "singleton: prompt name"
     ],
     "collaborators": [
       ""
@@ -115,7 +132,7 @@
   },
   {
     "name": "PlayerComputer",
-    "superclasses": "Player",
+    "superclasses": "Player, BoardMarker (module)",
     "subclasses": "",
     "type": 1,
     "responsibilities": [
@@ -123,6 +140,38 @@
     ],
     "collaborators": [
       ""
+    ]
+  },
+  {
+    "name": "BoardMarkers (module)",
+    "superclasses": "",
+    "subclasses": "Players",
+    "type": 2,
+    "responsibilities": [
+      "has MARKS (array of default marks 'X' and 'O')",
+      "has board markers (array)",
+      "assign board to board markers",
+      "assign default marks"
+    ],
+    "collaborators": [
+      "BoardMarker"
+    ]
+  },
+  {
+    "name": "Players",
+    "superclasses": "BoardMarkers (module), Enumerable (module)",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "has is_multiplayer",
+      "has custom_marks_enabled",
+      "implement `each` and `<=>` to enable `Enumerable`",
+      "prompt player options and names",
+      "instantiate <`Player`-derived + `BoardMarker`-including> objects"
+    ],
+    "collaborators": [
+      "PlayerHuman+BoardMarker",
+      "PlayerComputer+BoardMarker"
     ]
   },
   {
@@ -145,6 +194,26 @@
     ]
   },
   {
+    "name": "GameSetStatus",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "has win score",
+      "has players (any unique list of objects)",
+      "has winner (one of the objects in `players`)",
+      "has scores (hash lookup score tracking by any item in `players`)",
+      "determine winner",
+      "end? (when unique object hits win score)",
+      "track score for unique object",
+      "prompt win score",
+      "display scores in various ways"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
     "name": "Game",
     "superclasses": "",
     "subclasses": "",
@@ -161,7 +230,8 @@
     "collaborators": [
       "Board",
       "Player",
-      "GameRoundStatus"
+      "GameRoundStatus",
+      "GameSetStatus"
     ]
   }
 ]

@@ -37,20 +37,20 @@ class Board
     available_keys.include?(input.to_i)
   end
 
-  def []=(key, player)
+  def []=(key, marker)
     space = hash_grid[key]
-    space.mark(player)
+    space.mark(marker)
   end
 
   def winner?
-    return false if winning_player.nil?
+    return false if winning_marker.nil?
 
     true
   end
 
-  def winning_player
+  def winning_marker
     winning_line = winning_line(all_lines)
-    return winning_line.first.player unless winning_line.nil?
+    return winning_line.first.marker unless winning_line.nil?
 
     nil
   end
@@ -88,7 +88,7 @@ class Board
     lines.each do |line|
       first_space = line.first
       next if first_space.unmarked?
-      return line if line.all? { |space| space.player == first_space.player }
+      return line if line.all? { |space| space.marker == first_space.marker }
     end
 
     nil

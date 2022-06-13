@@ -1,9 +1,12 @@
-require_relative 'player'
 require_relative 'common/common'
+require_relative 'player'
+require_relative 'board_marker'
 
 class PlayerHuman < Player
-  def initialize(name, board)
-    super(name, false, board)
+  include BoardMarker
+
+  def initialize(name)
+    super(name, false)
   end
 
   def mark_board
@@ -28,8 +31,8 @@ class PlayerHuman < Player
     )
   end
 
-  def initialize_custom_mark(disallowed_marks: [])
-    initialize_mark(prompt_custom_mark(disallowed_marks))
+  def assign_custom_mark(disallowed_marks: [])
+    assign_mark(prompt_custom_mark(disallowed_marks))
   end
 
   private
