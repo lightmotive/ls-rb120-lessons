@@ -22,17 +22,17 @@ Here is an overview of the game:
   - has display value
     - different value depending on `face_up?`
 - class `StandardDeck`
-  - has `cards` (array of `Card` instances)
+  - has `cards` (array of `StandardDeckCard` instances)
   - `initialize`
     - invoke `reset`
   - `reset`
     - generate standard 52-card deck and shuffle
   - `pull_top_card`
     - remove and return first card from `deck`
-- class `Player`
+- class `Participant`
   - has `is_dealer`
   - specify `is_dealer` on init
-  - `hand` (attr: array of `Card` instances)
+  - `hand` (attr: array of `StandardDeckCard` instances)
   - `total`
     - `calculate_total` after each play and save in this attr (better performance)
   - `receive_card(Card instance)`
@@ -42,30 +42,30 @@ Here is an overview of the game:
   - `hand_won?(param: player.hand instance)`
     - return whether hand total == `WINNING_SCORE`
   - *Subclasses:*
-    - dealer
+    - class `Dealer`
       - `play`
         - Must `hit` until total is at least 17
         - Can `stay` when hand total >= 17
-    - player
+    - class `Player`
       - `play`
         - human player chooses after each card is dealt
 - class `Game`
   - has `WINNING_SCORE`
-  - has `players`, including at least 1 dealer and 1 non-dealer
-    - add dealer after adding non-dealers
+  - has `participants`, including at least 1 dealer and 1 player
+    - add `Dealer` instance after adding `Player` instance(s)
   - has `card_table` (`CardTable` instance)
-    - initialize with `players`
+    - initialize with `participants`
   - has `deck` (`StandardDeck` instance)
-  - `deal_initial_hands` to `players`
-    - different behavior for dealer vs non-dealer
+  - `deal_initial_hands` to `participants`
+    - different behavior for dealer vs player
   - `players_play`
-    - iterate through players who play until bust, win, or stay
+    - iterate through `participants` who play until bust, win, or stay
       - `hit(player)` if `player.play == hit`
     - dealer plays last
   - `hit(param: player instance)`
     - deal 1 card to player
   - `draw_table`
-    - iterate through `players` to displays cards and values
+    - iterate through `participants` to displays cards and values
       - display card face-up or down
       - display value only if all cards are face-up
 
