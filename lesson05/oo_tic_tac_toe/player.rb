@@ -20,13 +20,11 @@ require_relative 'abstract_not_implemented_error'
 # implemented in the `PlayerComputer` class only, but similar logic could apply
 # to a future "Suggestions" feature that gives the user hints about how to move.
 #
-# Therefore, it makes sense to put player strategy logic directly in `Player`
-# subclasses in order to avoid an overly complex design (in this case)
-# that would require several additional classes, e.g.:
-# - `PlayerStrategy` superclass and player-specific subclasses.
-#   - That class would still need to be aware of `Board`.
-# - `Player` returns `PlayerStrategy` subclass type or instance.
-# - `MoveOrchestrator` class that centralizes board awareness and marking.
+# If there was a plan to reuse Player across multiple games, we'd take a
+# different approach. For example:
+# - `PlayerStrategy` class that one can pass to player-specific subclasses.
+#   - The strategy class would be aware of `Board` instead of the `Player` class.
+# - `Player` uses `PlayerStrategy` through a common `move` method.
 class Player
   attr_reader :name, :is_computer, :board, :mark
 
