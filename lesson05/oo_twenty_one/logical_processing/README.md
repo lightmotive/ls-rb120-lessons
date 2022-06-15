@@ -17,10 +17,10 @@ Here is an overview of the game:
 **Nouns with associated verbs**
 - class `StandardDeckCard`
   - has suit
-  - has value
+  - has rank
   - has `face_up?`
-  - has display value
-    - different value depending on `face_up?`
+  - has display value (`to_s`)
+    - different display depending on `face_up?`
 - class `StandardDeck`
   - has `cards` (array of `StandardDeckCard` instances)
   - `initialize`
