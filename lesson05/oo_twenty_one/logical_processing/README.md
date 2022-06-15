@@ -22,10 +22,10 @@ Here is an overview of the game:
   - has display value (`to_s`)
     - different display depending on `face_up?`
 - class `StandardDeck`
-  - has `cards` (array of `StandardDeckCard` instances)
+  - has `array` (array of `StandardDeckCard` instances)
   - `initialize`
-    - invoke `reset`
-  - `reset`
+    - invoke `create`
+  - `create`
     - generate standard 52-card deck and shuffle
   - `pull_top_card`
     - remove and return first card from `deck`
