@@ -1,4 +1,2 @@
-module RPS
-  class AbstractNotImplementedError < StandardError
-  end
+class AbstractNotImplementedError < StandardError
 end
