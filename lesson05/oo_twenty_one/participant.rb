@@ -7,11 +7,12 @@ class Participant
   PLAY_HIT = 'hit'
   PLAY_STAY = 'stay'
 
-  attr_reader :is_dealer, :total
+  attr_reader :name, :is_dealer, :total
 
   alias dealer? is_dealer
 
-  def initialize(is_dealer: false)
+  def initialize(name, is_dealer: false)
+    @name = name
     @is_dealer = is_dealer
     @hand = TwentyOneHand.new
   end
@@ -24,6 +25,10 @@ class Participant
   # Concrete implementation should return either `PLAY_HIT` or `PLAY_STAY`
   def play
     raise AbstractNotImplementedError if instance_of?(Participant)
+  end
+
+  def to_s
+    "#{name}: #{hand}"
   end
 
   private

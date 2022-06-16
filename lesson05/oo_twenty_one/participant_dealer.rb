@@ -4,7 +4,7 @@ class ParticipantDealer < Participant
   MINIMUM_TOTAL = 17
 
   def initialize
-    super(is_dealer: true)
+    super('Dealer', is_dealer: true)
   end
 
   def play
