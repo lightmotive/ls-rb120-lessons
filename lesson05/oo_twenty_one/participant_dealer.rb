@@ -1,14 +1,18 @@
+# frozen_string_literal: true
+
 require_relative 'participant'
 
 class ParticipantDealer < Participant
-  MINIMUM_TOTAL = 17
+  NAME = 'Dealer'
+  HIT_UNTIL_MINIMUM_TOTAL = 17
 
   def initialize
-    super('Dealer', is_dealer: true)
+    super(NAME, is_dealer: true)
   end
 
   def play
-    # - Must `hit` while `total < MINIMUM_TOTAL`
-    # - Can `stay` if `total >= MINIMUM_TOTAL`
+    return INPUTS.key(0) if hand.total < HIT_UNTIL_MINIMUM_TOTAL
+
+    INPUTS.key(1)
   end
 end

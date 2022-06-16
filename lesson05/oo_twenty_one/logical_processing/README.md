@@ -77,7 +77,7 @@ Here is an overview of the game:
     - different behavior for dealer vs player
   - `participants_play`
     - iterate through `participants` who `play` until bust, win, or stay
-      - `hit(participant)` if `participant.play == Participant::PLAY_HIT`
+      - `hit(participant)` if `participant.play == :hit`
     - dealer plays last
   - `hit(param: participant instance)`
     - deal 1 card to participant

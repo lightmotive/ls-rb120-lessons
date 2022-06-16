@@ -42,11 +42,6 @@ end
 # require_relative '../../ruby-common/validation_error'
 # require_relative '../../ruby-common/messages'
 #
-#
-# INPUTS = { hit: 'h', stay: 's' }.freeze
-# DEALER_NAME = 'Dealer'
-# MAX_VALUE = 21
-# DEALER_HITS_UNTIL_DEFAULT_VALUE = 17
 # SCORE_TO_WIN_ROUND = 5 # We could allow player(s) to specify that score.
 #
 # * Cards *
@@ -144,7 +139,7 @@ end
 #   value = player[:cards_value]
 #   return false if value.nil?
 #
-#   busted?(value) || value == MAX_VALUE
+#   busted?(value) || value == WINNING_SCORE
 # end
 #
 # def players_dealer_last(game_state)
@@ -305,10 +300,7 @@ end
 # * Player Strategies *
 #
 # dealer_strategy = lambda do |dealer_player, _game_state|
-#   value = dealer_player[:cards_value]
-#   return :hit if value < DEALER_HITS_UNTIL_DEFAULT_VALUE
-#
-#   :stay
+#   # migrated to `ParticipantDealer#play`
 # end
 #
 # def player_strategy_input_validator_create
@@ -335,7 +327,7 @@ end
 # player_strategy = lambda do |player, _game_state|
 #   cards_value = player[:cards_value]
 #   player_input = player_strategy_prompt(player[:name], cards_value)
-#   return INPUTS.rassoc(player_input)[0]
+#   return play_input_to_sym(player_input) # temp note: this line has been updated to work in ParticipantPlayer context
 # end
 #
 # * Play with specific strategies (easily customize strategies) *

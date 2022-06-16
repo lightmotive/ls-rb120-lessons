@@ -4,8 +4,7 @@ require_relative 'twenty_one_hand'
 
 # Abstract class: must inherit
 class Participant
-  PLAY_HIT = 'hit'
-  PLAY_STAY = 'stay'
+  INPUTS = { hit: 'h', stay: 's' }.freeze
 
   attr_reader :name, :is_dealer, :total
 
@@ -22,9 +21,14 @@ class Participant
     calculate_total
   end
 
-  # Concrete implementation should return either `PLAY_HIT` or `PLAY_STAY`
+  # Concrete implementation should return a key in `INPUTS`, e.g.,
+  # `play_input_to_sym(string_input)`.
   def play
     raise AbstractNotImplementedError if instance_of?(Participant)
+  end
+
+  def play_input_to_sym(input)
+    INPUTS.rassoc(input)[0]
   end
 
   def to_s
