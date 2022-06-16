@@ -48,7 +48,7 @@ class TwentyOneHand < StandardDeckHand
     return @total = nil unless all_cards_face_up?
 
     value_with_ace11 = array.sum { |card| card_value(card, ace_value: 11) }
-    return @total = value_with_ace11 if value_with_ace11 <= MAX_VALUE
+    return @total = value_with_ace11 if value_with_ace11 <= WINNING_SCORE
 
     @total = array.sum { |card| card_value(card, ace_value: 1) }
   end
