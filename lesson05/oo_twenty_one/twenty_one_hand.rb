@@ -1,6 +1,8 @@
 require_relative 'standard_deck_hand'
+require_relative 'standard_deck'
 
 class TwentyOneHand < StandardDeckHand
+  CARDS = StandardDeck::CARDS
   WINNING_SCORE = 21
 
   attr_reader :total
@@ -28,9 +30,22 @@ class TwentyOneHand < StandardDeckHand
 
   private
 
+  def card_value(card, ace_value: 0)
+    if CARDS[:ranks][:jqk].include?(card.rank)
+      10
+    elsif card.rank == CARDS[:ranks][:ace]
+      ace_value
+    else
+      card.rank
+    end
+  end
+
   def calculate_total
-    raise('To be implemented...')
-    # Calculate total here (numeric value of cards in Twenty One game)
-    @total = nil
+    return @total = nil unless all_cards_face_up?
+
+    value_with_ace11 = array.sum { |card| card_value(card, ace_value: 11) }
+    return @total = value_with_ace11 if value_with_ace11 <= MAX_VALUE
+
+    @total = array.sum { |card| card_value(card, ace_value: 1) }
   end
 end

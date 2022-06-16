@@ -9,6 +9,10 @@ class StandardDeckCard
     @rank = rank
   end
 
+  def face_down?
+    !face_up?
+  end
+
   def to_s
     # different display depending on is_face_up value...
   end

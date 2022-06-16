@@ -60,21 +60,16 @@ end
 # end
 #
 # def all_cards_face_up?(cards)
-#   cards.all? { |card| card[:face_up] }
+#   # migrated to StandardDeckHand#all_cards_face_up?
 # end
 #
 # def cards_value(cards)
-#   return nil unless all_cards_face_up?(cards)
-#
-#   value_with_ace11 = cards.sum { |card| card_value(card, ace_value: 11) }
-#   return value_with_ace11 if value_with_ace11 <= MAX_VALUE
-#
-#   cards.sum { |card| card_value(card, ace_value: 1) }
+#   # migrated to TwentyOneHand#calculate_total
 # end
 #
 # def cards_for_display(cards)
 #   cards.map do |card|
-#     card[:face_up] ? "#{card[:suit]}#{card[:value]}" : FACE_DOWN_ICON
+#     card[:face_up] ? "#{card[:suit]}#{card[:rank]}" : FACE_DOWN_ICON
 #   end
 # end
 #
