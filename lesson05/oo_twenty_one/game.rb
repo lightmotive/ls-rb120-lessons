@@ -60,17 +60,15 @@ end
 # end
 #
 # def all_cards_face_up?(cards)
-#   # migrated to StandardDeckHand#all_cards_face_up?
+#   # migrated to `StandardDeckHand#all_cards_face_up?`
 # end
 #
 # def cards_value(cards)
-#   # migrated to TwentyOneHand#calculate_total
+#   # migrated to `TwentyOneHand#calculate_total`
 # end
 #
 # def cards_for_display(cards)
-#   cards.map do |card|
-#     card[:face_up] ? "#{card[:suit]}#{card[:rank]}" : FACE_DOWN_ICON
-#   end
+#   # migrated to `StandardDeckHand#to_s`
 # end
 #
 # * Game State *
@@ -139,9 +137,7 @@ end
 # end
 #
 # def busted?(cards_value)
-#   return false if cards_value.nil?
-#
-#   cards_value > MAX_VALUE
+#   # migrated to `TwentyOneHand#busted?`
 # end
 #
 # def end_turn?(player)
@@ -212,14 +208,10 @@ end
 # * Game Display *
 #
 # def game_table_lines(game_state)
-#   game_state.dig(:table, :players).map do |player|
-#     cards = player[:cards]
-#     value = player[:cards_value]
-#     busted_display = " - Busted!" if busted?(value)
-#     value_display = " [#{value}#{busted_display}]" unless value.nil?
-#     cards_display = cards_for_display(cards).join(' | ')
+#   game_state.dig(:table, :players).map do |participant|
+#     # cards_display = # migrated to TwentyOneHand#to_s
 #
-#     "#{player[:name]}:#{value_display} #{cards_display}"
+#     "#{participant.name}:#{participant.hand}"
 #   end
 # end
 #

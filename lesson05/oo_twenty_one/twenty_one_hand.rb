@@ -17,6 +17,8 @@ class TwentyOneHand < StandardDeckHand
   end
 
   def busted?
+    return false if total.nil?
+
     total > WINNING_SCORE
   end
 
@@ -25,7 +27,9 @@ class TwentyOneHand < StandardDeckHand
   end
 
   def to_s
-    "#{super} #{total}"
+    busted_str = ' - Busted!' if busted?
+    total_str = " [#{total}#{busted_str}]" unless total.nil?
+    "[#{total_str}] #{super}"
   end
 
   private

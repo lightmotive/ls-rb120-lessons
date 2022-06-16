@@ -1,4 +1,6 @@
 class StandardDeckHand
+  ICONS = StandardDeck::ICONS
+
   def initialize
     @array = []
   end
@@ -11,8 +13,14 @@ class StandardDeckHand
     array.none?(&:face_down?)
   end
 
+  def to_string_ary
+    array.map do |card|
+      card.face_up? ? "#{card.suit}#{card.rank}" : ICONS[:face_down]
+    end
+  end
+
   def to_s
-    # string for displaying cards in console
+    to_string_ary.join(' | ')
   end
 
   private
