@@ -49,6 +49,7 @@ Here is an overview of the game:
   - override `to_s`
     - "#{super} + #{total}"
 - class `Participant`
+  - has `name`
   - has `is_dealer`
   - specify `is_dealer` on init
   - has `hand` (`TwentyOneHand` instance)
@@ -71,21 +72,17 @@ Here is an overview of the game:
 - class `Game`
   - has `participants`, including at least 1 dealer and 1 player
     - add `Dealer` instance after adding `Player` instance(s)
-  - has `card_table` (`CardTable` instance)
-    - initialize with `participants`
   - has `deck` (`StandardDeck` instance)
-  - `deal_initial_hands` to all `participants`
+  - `deal_initial_cards` to all `participants`
     - different behavior for dealer vs player
-  - `players_play`
+  - `participants_play`
     - iterate through `participants` who `play` until bust, win, or stay
-      - `hit(player)` if `player.play == hit`
+      - `hit(participant)` if `participant.play == Participant::PLAY_HIT`
     - dealer plays last
-  - `hit(param: player instance)`
-    - deal 1 card to player
-  - `draw_table`
-    - iterate through `participants` to displays cards and values
-      - display card face-up or down
-      - display value only if all cards are face-up
+  - `hit(param: participant instance)`
+    - deal 1 card to participant
+  - `draw`
+    - iterate through `participants` to display name and hand
 
 ### CRC Cards
 
