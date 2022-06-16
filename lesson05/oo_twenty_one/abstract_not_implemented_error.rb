@@ -1,0 +1,2 @@
+class AbstractNotImplementedError < StandardError
+end

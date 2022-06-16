@@ -29,37 +29,55 @@ Here is an overview of the game:
     - generate standard 52-card deck and shuffle
   - `pull_top_card`
     - remove and return first card from `deck`
+- class `StandardDeckHand`
+  - has `array` (of `StandardDeckCard` instances)
+  - has `receive(card)`
+  - `to_s`
+    - return string that displays cards
+- class `TwentyOneHand < StandardDeckHand`
+  - has `WINNING_SCORE = 21`
+  - has `total`
+  - `busted?`
+    - return `total > WINNING_SCORE`
+  - `won?`
+    - return `total == WINNING_SCORE`
+  - override `receive(card)` method
+    - `super`
+    - `calculate_total()`
+  - `calculate_total`
+    - Calculate and set `total` attr
+  - override `to_s`
+    - "#{super} + #{total}"
 - class `Participant`
   - has `is_dealer`
   - specify `is_dealer` on init
-  - `hand` (attr: array of `StandardDeckCard` instances)
-  - `total`
-    - `calculate_total` after each play and save in this attr (better performance)
-  - `receive_card(Card instance)`
+  - has `hand` (`TwentyOneHand` instance)
+  - `receive_card(card)`
+    - forward to `hand.receive_card`
   - `play` (abstract - implement in subclasses) => `hit` or `stay`
-  - `hand_busted?(param: player.hand instance)`
-    - return whether hand total > `WINNING_SCORE`
-  - `hand_won?(param: player.hand instance)`
-    - return whether hand total == `WINNING_SCORE`
+  - `busted?`
+    - return `hand.busted?`
+  - `won?`
+    - return `hand.won?`
   - *Subclasses:*
     - class `Dealer`
+      - has `MINIMUM_TOTAL = 17`
       - `play`
-        - Must `hit` until total is at least 17
-        - Can `stay` when hand total >= 17
+        - Must `hit` while `total < MINIMUM_TOTAL`
+        - Can `stay` if `total >= MINIMUM_TOTAL`
     - class `Player`
       - `play`
-        - human player chooses after each card is dealt
+        - human player chooses after each card is received unless `busted?`
 - class `Game`
-  - has `WINNING_SCORE`
   - has `participants`, including at least 1 dealer and 1 player
     - add `Dealer` instance after adding `Player` instance(s)
   - has `card_table` (`CardTable` instance)
     - initialize with `participants`
   - has `deck` (`StandardDeck` instance)
-  - `deal_initial_hands` to `participants`
+  - `deal_initial_hands` to all `participants`
     - different behavior for dealer vs player
   - `players_play`
-    - iterate through `participants` who play until bust, win, or stay
+    - iterate through `participants` who `play` until bust, win, or stay
       - `hit(player)` if `player.play == hit`
     - dealer plays last
   - `hit(param: player instance)`
