@@ -31,6 +31,12 @@ class Participant
     INPUTS.rassoc(input)[0]
   end
 
+  def inputs_display
+    INPUTS.map do |key, value|
+      "#{key.to_s.capitalize} (#{value})"
+    end.join(' or ')
+  end
+
   def to_s
     "#{name}: #{hand}"
   end

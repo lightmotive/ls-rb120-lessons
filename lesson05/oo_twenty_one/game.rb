@@ -304,30 +304,15 @@ end
 # end
 #
 # def player_strategy_input_validator_create
-#   lambda do |input|
-#     unless INPUTS.values.include?(input)
-#       raise ValidationError,
-#             "Please enter either #{INPUTS.values.join(' or ')}."
-#     end
-#   end
+#   # migrated to `ParticipantPlayer#prompt_play` (refactored)
 # end
 #
 # def player_strategy_prompt(name, cards_value)
-#   inputs_display = INPUTS.map do |key, value|
-#     "#{key.to_s.capitalize} (#{value})"
-#   end.join(' or ')
-#
-#   prompt_until_valid(
-#     "#{name}, you have #{cards_value}. #{inputs_display}?",
-#     convert_input: ->(input) { input.downcase },
-#     validate: player_strategy_input_validator_create
-#   )
+#   # migrated to `ParticipantPlayer#prompt_play`
 # end
 #
 # player_strategy = lambda do |player, _game_state|
-#   cards_value = player[:cards_value]
-#   player_input = player_strategy_prompt(player[:name], cards_value)
-#   return play_input_to_sym(player_input) # temp note: this line has been updated to work in ParticipantPlayer context
+#   # migrated to `ParticipantPlayer#play`
 # end
 #
 # * Play with specific strategies (easily customize strategies) *
