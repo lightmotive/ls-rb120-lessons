@@ -4,7 +4,7 @@ require_relative 'standard_deck_card'
 
 class StandardDeck
   ICONS = { spades: "\u{2660}", clubs: "\u{2663}", hearts: "\u{2665}",
-            diamonds: "\u{2666}", face_down: "\u{1F0A0}" }.freeze
+            diamonds: "\u{2666}" }.freeze
   CARDS = {
     suits: [ICONS[:spades], ICONS[:clubs], ICONS[:hearts], ICONS[:diamonds]],
     ranks: {

@@ -1,4 +1,6 @@
 class StandardDeckCard
+  ICONS = { face_down: "\u{1F0A0}" }.freeze
+
   attr_reader :suit, :rank
 
   def initialize(suit, rank)
