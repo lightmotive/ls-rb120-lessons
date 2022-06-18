@@ -119,8 +119,9 @@ class Game
 
     participant_lines = participants.map(&:to_s)
 
-    messages_bordered_display(participant_lines,
-                              StandardDeck::ICONS[:diamonds], header: ' Table ')
+    Common::Messages.bordered_display(
+      participant_lines, StandardDeck::ICONS[:diamonds], header: ' Table '
+    )
     puts Common::Messages.empty_line
   end
 
