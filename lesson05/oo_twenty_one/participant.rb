@@ -6,19 +6,30 @@ require_relative 'twenty_one_hand'
 class Participant
   INPUTS = { hit: 'h', stay: 's' }.freeze
 
-  attr_reader :name, :is_dealer, :total
+  attr_reader :name, :is_dealer
 
   alias dealer? is_dealer
 
   def initialize(name, is_dealer: false)
     @name = name
     @is_dealer = is_dealer
+    initialize_hand
+  end
+
+  def initialize_hand
     @hand = TwentyOneHand.new
   end
 
   def receive_card(card)
     hand.receive_card(card)
-    calculate_total
+  end
+
+  def total
+    hand.total
+  end
+
+  def show_all_cards
+    hand.show_all_cards
   end
 
   # Concrete implementation should return a key in `INPUTS`, e.g.,
@@ -35,6 +46,12 @@ class Participant
     INPUTS.map do |key, value|
       "#{key.to_s.capitalize} (#{value})"
     end.join(' or ')
+  end
+
+  def end_turn?
+    return false if hand.total.nil?
+
+    hand.busted? || hand.total == TwentyOneHand::WINNING_SCORE
   end
 
   def to_s

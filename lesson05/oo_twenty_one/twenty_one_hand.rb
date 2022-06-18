@@ -12,6 +12,11 @@ class TwentyOneHand < StandardDeckHand
     calculate_total
   end
 
+  def show_all_cards
+    super
+    calculate_total
+  end
+
   def busted?
     return false if total.nil?
 

@@ -43,7 +43,13 @@ class Game
     @participants = prompt_player_names.map do |name|
       ParticipantPlayer.new(name)
     end
-    @participants.push(ParticipantDealer.new)
+    participants.push(ParticipantDealer.new)
+  end
+
+  def prompt_player_names
+    [Common::Prompt.player_name]
+    # Future Feature: Prompt for player count (up to 3) and names for each.
+    # - Ensure unique names!
   end
 
   def play_sets
@@ -59,7 +65,7 @@ class Game
   end
 
   def play_set
-    set.reset
+    set.reset(set.win_score)
 
     loop do
       play_round
@@ -70,7 +76,46 @@ class Game
   end
 
   def play_round
-    # ...
+    participants.each(&:initialize_hand)
+    deal_initial_cards
+    draw
+
+    participants.each { |participant| participant_turn(participant) }
+
+    draw
+  end
+
+  def deal_initial_cards
+    2.times do |card_idx|
+      participants.each do |participant|
+        deal(participant, face_up: card_idx.zero? || !participant.dealer?)
+      end
+    end
+  end
+
+  def participant_turn(participant)
+    participant.show_all_cards if participant.dealer?
+
+    return draw if participant.end_turn?
+
+    loop do
+      play = participant.play
+      if play == :hit
+        deal(participant, face_up: true)
+        draw
+      end
+      break if play == :stay || end_turn?(participant)
+    end
+  end
+
+  def deal(participant, face_up: false)
+    card = deck.pull_top_card
+    card.face_up = face_up
+    participant.receive_card(card)
+  end
+
+  def draw(clear_console: true)
+    # - iterate through `participants` to displays cards and values
   end
 
   def determine_winners
@@ -95,31 +140,6 @@ class Game
     end
   end
 
-  def prompt_player_names
-    [Common::Prompt.player_name]
-    # Future Feature: Prompt for player count (up to 3) and names for each.
-    # - Ensure unique names!
-  end
-
-  def deal_initial_cards
-    # deal to all participants
-    # different behavior for dealer vs player
-  end
-
-  def participants_play
-    # - iterate through `participants` who `play` until bust, win, or stay
-    #   - `hit(player)` if `player.play == hit`
-    # - dealer plays last
-  end
-
-  def hit(participant)
-    # deal 1 card to participant
-  end
-
-  def draw
-    # - iterate through `participants` to displays cards and values
-  end
-
   def display_goodbye
     puts 'Thank you for playing Twenty-One!'
   end
@@ -130,12 +150,6 @@ end
 
 # frozen_string_literal: true
 
-# require_relative '../../ruby-common/prompt'
-# require_relative '../../ruby-common/validation_error'
-# require_relative '../../ruby-common/messages'
-#
-# SCORE_TO_WIN_SET = 5 # We could allow player(s) to specify that score.
-#
 # * Cards *
 #
 # def cards_create
@@ -165,22 +179,15 @@ end
 # end
 #
 # def update_player_cards_value!(player)
-#   player[:cards_value] = cards_value(player[:cards])
+#   # migrated previously to `TwentyOneHand#calculate_total` (private method called as needed)
 # end
 #
 # def deal_card!(player, game_state, face_up: true)
-#   cards = player[:cards]
-#   cards.push(game_state[:deck].shift.merge({ face_up: face_up }))
-#   update_player_cards_value!(player)
+#   # migrated to `Game#deal`
 # end
 #
 # def deal_table!(game_state)
-#   2.times do |card_idx|
-#     participants.each do |player|
-#       face_up = (!player[:is_dealer]) || card_idx == 0
-#       deal_card!(player, game_state, face_up: face_up)
-#     end
-#   end
+#   # migrated to `Game#deal_initial_cards`
 # end
 #
 # * Players *
@@ -202,10 +209,7 @@ end
 # end
 #
 # def end_turn?(player)
-#   value = player[:cards_value]
-#   return false if value.nil?
-#
-#   busted?(value) || value == WINNING_SCORE
+#   # migrated to `Participant#end_turn?`
 # end
 #
 # Unnecessary method: dealer is always last:
@@ -215,23 +219,13 @@ end
 # # end
 #
 # def turn_cards_up!(player)
-#   player[:cards].each { |card| card[:face_up] = true }
-#   update_player_cards_value!(player)
+#   # migrated to `Participant#show_all_cards`
+#   # - Includes refactor across `TwentyOneHand#show_all_cards` and
+#   #   `StandardDeckHand#show_all_cards`.
 # end
 #
-# def turn!(player, game_state)
-#   turn_cards_up!(player) if player[:is_dealer]
-#
-#   return game_redraw(game_state) if end_turn?(player)
-#
-#   loop do
-#     input = player[:strategy].call(player, game_state)
-#     if input == :hit
-#       deal_card!(player, game_state)
-#       game_redraw(game_state)
-#     end
-#     break if input == :stay || end_turn?(player)
-#   end
+# def turn!(participant, game_state)
+#   # migrated to `Game#participant_turn`
 # end
 #
 # def players_in_play(game_state)
@@ -302,15 +296,7 @@ end
 # * Main *
 #
 # def play_round(players, set_state)
-#   game_state = game_state_create(players)
-#   deal_table!(game_state)
-#   game_redraw(game_state)
-#
-#   participants.each do |player|
-#     turn!(player, game_state)
-#   end
-#
-#   game_redraw(game_state)
+#   # migrated to `Game#play_round`
 #   # migrated to `determine_winners`
 # end
 #

@@ -9,6 +9,10 @@ class StandardDeckHand
     array.push(card)
   end
 
+  def show_all_cards
+    array.each { |card| card.face_up = true }
+  end
+
   def all_cards_face_up?
     array.none?(&:face_down?)
   end
