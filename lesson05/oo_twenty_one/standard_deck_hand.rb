@@ -18,9 +18,7 @@ class StandardDeckHand
   end
 
   def to_string_ary
-    array.map do |card|
-      card.face_up? ? "#{card.suit}#{card.rank}" : ICONS[:face_down]
-    end
+    array.map(&:to_s)
   end
 
   def to_s
