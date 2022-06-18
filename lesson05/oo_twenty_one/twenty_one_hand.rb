@@ -7,10 +7,6 @@ class TwentyOneHand < StandardDeckHand
 
   attr_reader :total
 
-  def initialize
-    super
-  end
-
   def receive(card)
     super
     calculate_total
