@@ -10,7 +10,7 @@ class StandardDeckHand
   end
 
   def show_all_cards
-    array.each { |card| card.face_up = true }
+    array.each(&:turn_up!)
   end
 
   def all_cards_face_up?
