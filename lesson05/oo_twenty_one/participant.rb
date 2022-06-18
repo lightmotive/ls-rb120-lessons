@@ -21,7 +21,7 @@ class Participant
   end
 
   def receive_card(card)
-    hand.receive_card(card)
+    hand.receive(card)
   end
 
   def total
