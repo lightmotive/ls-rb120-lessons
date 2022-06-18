@@ -18,7 +18,7 @@ class StandardDeckCard
   end
 
   def to_s
-    face_down? ? ICONS[:face_down] : "#{suit}#{rank}"
+    face_down? ? ICONS[:face_down] : "#{rank}#{suit}"
   end
 
   private
