@@ -28,6 +28,10 @@ class Participant
     hand.total
   end
 
+  def busted?
+    hand.busted?
+  end
+
   def show_all_cards
     hand.show_all_cards
   end
