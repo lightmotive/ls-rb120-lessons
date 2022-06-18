@@ -1,4 +1,5 @@
 require_relative '../oo_tic_tac_toe/common/common'
+require_relative '../oo_tic_tac_toe/game_set'
 require_relative 'standard_deck'
 require_relative 'participant_dealer'
 require_relative 'participant_player'
@@ -13,11 +14,13 @@ class Game
   def play
     display_welcome
     initialize_participants
-    play_loop
+    play_sets
     display_goodbye
   end
 
   private
+
+  attr_accessor :set
 
   def display_welcome
     Common.clear_console
@@ -43,11 +46,52 @@ class Game
     @participants.push(ParticipantDealer.new)
   end
 
-  def play_loop
+  def play_sets
+    self.set = GameSet.new(
+      participants, win_score: 3,
+                    scoreboard_border_char: StandardDeck::ICONS[:diamonds]
+    )
+
+    loop do
+      play_set
+      break unless set.play_again?
+    end
+  end
+
+  def play_set
+    set.reset
+
     loop do
       play_round
+      determine_winners
+      break if set.end?(display_results: true)
+      # Feature suggestion: track and then draw all round boards with outcomes in set.
+    end
+  end
 
-      break unless play_again?
+  def play_round
+    # ...
+  end
+
+  def determine_winners
+    winners.each do |winner|
+      set.round_winner(winner)
+    end
+  end
+
+  def players_by_highest_total
+    participants.reject(&:busted?).sort_by { |participant| -participant.total }
+  end
+
+  def winners
+    winners = players_by_highest_total
+    return [] if winners.empty?
+
+    winner_first = winners.first
+    highest_total = winner_first.total
+
+    [winner_first] + winners[1..].select do |winner|
+      winner.total == highest_total
     end
   end
 
@@ -76,14 +120,6 @@ class Game
     # - iterate through `participants` to displays cards and values
   end
 
-  def play_round
-    # ...
-  end
-
-  def play_again?
-    # ...
-  end
-
   def display_goodbye
     puts 'Thank you for playing Twenty-One!'
   end
@@ -98,7 +134,7 @@ end
 # require_relative '../../ruby-common/validation_error'
 # require_relative '../../ruby-common/messages'
 #
-# SCORE_TO_WIN_ROUND = 5 # We could allow player(s) to specify that score.
+# SCORE_TO_WIN_SET = 5 # We could allow player(s) to specify that score.
 #
 # * Cards *
 #
@@ -199,25 +235,15 @@ end
 # end
 #
 # def players_in_play(game_state)
-#   game_state.dig(:table, :players).reject do |player|
-#     busted?(player[:cards_value])
-#   end
+#   # migrated to `Game#players_by_highest_total` (consolidated)
 # end
 #
 # def players_by_top_score(game_state)
-#   players_in_play(game_state).sort_by { |player| -player[:cards_value] }
+#   # migrated to `Game#players_by_highest_total`
 # end
 #
 # def winners(game_state)
-#   players = players_by_top_score(game_state)
-#   return [] if players.empty?
-#
-#   winner = players.first
-#   winning_score = winner[:cards_value]
-#
-#   [winner] + players[1..-1].select do |player|
-#     player[:cards_value] == winning_score
-#   end
+#   # migrated to `Game#winners`
 # end
 #
 # def winners_display(winners)
@@ -249,42 +275,33 @@ end
 # end
 #
 # * Rounds (Scoring) *
-# def round_state_create(players)
-#   players.each_with_object({}) { |player, scores| scores[player[:name]] = 0 }
+# def set_state_create(players)
+#   # Refactored to `GameSet` class
 # end
 #
-# def update_round_score!(winners, round_state)
-#   return if winners.nil? || winners.count != 1
-#
-#   round_state[winners.first[:name]] += 1
+# def update_set_score!(winners, set_state)
+#   # Refactored to `GameSet` class
 # end
 #
-# def round_state_by_score(round_state)
-#   round_state.sort_by { |_, score| -score }
+# def set_state_by_score(set_state)
+#   # Refactored to `GameSet` class
 # end
 #
-# def round_score_display(round_state)
-#   puts Common::Messages.empty_line
-#   messages_bordered_display(
-#     round_state_by_score(round_state).map do |(name, score)|
-#       "#{name}: #{score}"
-#     end,
-#     StandardDeck::ICONS[:diamonds], header: ' Scoreboard '
-#   )
+# def set_score_display(set_state)
+#   # Refactored to `GameSet`
 # end
 #
-# def round_winner?(round_state)
-#   round_state_by_score(round_state).first[1] == SCORE_TO_WIN_ROUND
+# def set_winner?(set_state)
+#   # Refactored to `GameSet`
 # end
 #
-# def round_winner_display(round_state)
-#   puts Common::Messages.empty_line
-#   puts "|**| #{round_state_by_score(round_state).first[0]} won the round! |**|"
+# def set_winner_display(set_state)
+#   # Refactored to `GameSet`
 # end
 #
 # * Main *
 #
-# def play_game(players, round_state)
+# def play_round(players, set_state)
 #   game_state = game_state_create(players)
 #   deal_table!(game_state)
 #   game_redraw(game_state)
@@ -294,31 +311,19 @@ end
 #   end
 #
 #   game_redraw(game_state)
-#   winners = winners(game_state)
-#   update_round_score!(winners, round_state)
-#   winners_display(winners)
+#   # migrated to `determine_winners`
 # end
 #
-# def play_round(players)
-#   round_state = round_state_create(players)
-#   loop do
-#     play_game(players, round_state)
-#
-#     round_score_display(round_state)
-#     break round_winner_display(round_state) if round_winner?(round_state)
-#
-#     puts Common::Messages.empty_line
-#     prompt_enter_to_continue("Press enter to continue round...")
-#   end
+# def play_set(players)
+#   # migrated to `Game#play_set` and `GameSet` (refactored)
 # end
 #
 # def play_again?
-#   puts Common::Messages.empty_line
-#   prompt_yes_or_no("Would you like to another round?") == 'y'
+#   # migrated to `Game#set#play_again?`
 # end
 #
 # def play_loop(dealer_strategy, player_strategy)
-#   # migrated to `Game#play_loop`
+#   # migrated to `Game#play_sets`
 # end
 #
 # * Player Strategies *
@@ -338,8 +343,6 @@ end
 # player_strategy = lambda do |player, _game_state|
 #   # migrated to `ParticipantPlayer#play`
 # end
-#
-# * Play with specific strategies (easily customize strategies) *
 #
 # # migrated to `main.rb`
 #
