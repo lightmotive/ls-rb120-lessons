@@ -1,3 +1,4 @@
+require_relative '../oo_tic_tac_toe/common/common'
 require_relative 'standard_deck'
 require_relative 'participant_dealer'
 require_relative 'participant_player'
@@ -6,12 +7,55 @@ class Game
   attr_reader :deck, :participants
 
   def initialize
-    # Initialize deck and participants
-    # Deal initial cards
-    # ...
+    @deck = StandardDeck.new
+  end
+
+  def play
+    display_welcome
+    initialize_participants
+    play_loop
+    display_goodbye
   end
 
   private
+
+  def display_welcome
+    Common.clear_console
+
+    clubs_icon = StandardDeck::ICONS[:clubs]
+    spades_icon = StandardDeck::ICONS[:spades]
+    hearts_icon = StandardDeck::ICONS[:hearts]
+    diamonds_icon = StandardDeck::ICONS[:diamonds]
+    message = "#{clubs_icon} Welcome to Twenty-One! #{clubs_icon}"
+    border = "#{spades_icon}#{
+      hearts_icon.center(message.length - 2, diamonds_icon)
+    }#{spades_icon}"
+
+    puts border, message, border, Common::Messages.empty_line
+  end
+
+  def initialize_participants
+    # Future feature: specify customizable participant/dealer strategies here.
+    # - Select strategy and pass to `Participant...` class init.
+    @participants = prompt_player_names.map do |name|
+      ParticipantPlayer.new(name)
+    end
+    @participants.push(ParticipantDealer.new)
+  end
+
+  def play_loop
+    loop do
+      play_round
+
+      break unless play_again?
+    end
+  end
+
+  def prompt_player_names
+    [Common::Prompt.player_name]
+    # Future Feature: Prompt for player count (up to 3) and names for each.
+    # - Ensure unique names!
+  end
 
   def deal_initial_cards
     # deal to all participants
@@ -30,6 +74,18 @@ class Game
 
   def draw
     # - iterate through `participants` to displays cards and values
+  end
+
+  def play_round
+    # ...
+  end
+
+  def play_again?
+    # ...
+  end
+
+  def display_goodbye
+    puts 'Thank you for playing Twenty-One!'
   end
 end
 
@@ -68,15 +124,8 @@ end
 #
 # * Game State *
 #
-# def table_create(players)
-#   { players: players.map { |player| player.merge({ cards: [] }) } }
-# end
-#
 # def game_state_create(players)
-#   {
-#     deck: cards_create.shuffle.shuffle.shuffle,
-#     table: table_create(players)
-#   }
+#   # migrated to `Game#initialize` (refactored)
 # end
 #
 # def update_player_cards_value!(player)
@@ -90,9 +139,8 @@ end
 # end
 #
 # def deal_table!(game_state)
-#   players_dealer_last = players_dealer_last(game_state)
 #   2.times do |card_idx|
-#     players_dealer_last.each do |player|
+#     participants.each do |player|
 #       face_up = (!player[:is_dealer]) || card_idx == 0
 #       deal_card!(player, game_state, face_up: face_up)
 #     end
@@ -102,33 +150,15 @@ end
 # * Players *
 #
 # def welcome_display
-#   clear_console
-#
-#   message = "#{StandardDeck::ICONS[:clubs]} Welcome to Twenty-One! #{StandardDeck::ICONS[:clubs]}"
-#   border = "#{StandardDeck::ICONS[:spades]}#{StandardDeck::ICONS[:hearts].center(
-#     message.length - 2, StandardDeck::ICONS[:diamonds]
-#   )}#{StandardDeck::ICONS[:spades]}"
-#
-#   puts border
-#   puts message
-#   puts border
-#   display_empty_line
+#   # migrated to `Game#display_welcome`
 # end
 #
 # def players_prompt(player_strategy)
-#   welcome_display
-#
-#   players = []
-#   # Extra Feature: Prompt for player count (up to 3) and names for each.
-#   # - Ensure unique names!
-#   puts "What's your name?"
-#   players.push({ name: gets.strip, is_dealer: false,
-#                  strategy: player_strategy })
+#   # migrated to `Game#initialize_participants` and `Game#prompt_player_names`
 # end
 #
 # def players_append_dealer!(players, dealer_strategy)
-#   players.push({ name: DEALER_NAME, is_dealer: true,
-#                  strategy: dealer_strategy })
+#   # migrated to `Game#initialize_participants`
 # end
 #
 # def busted?(cards_value)
@@ -142,10 +172,11 @@ end
 #   busted?(value) || value == WINNING_SCORE
 # end
 #
-# def players_dealer_last(game_state)
-#   players = game_state.dig(:table, :players)
-#   players.sort_by { |player| player[:is_dealer] ? 1 : 0 }
-# end
+# Unnecessary method: dealer is always last:
+# # def players_dealer_last(game_state)
+# #   players = game_state.dig(:table, :players)
+# #   players.sort_by { |player| player[:is_dealer] ? 1 : 0 }
+# # end
 #
 # def turn_cards_up!(player)
 #   player[:cards].each { |card| card[:face_up] = true }
@@ -214,7 +245,7 @@ end
 #   clear_console
 #   messages_bordered_display(game_table_lines(game_state),
 #                             StandardDeck::ICONS[:diamonds], header: ' Table ')
-#   display_empty_line
+#   puts Common::Messages.empty_line
 # end
 #
 # * Rounds (Scoring) *
@@ -233,7 +264,7 @@ end
 # end
 #
 # def round_score_display(round_state)
-#   display_empty_line
+#   puts Common::Messages.empty_line
 #   messages_bordered_display(
 #     round_state_by_score(round_state).map do |(name, score)|
 #       "#{name}: #{score}"
@@ -247,7 +278,7 @@ end
 # end
 #
 # def round_winner_display(round_state)
-#   display_empty_line
+#   puts Common::Messages.empty_line
 #   puts "|**| #{round_state_by_score(round_state).first[0]} won the round! |**|"
 # end
 #
@@ -258,7 +289,7 @@ end
 #   deal_table!(game_state)
 #   game_redraw(game_state)
 #
-#   players_dealer_last(game_state).each do |player|
+#   participants.each do |player|
 #     turn!(player, game_state)
 #   end
 #
@@ -276,25 +307,18 @@ end
 #     round_score_display(round_state)
 #     break round_winner_display(round_state) if round_winner?(round_state)
 #
-#     display_empty_line
+#     puts Common::Messages.empty_line
 #     prompt_enter_to_continue("Press enter to continue round...")
 #   end
 # end
 #
 # def play_again?
-#   display_empty_line
+#   puts Common::Messages.empty_line
 #   prompt_yes_or_no("Would you like to another round?") == 'y'
 # end
 #
 # def play_loop(dealer_strategy, player_strategy)
-#   players = players_prompt(player_strategy)
-#   players_append_dealer!(players, dealer_strategy)
-#
-#   loop do
-#     play_round(players)
-#
-#     break puts 'Thank you for playing Twenty-One!' unless play_again?
-#   end
+#   # migrated to `Game#play_loop`
 # end
 #
 # * Player Strategies *
@@ -317,5 +341,5 @@ end
 #
 # * Play with specific strategies (easily customize strategies) *
 #
-# play_loop(dealer_strategy, player_strategy)
+# # migrated to `main.rb`
 #
