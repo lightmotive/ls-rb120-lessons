@@ -29,8 +29,8 @@ class TwentyOneHand < StandardDeckHand
 
   def to_s
     busted_str = ' - Busted!' if busted?
-    total_str = " [#{total}#{busted_str}]" unless total.nil?
-    "[#{total_str}] #{super}"
+    total_str = "[#{total}#{busted_str}]" unless total.nil?
+    "#{total_str} #{super}"
   end
 
   private
