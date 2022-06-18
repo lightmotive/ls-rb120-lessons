@@ -11,8 +11,8 @@ class ParticipantDealer < Participant
   end
 
   def play
-    return INPUTS.key(0) if hand.total < HIT_UNTIL_MINIMUM_TOTAL
+    return play_input_to_sym(INPUTS[:hit]) if hand.total < HIT_UNTIL_MINIMUM_TOTAL
 
-    INPUTS.key(1)
+    play_input_to_sym(INPUTS[:stay])
   end
 end
