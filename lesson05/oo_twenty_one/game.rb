@@ -115,7 +115,15 @@ class Game
   end
 
   def draw(clear_console: true)
-    # - iterate through `participants` to displays cards and values
+    Common.clear_console if clear_console
+
+    participant_lines = participants.map do |participant|
+      "#{participant.name}:#{participant.hand}"
+    end
+
+    messages_bordered_display(participant_lines,
+                              StandardDeck::ICONS[:diamonds], header: ' Table ')
+    puts Common::Messages.empty_line
   end
 
   def determine_winners
@@ -254,18 +262,11 @@ end
 # * Game Display *
 #
 # def game_table_lines(game_state)
-#   game_state.dig(:table, :players).map do |participant|
-#     # cards_display = # migrated to TwentyOneHand#to_s
-#
-#     "#{participant.name}:#{participant.hand}"
-#   end
+#   # migrated to `Game#draw` (consolidated)
 # end
 #
 # def game_redraw(game_state)
-#   clear_console
-#   messages_bordered_display(game_table_lines(game_state),
-#                             StandardDeck::ICONS[:diamonds], header: ' Table ')
-#   puts Common::Messages.empty_line
+#   # migrated to `Game#draw`
 # end
 #
 # * Rounds (Scoring) *
