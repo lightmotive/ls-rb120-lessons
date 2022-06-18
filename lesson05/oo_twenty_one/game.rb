@@ -104,7 +104,7 @@ class Game
         deal(participant, face_up: true)
         draw
       end
-      break if play == :stay || end_turn?(participant)
+      break if play == :stay || participant.end_turn?
     end
   end
 
