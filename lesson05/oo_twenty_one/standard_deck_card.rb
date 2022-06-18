@@ -1,11 +1,10 @@
 class StandardDeckCard
   attr_reader :suit, :rank
 
-  alias face_up? is_face_up
-
   def initialize(suit, rank)
     @suit = suit
     @rank = rank
+    @is_face_up = false
   end
 
   def face_down?
@@ -23,4 +22,6 @@ class StandardDeckCard
   private
 
   attr_accessor :is_face_up
+
+  alias face_up? is_face_up
 end
