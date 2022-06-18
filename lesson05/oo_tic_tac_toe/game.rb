@@ -38,7 +38,7 @@ class Game
 
     loop do
       play_set
-      break unless play_again?
+      break unless set.play_again?
     end
   end
 
@@ -87,11 +87,6 @@ class Game
     end
 
     true
-  end
-
-  def play_again?
-    puts Common::Messages.empty_line
-    Common::Prompt.yes_or_no_is_yes?('Would you like to play again?')
   end
 
   def display_goodbye

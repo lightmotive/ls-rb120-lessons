@@ -1,10 +1,12 @@
 require_relative 'common/common'
 
+# Other game programs reference this file. To be migrated to a private Gem...
 class GameSet
-  attr_reader :win_score, :winner
+  attr_reader :win_score, :scoreboard_border_char, :winner
 
-  def initialize(players, win_score = nil)
+  def initialize(players, win_score = nil, scoreboard_border_char = '=')
     @players = players
+    @scoreboard_border_char = scoreboard_border_char
     reset(win_score)
   end
 
@@ -47,7 +49,9 @@ class GameSet
     end
 
     puts Common::Messages.empty_line
-    Common::Messages.bordered_display(messages, '=', header: 'Scoreboard')
+    Common::Messages.bordered_display(
+      messages, scoreboard_border_char, header: 'Scoreboard'
+    )
   end
 
   def display_enter_to_continue
@@ -61,6 +65,11 @@ class GameSet
     Common::Messages.bordered_display("#{winner} won the game #{score(winner)} to #{opponent_score}!", '*')
   end
 
+  def play_again?
+    puts Common::Messages.empty_line
+    Common::Prompt.yes_or_no_is_yes?('Would you like to play again?')
+  end
+
   private
 
   attr_reader :players, :scores
@@ -69,7 +78,7 @@ class GameSet
   # rubocop:disable Metrics/MethodLength
   def prompt_win_score
     Common::Prompt.until_valid(
-      'Games to win (default: 5)?',
+      'Round win count to win game? (default: 5)',
       convert_input: lambda do |input|
         return 5 if input.empty?
 
