@@ -49,7 +49,7 @@ class Participant
   end
 
   def end_turn?
-    return false if hand.total.nil?
+    return false unless hand.total_calculable?
 
     hand.busted? || hand.total == TwentyOneHand::WINNING_SCORE
   end

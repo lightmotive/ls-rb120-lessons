@@ -17,8 +17,12 @@ class TwentyOneHand < StandardDeckHand
     calculate_total
   end
 
+  def total_calculable?
+    all_cards_face_up?
+  end
+
   def busted?
-    return false if total.nil?
+    return false unless total_calculable?
 
     total > WINNING_SCORE
   end
@@ -29,8 +33,8 @@ class TwentyOneHand < StandardDeckHand
 
   def to_s
     busted_str = ' - Busted!' if busted?
-    total_str = "[#{total}#{busted_str}]" unless total.nil?
-    "#{total_str} #{super}"
+    total_str = "[#{total}#{busted_str}] " if total_calculable?
+    "#{total_str}#{super}"
   end
 
   private
@@ -46,7 +50,7 @@ class TwentyOneHand < StandardDeckHand
   end
 
   def calculate_total
-    return @total = nil unless all_cards_face_up?
+    return @total = nil unless total_calculable?
 
     value_with_ace11 = array.sum { |card| card_value(card, ace_value: 11) }
     return @total = value_with_ace11 if value_with_ace11 <= WINNING_SCORE
