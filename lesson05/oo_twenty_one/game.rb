@@ -117,7 +117,7 @@ class Game
   def draw(clear_console: true)
     Common.clear_console if clear_console
 
-    participant_lines = participants.map(&:to_s)
+    participant_lines = participants.map(&:game_display)
 
     Common::Messages.bordered_display(
       participant_lines, StandardDeck::ICONS[:diamonds], header: ' Table '

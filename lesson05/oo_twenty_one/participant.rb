@@ -58,8 +58,12 @@ class Participant
     hand.busted? || hand.total == TwentyOneHand::WINNING_SCORE
   end
 
+  def game_display
+    "#{self}: #{hand}"
+  end
+
   def to_s
-    "#{name}: #{hand}"
+    name
   end
 
   private
