@@ -1,6 +1,6 @@
 require_relative 'common/common'
 
-class GameSetStatus
+class GameSet
   attr_reader :win_score, :winner
 
   def initialize(players, win_score = nil)
