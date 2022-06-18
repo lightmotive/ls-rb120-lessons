@@ -4,7 +4,7 @@ require_relative 'common/common'
 class GameSet
   attr_reader :win_score, :scoreboard_border_char, :winner
 
-  def initialize(players, win_score = nil, scoreboard_border_char = '=')
+  def initialize(players, win_score: nil, scoreboard_border_char: '=')
     @players = players
     @scoreboard_border_char = scoreboard_border_char
     reset(win_score)

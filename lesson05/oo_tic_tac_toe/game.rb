@@ -34,7 +34,7 @@ class Game
   end
 
   def play_sets
-    self.set = GameSet.new(players, 5)
+    self.set = GameSet.new(players, win_score: 5)
 
     loop do
       play_set
