@@ -19,18 +19,6 @@ class PlayerHuman < Player
     board[key] = self
   end
 
-  def self.prompt_name(message = "What's your name")
-    Common::Prompt.until_valid(
-      message,
-      validate: lambda do |converted_input|
-                  if converted_input.nil? || converted_input.empty?
-                    raise Common::ValidationError,
-                          'Please enter something as a player name--feel free to use an alias.'
-                  end
-                end
-    )
-  end
-
   def assign_custom_mark(disallowed_marks: [])
     assign_mark(prompt_custom_mark(disallowed_marks))
   end

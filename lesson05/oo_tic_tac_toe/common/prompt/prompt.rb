@@ -33,6 +33,18 @@ module Common
       gets
     end
 
+    def self.player_name(message = "What's your name")
+      Common::Prompt.until_valid(
+        message,
+        validate: lambda do |converted_input|
+                    if converted_input.nil? || converted_input.empty?
+                      raise Common::ValidationError,
+                            'Please enter something as a player name--feel free to use an alias.'
+                    end
+                  end
+      )
+    end
+
     private_constant :UntilValidOptions, :UntilValid
   end
 end

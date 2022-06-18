@@ -47,14 +47,14 @@ class Players
   end
 
   def prompt_player_names
-    return [PlayerHuman.prompt_name] unless is_multiplayer
+    return [Common::Prompt.player_name] unless is_multiplayer
 
     prompt_multiplayer_names(2)
   end
 
   def prompt_multiplayer_names(count)
     count.times.each_with_object([]) do |idx, names|
-      names << PlayerHuman.prompt_name("What's Player #{idx + 1}'s name?")
+      names << Common::Prompt.player_name("What's Player #{idx + 1}'s name?")
     end
   end
 
