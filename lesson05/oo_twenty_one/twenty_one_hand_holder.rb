@@ -19,16 +19,6 @@ module TwentyOneHandHolder
     hand.show_all_cards
   end
 
-  def play_input_to_sym(input)
-    INPUTS.rassoc(input)[0]
-  end
-
-  def inputs_display
-    INPUTS.map do |key, value|
-      "#{key.to_s.capitalize} (#{value})"
-    end.join(' or ')
-  end
-
   def game_display
     "#{self}: #{hand}"
   end
