@@ -2,7 +2,7 @@ require_relative 'common/common'
 
 # Other game programs reference this file. To be migrated to a private Gem...
 class GameSet
-  attr_reader :win_score, :scoreboard_border_char, :winner
+  attr_reader :win_score, :scoreboard_border_char, :winners
 
   def initialize(players, win_score: 3, scoreboard_border_char: '=')
     @players = players
@@ -16,12 +16,12 @@ class GameSet
   end
 
   def end?(display_results: false)
-    self.winner = determine_winner
+    self.winners = select_winners
 
-    result = !winner.nil?
+    result = !winners.empty?
     return result unless display_results
 
-    result ? display_score_final : display_score_with_pause
+    result ? display_score_final : display_scoreboard_with_pause
 
     result
   end
@@ -34,16 +34,12 @@ class GameSet
     scores[player]
   end
 
-  def determine_winner
-    players.select { |player| score(player) == win_score }.first
-  end
-
   def players_by_top_score
     players_by_score = players.sort_by { |player| score(player) }
     players_by_score.reverse
   end
 
-  def display_score
+  def display_scoreboard
     messages = players_by_top_score.map do |player|
       "#{player}: #{score(player)}"
     end
@@ -61,7 +57,10 @@ class GameSet
 
   def display_score_final
     puts Common::Messages.empty_line
-    Common::Messages.bordered_display("#{winner} won the game with a score of #{score(winner)}!", '*')
+    names = winners_names(winners)
+    Common::Messages.bordered_display(
+      "#{names} won the game with a score of #{score(winners.first)}!", '*'
+    )
   end
 
   def play_again?
@@ -72,7 +71,7 @@ class GameSet
   private
 
   attr_reader :players, :scores
-  attr_writer :winner
+  attr_writer :winners
 
   # rubocop:disable Metrics/MethodLength
   def prompt_win_score
@@ -93,8 +92,20 @@ class GameSet
   end
   # rubocop:enable Metrics/MethodLength
 
-  def display_score_with_pause
-    display_score
+  def select_winners
+    players.select { |player| score(player) == win_score }
+  end
+
+  def winners_names(winners)
+    return '' if winners.empty?
+    return winners.first.name if winners.count == 1
+    return winners.map(&:name).join(' and ') if winners.count == 2
+
+    "#{winners[0..-2].join(', ')}, and #{winners.last.name}"
+  end
+
+  def display_scoreboard_with_pause
+    display_scoreboard
     display_enter_to_continue
   end
 end
