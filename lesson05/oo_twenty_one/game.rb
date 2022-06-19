@@ -7,10 +7,6 @@ require_relative 'participant_player'
 class Game
   attr_reader :deck, :participants
 
-  def initialize
-    @deck = StandardDeck.new
-  end
-
   def play
     display_welcome
     initialize_participants
@@ -21,6 +17,7 @@ class Game
   private
 
   attr_accessor :set
+  attr_writer :deck
 
   def display_welcome
     Common.clear_console
@@ -78,7 +75,7 @@ class Game
 
   def play_round
     participants.each(&:initialize_hand)
-    deal_initial_cards
+    new_deck_and_deal_initial_cards
     draw
 
     participants.each { |participant| participant_turn(participant) }
@@ -86,7 +83,9 @@ class Game
     draw
   end
 
-  def deal_initial_cards
+  def new_deck_and_deal_initial_cards
+    self.deck = StandardDeck.new(auto_refill: true)
+
     2.times do |card_idx|
       participants.each do |participant|
         deal(participant, face_up: card_idx.zero? || !participant.dealer?)
