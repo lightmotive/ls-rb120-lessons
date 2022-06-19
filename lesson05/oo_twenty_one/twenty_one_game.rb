@@ -75,7 +75,8 @@ class TwentyOneGame
 
   def play_round
     participants.each(&:initialize_hand)
-    new_deck_and_deal_initial_cards
+    self.deck = StandardDeck.new(auto_refill: true)
+    deal_initial_cards
     draw
 
     participants.each { |participant| participant_turn(participant) }
@@ -83,9 +84,7 @@ class TwentyOneGame
     draw
   end
 
-  def new_deck_and_deal_initial_cards
-    self.deck = StandardDeck.new(auto_refill: true)
-
+  def deal_initial_cards
     2.times do |card_idx|
       participants.each do |participant|
         deal(participant, face_up: card_idx.zero? || !participant.dealer?)
