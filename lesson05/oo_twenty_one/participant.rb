@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 
 require_relative 'twenty_one_hand'
+require_relative 'twenty_one_hand_holder'
 
 # Abstract class: must inherit
 class Participant
+  include TwentyOneHandHolder
+
   INPUTS = { hit: 'h', stay: 's' }.freeze
 
   attr_reader :name, :is_dealer
@@ -14,26 +17,6 @@ class Participant
     @name = name
     @is_dealer = is_dealer
     initialize_hand
-  end
-
-  def initialize_hand
-    @hand = TwentyOneHand.new
-  end
-
-  def receive_card(card)
-    hand.receive(card)
-  end
-
-  def total
-    hand.total
-  end
-
-  def busted?
-    hand.busted?
-  end
-
-  def show_all_cards
-    hand.show_all_cards
   end
 
   # Concrete implementation should return a key in `INPUTS`, e.g.,
@@ -52,12 +35,6 @@ class Participant
     end.join(' or ')
   end
 
-  def end_turn?
-    return false unless hand.total_calculable?
-
-    hand.busted? || hand.total == TwentyOneHand::WINNING_SCORE
-  end
-
   def game_display
     "#{self}: #{hand}"
   end
@@ -65,8 +42,4 @@ class Participant
   def to_s
     name
   end
-
-  private
-
-  attr_reader :hand
 end
