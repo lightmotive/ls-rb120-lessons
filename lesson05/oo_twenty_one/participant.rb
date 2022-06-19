@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative 'twenty_one_hand'
 require_relative 'twenty_one_hand_holder'
 
 # Abstract class: must inherit

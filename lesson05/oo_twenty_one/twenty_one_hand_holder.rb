@@ -1,3 +1,5 @@
+require_relative 'twenty_one_hand'
+
 module TwentyOneHandHolder
   def initialize_hand
     @hand = TwentyOneHand.new
