@@ -1,4 +1,4 @@
-require_relative 'game'
+require_relative 'twenty_one_game'
 
-game = Game.new
+game = TwentyOneGame.new
 game.play

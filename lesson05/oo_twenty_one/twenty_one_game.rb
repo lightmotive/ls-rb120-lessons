@@ -4,7 +4,7 @@ require_relative 'standard_deck'
 require_relative 'participant_dealer'
 require_relative 'participant_player'
 
-class Game
+class TwentyOneGame
   attr_reader :deck, :participants
 
   def play
