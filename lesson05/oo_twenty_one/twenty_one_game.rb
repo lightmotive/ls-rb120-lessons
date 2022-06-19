@@ -1,23 +1,23 @@
 require_relative '../oo_tic_tac_toe/common/common'
 require_relative '../oo_tic_tac_toe/game_set'
-require_relative 'standard_deck'
 require_relative 'participant_dealer'
 require_relative 'participant_player'
+require_relative 'twenty_one_game_table'
 
 class TwentyOneGame
-  attr_reader :deck, :participants
+  attr_reader :participants
 
   def play
     display_welcome
     initialize_participants
+    self.table = TwentyOneGameTable.new(participants)
     play_sets
     display_goodbye
   end
 
   private
 
-  attr_accessor :set
-  attr_writer :deck
+  attr_accessor :table, :set
 
   def display_welcome
     Common.clear_console
@@ -66,102 +66,17 @@ class TwentyOneGame
     set.reset
 
     loop do
-      play_round
-      display_and_score_winners
+      table.play
+      table.draw
+      score_and_display_winners
       break if set.end?(display_results: true)
-      # Feature suggestion: track and then draw all round boards with outcomes in set.
     end
   end
 
-  def play_round
-    participants.each(&:initialize_hand)
-    self.deck = StandardDeck.new(auto_refill: true)
-    deal_initial_cards
-    draw
-
-    participants.each { |participant| participant_turn(participant) }
-
-    draw
-  end
-
-  def deal_initial_cards
-    2.times do |card_idx|
-      participants.each do |participant|
-        deal(participant, face_up: card_idx.zero? || !participant.dealer?)
-      end
-    end
-  end
-
-  def participant_turn(participant)
-    participant.show_all_cards if participant.dealer?
-
-    return draw if participant.end_turn?
-
-    loop do
-      play = participant.play
-      if play == :hit
-        deal(participant, face_up: true)
-        draw
-      end
-      break if play == :stay || participant.end_turn?
-    end
-  end
-
-  def deal(participant, face_up: false)
-    card = deck.deal
-    card.turn_up! if face_up
-    participant.receive_card(card)
-  end
-
-  def draw(clear_console: true)
-    Common.clear_console if clear_console
-
-    participant_lines = participants.map(&:game_display)
-
-    Common::Messages.bordered_display(
-      participant_lines, StandardDeck::ICONS[:diamonds], header: ' Table '
-    )
-    puts Common::Messages.empty_line
-  end
-
-  def display_and_score_winners
-    winners = self.winners
-    display_winners(winners)
-    score_winners(winners)
-  end
-
-  def display_winners(winners)
-    message =
-      if winners.empty? then 'No winner this round.'
-      elsif winners.size > 1
-        "Tie round between #{winners.map(&:name).join(' and ')}."
-      else
-        "#{winners.first.name} won the round!"
-      end
-
-    puts "|*| #{message} |*|"
-  end
-
-  def score_winners(winners)
-    winners.each do |winner|
-      set.round_winner(winner)
-    end
-  end
-
-  def players_by_highest_total
-    participants.reject(&:busted?).sort_by { |participant| -participant.total }
-  end
-
-  def winners
-    winners = players_by_highest_total
-    return [] if winners.empty?
-
-    winner_first = winners.first
-    highest_total = winner_first.total
-
-    [winner_first] + winners[1..].select do |winner|
-      winner.total == highest_total
-    end
+  def score_and_display_winners
+    winners = table.winners
+    set.round_winners(winners)
+    table.display_winners(winners)
   end
 
   def display_goodbye
