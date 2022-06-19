@@ -30,6 +30,10 @@ class GameSet
     scores[player] += 1
   end
 
+  def round_winners(players)
+    players.each { |player| round_winner(player) }
+  end
+
   def score(player)
     scores[player]
   end
