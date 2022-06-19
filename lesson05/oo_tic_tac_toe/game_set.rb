@@ -4,7 +4,7 @@ require_relative 'common/common'
 class GameSet
   attr_reader :win_score, :scoreboard_border_char, :winner
 
-  def initialize(players, win_score: nil, scoreboard_border_char: '=')
+  def initialize(players, win_score: 3, scoreboard_border_char: '=')
     @players = players
     @scoreboard_border_char = scoreboard_border_char
     reset(win_score)
@@ -78,9 +78,9 @@ class GameSet
   # rubocop:disable Metrics/MethodLength
   def prompt_win_score
     Common::Prompt.until_valid(
-      'Round win count to win game? (default: 5)',
+      "Round win count to win game? (default: #{win_score})",
       convert_input: lambda do |input|
-        return 5 if input.empty?
+        return win_score if input.empty?
 
         input.to_i
       end,
