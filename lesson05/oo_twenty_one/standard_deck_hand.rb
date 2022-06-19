@@ -1,6 +1,4 @@
 class StandardDeckHand
-  ICONS = StandardDeck::ICONS
-
   def initialize
     @array = []
   end
