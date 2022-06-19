@@ -54,8 +54,9 @@ class Game
 
   def play_sets
     self.set = GameSet.new(
-      participants, win_score: 3,
-                    scoreboard_border_char: StandardDeck::ICONS[:diamonds]
+      participants,
+      win_score: 3,
+      scoreboard_border_char: StandardDeck::ICONS[:diamonds]
     )
 
     loop do
@@ -65,11 +66,11 @@ class Game
   end
 
   def play_set
-    set.reset(set.win_score)
+    set.reset
 
     loop do
       play_round
-      determine_winners
+      display_and_score_winners
       break if set.end?(display_results: true)
       # Feature suggestion: track and then draw all round boards with outcomes in set.
     end
@@ -125,7 +126,25 @@ class Game
     puts Common::Messages.empty_line
   end
 
-  def determine_winners
+  def display_and_score_winners
+    winners = self.winners
+    display_winners(winners)
+    score_winners(winners)
+  end
+
+  def display_winners(winners)
+    message =
+      if winners.empty? then 'No winner this round.'
+      elsif winners.size > 1
+        "Tie round between #{winners.map(&:name).join(' and ')}."
+      else
+        "#{winners.first.name} won the round!"
+      end
+
+    puts "|*| #{message} |*|"
+  end
+
+  def score_winners(winners)
     winners.each do |winner|
       set.round_winner(winner)
     end
@@ -297,7 +316,7 @@ end
 #
 # def play_round(players, set_state)
 #   # migrated to `Game#play_round`
-#   # migrated to `determine_winners`
+#   # migrated to `display_and_score_winners`
 # end
 #
 # def play_set(players)
