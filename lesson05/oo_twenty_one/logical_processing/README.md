@@ -27,7 +27,7 @@ Here is an overview of the game:
     - invoke `create`
   - `create`
     - generate standard 52-card deck and shuffle
-  - `pull_top_card`
+  - `deal`
     - remove and return first card from `deck`
 - class `StandardDeckHand`
   - has `array` (of `StandardDeckCard` instances)

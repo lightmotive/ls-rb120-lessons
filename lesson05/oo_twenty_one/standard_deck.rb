@@ -28,11 +28,13 @@ class StandardDeck
     !array.empty?
   end
 
-  def pull_top_card
+  def deal(count = 1)
     create if array.empty? && auto_refill
     raise StandardError, 'No more cards.' if array.empty?
 
-    array.shift
+    return array.shift if count == 1
+
+    array.shift(count)
   end
 
   private

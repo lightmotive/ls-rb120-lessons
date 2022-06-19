@@ -109,7 +109,7 @@ class Game
   end
 
   def deal(participant, face_up: false)
-    card = deck.pull_top_card
+    card = deck.deal
     card.turn_up! if face_up
     participant.receive_card(card)
   end
