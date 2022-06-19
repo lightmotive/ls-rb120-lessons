@@ -61,8 +61,7 @@ class GameSet
 
   def display_score_final
     puts Common::Messages.empty_line
-    opponent_score = score(scores.reject { |player| player.equal?(winner) }.first)
-    Common::Messages.bordered_display("#{winner} won the game #{score(winner)} to #{opponent_score}!", '*')
+    Common::Messages.bordered_display("#{winner} won the game with a score of #{score(winner)}!", '*')
   end
 
   def play_again?
