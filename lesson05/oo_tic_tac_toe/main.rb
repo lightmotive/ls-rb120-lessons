@@ -1,4 +1,4 @@
-require_relative 'game'
+require_relative 'tic_tac_toe_game'
 
-game = Game.new
+game = TicTacToeGame.new
 game.play

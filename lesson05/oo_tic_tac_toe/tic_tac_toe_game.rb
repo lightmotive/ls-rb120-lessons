@@ -1,12 +1,12 @@
 require_relative 'common/common'
 require_relative 'board'
 require_relative 'players'
-require_relative 'game_round'
+require_relative 'tic_tac_toe_game_round'
 require_relative 'game_set'
 require_relative 'player_human'
 require_relative 'player_computer'
 
-class Game
+class TicTacToeGame
   def play
     Common.clear_console
     display_welcome
@@ -56,7 +56,7 @@ class Game
   def play_round
     board.reset(board.size)
     players.shuffle!
-    self.round = GameRound.new(board)
+    self.round = TicTacToeGameRound.new(board)
     players_move until round.end?
     round_completed
   end

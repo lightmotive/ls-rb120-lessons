@@ -1,6 +1,6 @@
 require_relative 'common/common'
 
-class GameRound
+class TicTacToeGameRound
   attr_reader :win, :draw, :winner
 
   def initialize(board)
