@@ -14,16 +14,24 @@ class StandardDeck
     }
   }.freeze
 
-  def initialize
+  attr_reader :auto_refill, :deck_count
+
+  # - auto_refill: automatically generate a new deck and shuffle when empty.
+  # - deck_count: generate and shuffle single decks, then stack.
+  def initialize(auto_refill: false, deck_count: 1)
+    @auto_refill = auto_refill
+    @deck_count = deck_count
     create
-    shuffle!
   end
 
-  def shuffle!
-    array.shuffle!
+  def card_available?
+    !array.empty?
   end
 
   def pull_top_card
+    create if array.empty? && auto_refill
+    raise StandardError, 'No more cards.' if array.empty?
+
     array.shift
   end
 
@@ -34,14 +42,22 @@ class StandardDeck
   def create
     @array = []
 
+    deck_count.times { @array.concat(full_deck.shuffle!) }
+
+    nil
+  end
+
+  def full_deck
+    deck = []
+
     ranks = [CARDS[:ranks][:ace]] +
             CARDS[:ranks][:jqk] +
             CARDS[:ranks][:numeric]
 
     CARDS[:suits].each do |suit|
-      ranks.each { |rank| @array.push(StandardDeckCard.new(suit, rank)) }
+      ranks.each { |rank| deck.push(StandardDeckCard.new(suit, rank)) }
     end
 
-    nil
+    deck
   end
 end
