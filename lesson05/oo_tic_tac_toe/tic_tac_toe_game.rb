@@ -69,11 +69,7 @@ class TicTacToeGame
   def round_completed
     Common.clear_console
 
-    if round.win
-      round.display_winner
-    elsif round.draw
-      round.display_draw
-    end
+    round.display_status
 
     draw_board(clear_console: false)
   end

@@ -1,45 +1,40 @@
 require_relative 'common/common'
 
 class TicTacToeGameRound
-  attr_reader :win, :draw, :winner
+  STATUS_MESSAGES = { win: '%<winner>s won the round!',
+                      draw: 'Round draw!' }.freeze
+
+  attr_reader :status, :winner
 
   def initialize(board)
     @board = board
-    @win = false
-    @draw = false
+    @status = nil
     @winner = nil
   end
 
   def check_move(current_player)
     if board.winner?
-      player_won(current_player)
+      self.status = :win
+      @winner = current_player
     elsif board.full?
-      players_drew
+      self.status = :draw
     end
   end
 
   def end?
-    win || draw
+    %i[win draw].include?(status)
   end
 
-  def display_winner
-    Common::Messages.bordered_display("#{winner} won the round!", '-')
-  end
-
-  def display_draw
-    Common::Messages.bordered_display('Round draw!', '-')
+  def display_status
+    Common::Messages.bordered_display(STATUS_MESSAGES[status] % to_hash, '-')
   end
 
   private
 
   attr_reader :board
+  attr_writer :status
 
-  def player_won(player)
-    @win = true
-    @winner = player
-  end
-
-  def players_drew
-    @draw = true
+  def to_hash
+    { status: status, winner: winner }
   end
 end
