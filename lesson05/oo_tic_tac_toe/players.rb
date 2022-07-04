@@ -24,10 +24,6 @@ class Players
     players.each(&block)
   end
 
-  def <=>(other)
-    players <=> other
-  end
-
   def shuffle!
     players.shuffle!
 

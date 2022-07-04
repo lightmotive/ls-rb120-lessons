@@ -17,4 +17,8 @@ class Player
   def to_s
     name
   end
+
+  def <=>(other)
+    name <=> other.name
+  end
 end
