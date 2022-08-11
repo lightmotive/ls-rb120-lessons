@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-# File duplicated for convenience and temporary lack of Gem creation knowledge.
-# - Source: https://github.com/lightmotive/ruby-common/blob/main/stdout_format.rb
-
-# Add color and formatting methods to string.
-# Source: https://stackoverflow.com/a/16363159/2033465
+# Add color and formatting methods to `String` via refinement.
 module TerminalStringFormatExtensions
   refine String do
+    # Source: https://stackoverflow.com/a/16363159/2033465
     def black
       "\e[30m#{self}\e[0m"
     end

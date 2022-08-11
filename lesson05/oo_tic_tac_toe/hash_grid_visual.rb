@@ -1,4 +1,4 @@
-require_relative 'stdout_format'
+require_relative 'terminal_string_format_extensions'
 
 class HashGridVisual
   using TerminalStringFormatExtensions
