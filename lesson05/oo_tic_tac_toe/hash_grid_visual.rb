@@ -1,6 +1,8 @@
 require_relative 'stdout_format'
 
 class HashGridVisual
+  using TerminalStringFormatExtensions
+
   CELL_WIDTH_PAD = 1
   CELL_VERTICAL_PAD = 0
   CELL_WIDTH = (CELL_WIDTH_PAD * 2) + 1
