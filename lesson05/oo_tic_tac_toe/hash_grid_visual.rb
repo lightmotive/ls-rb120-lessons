@@ -1,8 +1,6 @@
 require_relative 'terminal_string_format_extensions'
 
 class HashGridVisual
-  using TerminalStringFormatExtensions
-
   CELL_WIDTH_PAD = 1
   CELL_VERTICAL_PAD = 0
   CELL_WIDTH = (CELL_WIDTH_PAD * 2) + 1
@@ -26,28 +24,34 @@ class HashGridVisual
 
   attr_reader :hash_grid
 
-  def row_padding
-    Array.new(hash_grid.size, ' ' * CELL_WIDTH).join('|')
-  end
+  class_eval do
+    using TerminalStringFormatExtensions
 
-  def cell_key_display(cell)
-    cell.key.to_s.rjust(CELL_WIDTH, ' ').italic.gray
-  end
+    private
 
-  def cell_display_with_padding(cell, with_cell_keys)
-    padding = ' ' * CELL_WIDTH_PAD
-
-    display_string = cell.display
-    display_string = display_string.bold unless cell.empty?
-
-    if cell.empty? && with_cell_keys
-      display_string = cell_key_display(cell)
-      padding.replace('')
+    def cell_key_display(cell)
+      cell.key.to_s.rjust(CELL_WIDTH, ' ').italic.gray
     end
 
-    display_string = ' ' if cell.empty? && !with_cell_keys
+    def cell_display_with_padding(cell, with_cell_keys)
+      padding = ' ' * CELL_WIDTH_PAD
 
-    "#{padding}#{display_string}#{padding}"
+      display_string = cell.display
+      display_string = display_string.bold unless cell.empty?
+
+      if cell.empty? && with_cell_keys
+        display_string = cell_key_display(cell)
+        padding.replace('')
+      end
+
+      display_string = ' ' if cell.empty? && !with_cell_keys
+
+      "#{padding}#{display_string}#{padding}"
+    end
+  end
+
+  def row_padding
+    Array.new(hash_grid.size, ' ' * CELL_WIDTH).join('|')
   end
 
   def row_marks(cells, with_cell_keys: false)
