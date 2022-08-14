@@ -2,70 +2,22 @@
 
 # Add color and formatting methods to `String` via refinement.
 module TerminalStringFormatExtensions
+  COLORS = { black: 30, red: 31, green: 32, brown: 33, blue: 34,
+             magenta: 35, cyan: 36, gray: 37 }.freeze
+
   refine String do
-    # Source: https://stackoverflow.com/a/16363159/2033465
-    def black
-      "\e[30m#{self}\e[0m"
-    end
+    # Color code extension and original idea source:
+    # https://stackoverflow.com/a/16363159/2033465
 
-    def red
-      "\e[31m#{self}\e[0m"
-    end
+    # Modified implementation to maximize clarity and maintainability.
 
-    def green
-      "\e[32m#{self}\e[0m"
-    end
+    # Define colors:
+    COLORS.each do |key, code|
+      # Colors:
+      define_method(key) { "\e[#{code}m#{self}\e[0m" }
 
-    def brown
-      "\e[33m#{self}\e[0m"
-    end
-
-    def blue
-      "\e[34m#{self}\e[0m"
-    end
-
-    def magenta
-      "\e[35m#{self}\e[0m"
-    end
-
-    def cyan
-      "\e[36m#{self}\e[0m"
-    end
-
-    def gray
-      "\e[37m#{self}\e[0m"
-    end
-
-    def bg_black
-      "\e[40m#{self}\e[0m"
-    end
-
-    def bg_red
-      "\e[41m#{self}\e[0m"
-    end
-
-    def bg_green
-      "\e[42m#{self}\e[0m"
-    end
-
-    def bg_brown
-      "\e[43m#{self}\e[0m"
-    end
-
-    def bg_blue
-      "\e[44m#{self}\e[0m"
-    end
-
-    def bg_magenta
-      "\e[45m#{self}\e[0m"
-    end
-
-    def bg_cyan
-      "\e[46m#{self}\e[0m"
-    end
-
-    def bg_gray
-      "\e[47m#{self}\e[0m"
+      # Background colors:
+      define_method("bg_#{key}") { "\e[#{code + 10}m#{self}\e[0m" }
     end
 
     def bold
